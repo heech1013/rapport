@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  ul
+    each counselor in counselorList
+      li
+        h3=counselor.name
+        h5=counselor.detail
+        a(href=`/counselor/${counselor.id}`) 자세히보기
+  div
+    a(href=`/join/counselor`) 상담사 등록 신청하기
+    br
+    a(href='/login/counselor') 상담사용 로그인

@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  if case_bookable == []
+    |신청 가능한 상담이 없습니다.
+  else
+    form(action=`/reservation/${id}` method='post')
+      ul
+        each c in case_bookable
+          li
+            label
+              input(type="checkbox" name="case_selected" value=c.id)
+              ="일자: " +c.date+ " / 시간: " +c.time
+      input(type="submit")

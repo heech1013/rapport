@@ -1,0 +1,12 @@
+extend ./layout
+block content
+  h2=`${user.nick}}님, 신청이 완료되었습니다.`
+  h3='신청한 상담 정보'
+  ul
+    li
+      h4 상담 일자: 
+      =booked_info.date
+      h4 상담 시간: 
+      =booked_info.time
+      h4 상담 비용:
+      =booked_info.price

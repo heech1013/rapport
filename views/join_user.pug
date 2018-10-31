@@ -1,0 +1,11 @@
+extend ./layout
+block content
+  form(action='/user', method='post')
+    p
+      input(type='email', name='email', placeholder='이메일')
+    p
+      input(type='text', name='nick', placeholder='닉네임')    
+    p
+      input(type='password', name='password', placeholder='비밀번호')
+    p
+      input(type='submit')
