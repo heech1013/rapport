@@ -12,7 +12,7 @@ function SessionConstructor(userId, userGroup, details) {
 };
 
 module.exports = (passport) => {
-  passport.serializeUser(function (user, done) {
+  passport.serializeUser(function (user, done) {  // req.session.passport.user에 저장
     let userGroup = "";
     if (user.userType == 'user') {
       userGroup = "user-model";
@@ -26,11 +26,17 @@ module.exports = (passport) => {
   passport.deserializeUser(function (sessionConstructor, done) {
     if (sessionConstructor.userGroup == "user-model") {
       User.find({ where: { id: sessionConstructor.userId }})
-        .then(user => done(null, user))
+        .then((user) => {
+          res.json({ clientLogged:true, counselorLogged:false });  // 클라이언트 측으로 로그인 종류 및 여부 전송
+          return done(null, user)
+        })
         .catch(err => done(err));
     } else if (sessionConstructor.userGroup == "counselor-model") {
       Counselor.find({ where: { id: sessionConstructor.userId }})
-        .then(user => done(null, user))
+        .then((user) => {
+          res.json({ clientLogged:false, counselorLogged:true });  // 클라이언트 측으로 로그인 종류 및 여부 전송
+          return done(null, user)
+        })
         .catch(err => done(err));
     } else {
       console.log('passport.deserializeUser 에러');

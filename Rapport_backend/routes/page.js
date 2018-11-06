@@ -35,7 +35,14 @@ router.get('/', async (req, res, next) => {
 /* GET '/logout' : 로그아웃 */
 router.get('/logout', (req, res) => {
   req.logout();
-  res.redirect('/');
+  res.json({
+    clientSuccess : false,
+    counselorSuccess : false,
+    clientLogged : false,
+    counselorLogged : false
+  });
+  res.status = 204;  // 클라이언트로 세션 삭제 결과코드 전송
+  //res.redirect('/');
 });
 
 module.exports = router;

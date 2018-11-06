@@ -14,7 +14,7 @@ const db = {};
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.Counselor = require('./counselor').default(sequelize, Sequelize);
+db.Counselor = require('./counselor')(sequelize, Sequelize);
 db.Case = require('./case')(sequelize, Sequelize);
 db.User = require('./user')(sequelize, Sequelize);
 

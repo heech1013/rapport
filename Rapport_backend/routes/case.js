@@ -133,8 +133,6 @@ router.post('/:id', async (req, res, next) => {
     }
     */
 
-    res.redirect('/');
-
   } catch (error) {
     console.error(error);
     next(error);

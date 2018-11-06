@@ -21,7 +21,8 @@ router.post('/', async (req, res, next) => {
     let exUser = await User.find({ where: { email }});
     if (exUser) {
       req.flash('joinError', '이미 가입된 이메일입니다.');
-      return res.redirect('/join');
+      //return res.redirect('/join');
+      return;
     }
     let hash = bcrypt.hashSync(password);
     await User.create({
@@ -29,7 +30,8 @@ router.post('/', async (req, res, next) => {
       nick,
       password: hash
     });
-    return res.redirect('/');
+    //return res.redirect('/');
+    return;
   } catch (error) {
     console.error(error);
     next(error);

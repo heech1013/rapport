@@ -22,7 +22,8 @@ router.post('/', async (req, res, next) => {
     let exCounselor = await Counselor.find({ where: { email }});
     if (exCounselor) {
       req.flash('joinError', '이미 가입된 이메일입니다.');
-      return res.redirect('/join');
+      //return res.redirect('/join');
+      return;
     }
     let hash = bcrypt.hashSync(password);
     await Counselor.create({
@@ -31,7 +32,8 @@ router.post('/', async (req, res, next) => {
       email, name, field, location, price, career, detail,
       password: hash
     });
-    return res.redirect('/');
+    //return res.redirect('/');
+    return;
   } catch (error) {
     console.error(error);
     next(error);
