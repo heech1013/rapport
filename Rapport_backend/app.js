@@ -8,6 +8,8 @@
  * 오류처리 미들웨어 점검 필요
  * 상담사의 오픈한 상담케이스 관리 페이지 필요(오픈한 케이스 삭제 기능, 예약 확정 기능 등)
  * layout.pug에서 사용자 로그인 뿐 아니라 상담사 로그인 시 로그인 화면 제거 처리
+ * 로그인이 필요하지만 로그인되어있지 않은 사용자-> 로그인페이지로 redirect(client단에서 처리 필요)
+ * jwt 도입으로 인해 session 관련 모듈/미들웨어 필요성 검토 필요.
  */
 
 const express = require('express');
@@ -83,8 +85,16 @@ app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/user', userRouter);
 app.use('/counselor', counselorRouter);
-app.use('/case', caseRouter);
-app.use('/reservation', reservationRouter);
+app.use(
+  '/case',
+  passport.authenticate('jwt', {session: false}),  // jwt 토큰을 확인하는 라우터
+  caseRouter
+);
+app.use(
+  '/reservation',
+  passport.authenticate('jwt', {session: false}),  // jwt 토큰을 확인하는 라우터
+  reservationRouter
+);
 
 /* 오류처리 미들웨어 */
 app.use((req, res, next) => {

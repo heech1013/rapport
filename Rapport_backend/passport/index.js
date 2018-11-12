@@ -1,6 +1,7 @@
 /** 이슈
  * 성능 개선: deserializeUser DB조회 캐싱?
  * multiple local strategy from different model(참고: https://mjvolk.com/implement-multiple-local-user-authentication-strategies-in-passport-js/)
+ * jwt 도입으로 인해 불필요함(확실하지 않음)
  */
 const local = require('./localStrategy');
 const { User, Counselor } = require('../models');
