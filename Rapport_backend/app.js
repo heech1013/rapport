@@ -40,6 +40,8 @@ const reservationRouter = require('./routes/reservation');
 const app = express();
 sequelize.sync();
 passportConfig(passport);
+/* ㄴ> passport/index의 local(passport) -> passport/localstrategy로 passport를 전달하는 역할.
+  필요없지만 추후 확장성을 고려하여 남겨둔다(순수 local-strategy를 사용하게 될 가능성) */
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));

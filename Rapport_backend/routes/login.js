@@ -40,7 +40,8 @@ router.post('/counselor', (req, res, next) => {
          without having to retrieve the user from the database in
          all the authenticated requests.
        */
-      const token = jwt.sign(counselor, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRATION});  // 토큰 만료기간 명시
+      // the payload you are signing needs to be an Object!!!
+      const token = jwt.sign(counselor.dataValues, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRATION});  // 토큰 만료기간 명시
       return res.status(200).json({ counselor, token });
     });
   })(req, res, next);
@@ -50,7 +51,9 @@ router.post('/counselor', (req, res, next) => {
 /* POST '/login/user' : 일반 사용자용 로그인*/
 // layout.pug의 일반 사용자 로그인 form으로부터 정보 전달 받음.
 router.post('/user', (req, res, next) => {
+  console.log('POST /user 진입');
   passport.authenticate('user-local', {session: false}, (authError, user, info) => {  // {session:false} : jwt 설정
+    console.log('authenticate(user-local) 진입');
     if (authError) {
       console.error(authError);
       res.status(500).json({ message: 'Authenticate error' });  //
@@ -61,6 +64,7 @@ router.post('/user', (req, res, next) => {
       return;
     }
     return req.login(user, {session: false}, (loginError) => {  // passport 내장함수 login() / req.user 추가 / {session:false} : jwt 설정
+    console.log('req.login 진입(토큰 생성)');
       if (loginError) {  // 혹시 모를 에러 방지
         console.error(loginError);
         res.status(500).send(loginError);  //
@@ -75,7 +79,8 @@ router.post('/user', (req, res, next) => {
          without having to retrieve the user from the database in
          all the authenticated requests.
        */
-      const token = jwt.sign(user, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRATION});  // 토큰 만료 기간 명시
+      // the payload you are signing needs to be an Object!!!
+      const token = jwt.sign(user.dataValues, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRATION});  // 토큰 만료기간 명시
       return res.status(200).json({ user, token });
     });
   })(req, res, next);

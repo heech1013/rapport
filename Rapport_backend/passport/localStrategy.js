@@ -17,6 +17,7 @@ module.exports = (passport) => {
       user object is pre-formatted and ready fo storing in JWT */
       // 사용자를 구분할 수 있는 최소한의 정보만을 빼도록 수정 필요
       // : email, password(일치여부확인필요), userType(확인 후 다른 모델로부터 계정을 find), id(추후 id를 통해 계정을 find)
+      console.log('user-local Strategy 진입');
       let exUser = await User.find({
          where: { email },
          attributes: ['id', 'userType', 'email', 'password']
@@ -33,7 +34,7 @@ module.exports = (passport) => {
       }
     } catch (error) {
       console.error(error);
-      next(error);
+      // next(error);  // unhandledrejectionerror: referenceError: 'next' is not definded
     }
   }));
 
@@ -64,7 +65,7 @@ module.exports = (passport) => {
       }
     } catch (error) {
       console.error(error);
-      next(error);
+      // next(error);  // unhandledrejectionerror: referenceError: 'next' is not definded
     }
   }));
 
