@@ -1,8 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
   const Case = sequelize.define('case', {
-    // counselorId(케이스 담당 상담사): foreign key
-    // counselor_location: 보여줄 때만 include로 보여주면 될 듯. 다시 확인 필요
-    
+
+    // fkCounselorId(케이스 담당 상담사): User 스키마의 id를 foreign key로 가짐
+
+    // fkClientId(상담신청 고객): User 스키마의 id를 foreign key로 가짐
+
     price: {  // 해당 케이스에 상담사가 정한 가격
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -16,11 +18,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
 
-    // userId(상담신청고객): foreign key
+    // updatedAt : 자동 생성
 
+    // createdAt : 자동 생성
+    
   }, {
-    timestamps: true,
-    paranoid: true,
+    timestamps: true,  // updatedAt, createdAt 자동 생성
+    underscored: false,  // camelCase style(updatedAt, createdAt)
     charset: 'utf8',
     collate: 'utf8_general_ci',
   });

@@ -32,7 +32,7 @@ const { sequelize } = require('./models');
 const passportConfig = require('./passport');
 const indexRouter = require('./routes/page');
 const loginRouter = require('./routes/login');
-const userRouter = require('./routes/user');
+const clientRouter = require('./routes/client');
 const counselorRouter = require('./routes/counselor');
 const caseRouter = require('./routes/case');
 const reservationRouter = require('./routes/reservation');
@@ -85,7 +85,7 @@ app.use(flash());  // 경고창 띄우기.
 
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
-app.use('/user', userRouter);
+app.use('/client', clientRouter);
 app.use('/counselor', counselorRouter);
 app.use(
   '/case',

@@ -9,8 +9,8 @@ const { Counselor, Case } = require('../models');
 const router = express.Router();
 
 /* 일반 사용자 회원가입 페이지 */
-router.get('/join/user', (req, res, next) => {
-  res.render('join_user');
+router.get('/join/client', (req, res, next) => {
+  res.render('join_client');
 });
 
 /* 상담사 회원가입(등록) 페이지 */
@@ -21,10 +21,10 @@ router.get('/join/counselor', (req, res, next) => {
 /* 메인 페이지 */
 router.get('/', async (req, res, next) => {
   try{
-    let counselorList = await Counselor.findAll({})  
+  //   let counselorList = await User.findAll({})  
   res.render('main', {
     user: req.user,
-    counselorList
+    //counselorList
   });
   } catch (error) {
     console.error(error);

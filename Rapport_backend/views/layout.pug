@@ -9,7 +9,7 @@ html
       |원하는 시간에, 원하는 곳에서, 원하는 상담사에게
     ul
       if user
-        if (user.userType == 'user')
+        if (user.userType == 'client')
           div
             h3=user.nick+"님. 환영합니다!"
             a(href='/logout') 로그아웃
@@ -22,7 +22,7 @@ html
       else
         div
           |일반 사용자 로그인
-          form(action='/login/user', method='post')
+          form(action='/login', method='post')
             p
               input(type='email', name='email', placeholder='이메일')
             p
@@ -30,5 +30,5 @@ html
             p
               input(type='submit')
         div
-          a(href='/join/user') 회원가입
+          a(href='/join/client') 회원가입
     block content

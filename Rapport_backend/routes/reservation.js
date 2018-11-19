@@ -87,7 +87,7 @@ router.post('/:id', async (req, res, next) => {  // id는 counselor의 id이다.
      */
   
   try {
-    //let counselor_id = req.params.id;
+    //let counselorId = req.params.id;
     let case_id = req.body.case_selected;
     let user_id = req.user.id;
 
