@@ -24,12 +24,11 @@ router.get('/auth', async(req, res, next) => {
         { emailAuthentication: true },
         { where: { userType: 'counselor', email }}
       );
-      return res.status(200).json({ message: 'Email Authentication Success'});
+      return res.status(200).json({ joinAuth: true });
     } else {
-      return res.status(401).json({ message: 'Email Authentication Failed' });
+      return res.status(401).json({ joinAuth: false });
     }
   } catch(error) {
-    console.error(error);
     next(error);
   }
 });
@@ -37,41 +36,47 @@ router.get('/auth', async(req, res, next) => {
 /* GET '/counselor': 모든 상담사 불러오기. 아직 필요 없음  */
 
 /* POST '/counselor': 상담사 생성(회원가입) */
-// GET '/join/counselor'의 form으로부터 정보 전달 받음. page.js 참고
 router.post('/', async (req, res, next) => {
-  try {
+  try{
+
     let {
       email, phoneNumber, password,  // 계정 정보(User)
-      name, location, price, career, simpleIntroduction, detailIntroduction,  // 프로필 정보
-      family, relationship, personality, emotion, sexual, addiction, lifestyle, development, study  // 상담 분야 정보
-    } = req.body;
+      name, address, price, career, simpleIntroduction, detailIntroduction,  // 프로필 정보(CounselorProfile)
+      family, relationship, personality, emotion, sexual, addiction, lifestyle, development, study  // 상담 분야 정보(CounselorField)
+    } = req.body;  // 나 혼자 테스트용
+    // } = req.body.counselor;  // 실제 테스트용
     let userType = 'counselor';  // 계정 정보
-
-    let exUser = await User.find({ where: { email }});
-    if (exUser) {  // 없으면 exUser가 어떻게 출력이 되며, 그거에 따라 if(false)가 될련지 검증 필요
-      res.status(400).json({ message: 'Already Existing Email' });
-      return;
+    // nick은 null로 입력된다.
+    // counselorField 항목의 경우 true, false로만 입력 받는다(null이나 "", '' 안됨.)
+    // 이메일 중복 검사
+    let exEmail = await User.find({ where: { email }});
+    if (exEmail) {
+      return res.status(400).json({ emailOverlap: true });
     }
-    let hash = bcrypt.hashSync(password);
 
-    // 중간에 오류가 나면 그동안 넣은 데이터를 다 지워야 ******
-    // (try catch 문을 지우고 따로 catch를 단다? catch마다 error시 데이터를 다 지움)
-    let userInfo = await User.create({
-      // authed: false
-      userType,
-      email,
-      phoneNumber,
-      password: hash
-    });
-    console.log(userInfo);  // 생성된 User의 id를 fkCounselorId로 전달
-    let fkCounselorId = '';
-    await CounselorProfile.create({
-      fkCounselorId,
-      name, location, price, career, simpleIntroduction, detailIntroduction
-    });
-    await CounselorField.create({
-      family, relationship, personality, emotion,
-      sexual, addiction, lifestyle, development, study
+    let hash = bcrypt.hashSync(password);
+    await User.create({
+      userType, email, phoneNumber,
+      password: hash,
+      CounselorProfile: {
+        name, address, price, career,
+        simpleIntroduction, detailIntroduction
+      },
+      CounselorField: {
+        family, relationship, personality, emotion,
+        sexual, addiction, lifestyle, development, study
+      }
+    },{
+      include: [
+        {
+          model: CounselorProfile,
+          as: 'CounselorProfile'
+        },
+        {
+          model: CounselorField,
+          as: 'CounselorField'
+        }
+      ]
     });
 
     /* 이메일 전송 */
@@ -87,17 +92,17 @@ router.post('/', async (req, res, next) => {
       from: "'라포' rapport5959@gmail.com",
       to: email,
       subject: '[라포] 이메일 인증링크가 도착하였습니다!',
-      html: '<p>아래의 링크를 클릭하여 회원가입을 완료해주세요!<p>' + "<a href='http://localhost:5959/user/auth/?email=" + email + '&token=' + token + "'>회원가입 인증 완료하기</a>"
+      html: '<p>아래의 링크를 클릭하여 회원가입을 완료해주세요!<p>' + "<a href='http://localhost:3000/counselor/auth/?email=" + email + '&token=' + token + "'>회원가입 인증 완료하기</a>"
     }
     transporter.sendMail(mailOption, (error, info) => {
       if (error) {
-        return res.status(500).json({ message: 'Mail Sending Error' });
-      } else {
-        return res.status(200).json({ message: info.envelop });  // info 옵션 다수(messageId, accepted, rejected, pending, response)
+        return res.status(500).json({ join: false });
+      } else {  // 계정 생성 + 이메일 전송 성공
+        return res.status(200).json({ join: true });  // info 옵션 다수(messageId, accepted, rejected, pending, response)
       }
     });
+
   } catch (error) {
-    console.error(error);
     next(error);
   }
 });
@@ -112,7 +117,6 @@ router.get('/:id', async (req, res, next) => {
       counselor
     });
   } catch (error) {
-    console.error(error);
     next(error);
   }
 });

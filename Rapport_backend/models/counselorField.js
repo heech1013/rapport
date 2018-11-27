@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
 
     // id: 자동생성
 
-    // userId: 상담사 id(foreign key)
+    // fkCounselorId: User 스키마의 상담사 id를 foreign key로 가짐.
     
     family: {  // 가족
       type: DataTypes.BOOLEAN,

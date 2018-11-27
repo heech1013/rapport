@@ -10,21 +10,16 @@ const router = express.Router();
 /* POST '/login/user' : 로그인 */
 // layout.pug의 로그인 form으로부터 정보 전달 받음.
 router.post('/', (req, res, next) => {
-  console.log('POST /login 진입');
   passport.authenticate('local', {session: false}, (authError, user, info) => {  // {session:false} : jwt 설정
-    console.log('authenticate 진입');
     if (authError) {
-      console.error(authError);
-      return res.status(500).json({ message: 'Login Authenticate error' });  //
+      return res.status(500).json({ serverError: true });
     }
     if (!user) {
-      return res.status(401).json({ message: info.message });  //
+      return res.status(401).json({ info });
     }
     return req.login(user, {session: false}, (loginError) => {  // passport 내장함수 login() / req.user 추가? / {session:false} : jwt 설정
-      console.log('req.login 진입(토큰 생성)');
       if (loginError) {  // 혹시 모를 에러 방지
-        console.error(loginError);
-        return res.status(500).send(loginError);  //
+        return res.status(500).json({ serverError: true });
       }
 
       /* generate a signed son web token with the contents of

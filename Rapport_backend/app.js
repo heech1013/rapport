@@ -34,6 +34,7 @@ const indexRouter = require('./routes/page');
 const loginRouter = require('./routes/login');
 const clientRouter = require('./routes/client');
 const counselorRouter = require('./routes/counselor');
+const searchRouter = require('./routes/search');
 const caseRouter = require('./routes/case');
 const reservationRouter = require('./routes/reservation');
 
@@ -87,6 +88,7 @@ app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/client', clientRouter);
 app.use('/counselor', counselorRouter);
+app.use('/search', searchRouter);
 app.use(
   '/case',
   passport.authenticate('jwt', {session: false}),  // jwt 토큰을 확인하는 라우터
@@ -105,10 +107,12 @@ app.use((req, res, next) => {
   next(err);
 });
 app.use((err, req, res, next) => {
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  res.status(err.status || 500);
-  res.render('error');
+  // res.locals.message = err.message;
+  // res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // res.status(err.status || 500);
+  // res.render('error');
+  console.error(err);
+  res.status(500).json({ serverError: true });
 });
 
 /* 서버 구동 */

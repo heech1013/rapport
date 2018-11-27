@@ -12,17 +12,15 @@ module.exports = (sequelize, DataTypes) => {
 
     // id: 자동생성
     
+    // fkCounselorId: User 스키마의 상담사 id를 foreign key로 가짐.
+
     name: {  // 상담사 이름
       type: DataTypes.STRING(10),
       allowNull: false,
       unique: false,
     },
-    // field: {  // 상담 분야(선택형:하나만) ???
-    //   type: DataTypes.INTEGER,
-    //   allowNull: true,
-    // },
-    location: {  // 개인 상담사의 개인공간 주소
-      type: DataTypes.STRING(),
+    address: {  // 개인 상담사의 개인공간 주소
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     price: {  // 상담 비용

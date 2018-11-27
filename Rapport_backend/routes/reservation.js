@@ -61,7 +61,6 @@ router.get('/:id', async (req, res, next) => {  // id는 counselor의 id이다.
     });
 
   } catch (error) {
-    console.error(error);
     next(error);
 }
 });
@@ -103,7 +102,6 @@ router.post('/:id', async (req, res, next) => {  // id는 counselor의 id이다.
       booked_info
     });
   } catch (error) {
-    console.error(error);
     next(error);
   }
 });

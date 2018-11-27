@@ -23,13 +23,11 @@ router.get('/auth', async (req, res, next) => {
         { emailAuthentication: true },
         { where: { userType: 'client', email }}
       );
-      // 500 추가: 디비 insert 실패했을 경우
-      return res.status(200).json({ message: 'Email Authentication Success' });
+      return res.status(200).json({ joinAuth: true });
     } else {
-      return res.status(401).json({ message: 'Email Authentication Failed' });
+      return res.status(401).json({ joinAuth: false });
     }
   } catch (error) {
-    console.error(error);
     next(error);
   }
 });
@@ -37,28 +35,28 @@ router.get('/auth', async (req, res, next) => {
 /* GET '/client' : 일반 사용자 모두 조회. 아직 필요 없음 */
 
 /* POST '/client' : 회원가입(이메일 인증) */
-// GET '/join/client'의 form으로부터 정보 전달 받음. page.js 참고
 router.post('/', async (req, res, next) => {
-  try {
-    let { email, nick, phoneNumber, password } = req.body.client;  // req.body.client.email 형식으로 전달됨. 실제 테스트용
-    // let { email, nick, phoneNumber, password } = req.body;  // 나혼자 테스트 용
+  try{  // 이메일, 닉네임 중복 검사
+    
+    // let { email, nick, phoneNumber, password } = req.body.client;  // req.body.client.email 형식으로 전달됨. 실제 테스트용
+    let { email, nick, phoneNumber, password } = req.body;  // 나혼자 테스트 용
     let userType = 'client';
 
-    let exUser = await User.find({ where: { email }});
-    if (exUser) {  // 없으면 exUser가 어떻게 출력이 되며, 그거에 따라 if(false)가 될련지 검증 필요
-      return res.status(400).json({ message: 'Already Existing Email' });
+    let exEmail = await User.find({ where: { email }});
+    if (exEmail) {
+      return res.status(400).json({ emailOverlap: true });
     }
+    let exNick = await User.find({ where: { nick }});
+    if (exNick) {
+      return res.status(400).json({ nickOverlap: true });
+    }
+
     let hash = bcrypt.hashSync(password);
     await User.create({
-      userType,
-      email,
-      nick,
-      phoneNumber,
+      userType, email, nick, phoneNumber,
       password: hash
     });
-    // res.status(201).json({ message: 'Account Created' });  // catch를 따로 줘서 각각의 에러처리가 필요.
-    // 굳이 성공은 안보냄. 메일 전송 성공이 되면 디비 저장도 성공했다는 뜻.
-
+  
     /* 이메일 전송 */
     let token = bcrypt.hashSync(process.env.EMAIL_TOKEN);  // 이메일 인증경로 검증을 위한 토큰 생성 (.env 인증코드 -> 암호화)
     let transporter = nodemailer.createTransport({
@@ -72,17 +70,17 @@ router.post('/', async (req, res, next) => {
       from: "'라포' rapport5959@gmail.com",
       to: email,
       subject: '[라포] 이메일 인증링크가 도착하였습니다!',
-      html: '<p>아래의 링크를 클릭하여 회원가입을 완료해주세요!<p>' + "<a href='http://localhost:5959/client/auth/?email=" + email + '&token=' + token + "'>회원가입 인증 완료하기</a>"
+      html: '<p>아래의 링크를 클릭하여 회원가입을 완료해주세요!<p>' + "<a href='http://localhost:3000/client/auth/?email=" + email + '&token=' + token + "'>회원가입 인증 완료하기</a>"
     }
     transporter.sendMail(mailOption, (error, info) => {
       if (error) {
-        return res.status(500).json({ message: 'Mail Sending Error' });
-      } else {  // 이메일 전송 성공
-        return res.status(200).json({ message: 'Mail Sending Success' });  // info 옵션 다수(messageId, accepted, rejected, pending, response)
+        return res.status(500).json({ join: false });
+      } else {  // 계정 생성 + 이메일 전송 성공
+        return res.status(200).json({ join: true });  // info 옵션 다수(messageId, accepted, rejected, pending, response)
       }
     });
+    
   } catch (error) {
-    console.error(error);
     next(error);
   }
 });

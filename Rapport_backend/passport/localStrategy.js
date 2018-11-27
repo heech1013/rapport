@@ -14,7 +14,6 @@ module.exports = (passport) => {
     try {
       /* this one is typically a DB call. Assume that the returned
       user object is pre-formatted and ready fo storing in JWT */
-      console.log('local Strategy 진입');
       let exUser = await User.find({
           where: { email },
           attributes: ['id', 'userType', 'email', 'password']
@@ -24,13 +23,12 @@ module.exports = (passport) => {
         if (result) {  // 비밀번호 일치(true)
           done(null, exUser);  // done()은 login.js의 authenticate 함수로 이동
         } else {  // 비밀번호 불일치(false)
-          done(null, false, { message: 'No Email Or Wrong Password' });
+          done(null, false, { authFail: true });
         }
       } else {  // 없는 이메일 계정
-        done(null, false, { message: 'No Email Or Wrong Password' });
+        done(null, false, { authFail: true });
       }
     } catch (error) {
-      console.error(error);
       next(error);  // unhandledrejectionerror: referenceError: 'next' is not definded
     }
   }));
