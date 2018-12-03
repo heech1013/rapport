@@ -75,12 +75,9 @@ router.get('/counselor', async (req, res, next) => {
       });
       locationClause = { [Op.or] : reformattedLocationArray };
     }
-
     // 예시 fieldClause = {  [Op.or] : [ {family:true}, {relationship:true} ]  }
 
-    // 테스트해보기
-    console.log(caseClause, fieldClause, locationClause);
-    let a = await User.findAll({
+    let searchResults = await User.findAll({
       attributes: ['id'],
       where: { userType: 'counselor' },
       include: [
@@ -109,7 +106,7 @@ router.get('/counselor', async (req, res, next) => {
         }
       ],
     })
-    return res.status(200).json(a);
+    return res.status(200).json(searchResults);
   } catch (error) {
     next(error);
   }

@@ -18,6 +18,7 @@
     "express": "^4.16.3",
     "express-mysql-session": "^2.0.1",
     "express-session": "^1.15.6",
+    "express-validator": "^5.3.0",
     "helmet": "^3.13.0",
     "hpp": "^0.2.2",
     "jsonwebtoken": "^8.3.0",

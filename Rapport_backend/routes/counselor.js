@@ -1,15 +1,13 @@
 /** join 이슈
- * 우선은 이메일 인증 과정 없이 구현한 상태. 추후 nodemailer로 이메일 인증 추가구현?
- * 비밀번호 제한두기(몇 자 이상, 특수문자 한 개 이상 등), 비밀번호 확인(재입력, 똑같이 입력 했을 시 통과)
  * bcrypt 설치 오류(의존성 문제. 노드 버전 문제 때문인 것으로 추정)로 인해 bcrypt-nodejs 사용 
  * isLoggedIn, isNotLoggedIn 구현
- * 회원가입 시 email말고도 상담사의 이름이나 자격번호 등으로 중복 확인 절차가 필요.?
  */
 const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
 const nodemailer = require('nodemailer');
+const { check, validationResult } = require('express-validator/check');
 
-const { User, CounselorProfile, CounselorField } = require('../models');
+const { User, CounselorProfile, CounselorField, CounselorLocation, Case } = require('../models');
 
 const router = express.Router();
 
@@ -36,9 +34,13 @@ router.get('/auth', async(req, res, next) => {
 /* GET '/counselor': 모든 상담사 불러오기. 아직 필요 없음  */
 
 /* POST '/counselor': 상담사 생성(회원가입) */
-router.post('/', async (req, res, next) => {
+router.post('/', [
+  check('email').isEmail(),
+  check('password').isLength({ min: 8, max: 16 }),  // 비밀번호 자리수 체크(최소 8자리 최대 16자리)
+  check('price').isNumeric(),
+  check('family', 'relationship', 'personality', 'emotion', 'sexual', 'addiction', 'lifestyle', 'development', 'study').isBoolean(),  // boolean 체크
+], async (req, res, next) => {
   try{
-
     let {
       email, phoneNumber, password,  // 계정 정보(User)
       name, address, price, career, simpleIntroduction, detailIntroduction,  // 프로필 정보(CounselorProfile)
@@ -48,6 +50,18 @@ router.post('/', async (req, res, next) => {
     let userType = 'counselor';  // 계정 정보
     // nick은 null로 입력된다.
     // counselorField 항목의 경우 true, false로만 입력 받는다(null이나 "", '' 안됨.)
+
+    // 이메일, 비밀번호 형식 체크
+    const validationError = validationResult(req);
+    if (!validationError.isEmpty()) {
+      return res.status(400).json({ validationError: true, body: validationError.array() });
+    }
+    // 핸드폰 번호 형식 체크: - 포함
+    const phoneNumberRegExp = /^\d{3}-\d{3,4}-\d{4}$/;
+    if (!phoneNumberRegExp.test(phoneNumber)) {
+      return res.status(400).json({ validationError: true, body: "phoneNumber"});
+    }
+    
     // 이메일 중복 검사
     let exEmail = await User.find({ where: { email }});
     if (exEmail) {
@@ -110,12 +124,42 @@ router.post('/', async (req, res, next) => {
 /* GET '/counselor/:id' :상담사 자세히 보기 */
 router.get('/:id', async (req, res, next) => {
   try{
-    let id = parseInt(req.params.id, 10);
-    let counselor = await User.find({ where: { userType: 'counselor', id }});
-    res.render('counselor', {
-      //user: req.user,
-      counselor
+    // 프로필/상담분야/지역 정보
+    const id = parseInt(req.params.id, 10);
+    let counselorDetail = await User.findOne({
+      attributes: ['id'],
+      where: { id, userType: 'counselor' },
+      include: [
+        {
+          model: CounselorProfile,
+          as: 'CounselorProfile',
+          attributes: ['name', 'address', 'price', 'career', 'simpleIntroduction', 'detailIntroduction']
+        },
+        {
+          model: CounselorField,
+          as: 'CounselorField',
+          attributes: [
+            'family', 'relationship', 'personality', 'emotion', 'sexual', 'addiction', 'lifestyle', 'development', 'study'
+          ]
+        },
+        {
+          model: CounselorLocation,
+          as: 'CounselorLocation',
+          attributes: [
+            'GS', 'YC', 'GR', 'YDP', 'DJ', 'GC', 'GA', 'SC', 'GN', 'SP', 'GD', 'MP',
+            'EP', 'SDM', 'JN', 'YS', 'SB', 'GB', 'DB', 'NW', 'JNg', 'DDM', 'SD', 'GJ'
+          ]
+        },
+        {
+          model: Case,
+          as: 'OpenCases',
+          attributes: ['date', 'time'],
+          // where: { fkClientId: null }
+          // 프론트가 fkClientId가 null인 케이스만 보여준다. 혹은 서버측에서 2차 가공 필요?
+        }
+      ]
     });
+    return res.status(200).json(counselorDetail);
   } catch (error) {
     next(error);
   }

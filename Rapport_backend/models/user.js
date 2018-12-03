@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,  // 닉네임 중복 여부 검사 필요 / 중복되면 지절로 SequelizeUniqueConstraintError: Validation error 뜸.
     },
     phoneNumber: {
-      type: DataTypes.INTEGER,  // 사이즈 점검 필요. 숫자만 써야 되므로 ts 필요. 추후 문자 전송 자동화 확장 고려
+      type: DataTypes.STRING(40),  // 사이즈 점검 필요.
       allowNull: false
     },
     password: {

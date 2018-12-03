@@ -7,6 +7,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
 const nodemailer = require('nodemailer');
+const { check, validationResult } = require('express-validator/check');
 
 const { User } = require('../models');
 
@@ -35,17 +36,38 @@ router.get('/auth', async (req, res, next) => {
 /* GET '/client' : 일반 사용자 모두 조회. 아직 필요 없음 */
 
 /* POST '/client' : 회원가입(이메일 인증) */
-router.post('/', async (req, res, next) => {
+router.post('/', [
+  check('email').isEmail(),
+  check('password').isLength({ min: 8, max: 16 }),  // 8자리 이상 16자리 이하
+], async (req, res, next) => {
   try{  // 이메일, 닉네임 중복 검사
     
     // let { email, nick, phoneNumber, password } = req.body.client;  // req.body.client.email 형식으로 전달됨. 실제 테스트용
     let { email, nick, phoneNumber, password } = req.body;  // 나혼자 테스트 용
     let userType = 'client';
 
+    // 이메일, 비밀번호 req 형식 체크
+    const validationError = validationResult(req);
+    if (!validationError.isEmpty()) {
+      return res.status(400).json({ validationError: true, body: validationError.array() });
+    }
+    // 닉네임 형식 체크: 영대소문자/한글/숫자 (2자리 ~ 12자리)
+    const nickRegExp = /^[\w가-힣]{2,12}$/;
+    if (!nickRegExp.test(nick)) {
+      return res.status(400).json({ validationError: true, body: "nick" });
+    }
+    // 핸드폰 번호 형식 체크: - 포함
+    const phoneNumberRegExp = /^\d{3}-\d{3,4}-\d{4}$/;
+    if (!phoneNumberRegExp.test(phoneNumber)) {
+      return res.status(400).json({ validationError: true, body: "phoneNumber" });
+    }
+
+    // 이메일 중복검사
     let exEmail = await User.find({ where: { email }});
     if (exEmail) {
       return res.status(400).json({ emailOverlap: true });
     }
+    // 닉네임 중복검사
     let exNick = await User.find({ where: { nick }});
     if (exNick) {
       return res.status(400).json({ nickOverlap: true });

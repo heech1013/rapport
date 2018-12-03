@@ -13,6 +13,7 @@ const local = require('./localStrategy');
 // };
 
 module.exports = (passport) => {
+  local(passport);
   // passport.serializeUser(function (user, done) {  // req.session.passport.user에 저장
   //   console.log('serializeUser 진입');
   //   let userGroup = "";
@@ -45,7 +46,7 @@ module.exports = (passport) => {
   //     console.log('passport.deserializeUser 에러');
   //   }
   // });
-  local(passport);
+  
 };
 
 // 메인이나.. 상담자 프로필 관리, 케이스 등록 등 user와 counselor 로그인을 구분할 수있도록 조치. 그 후 상담사 프로필 수정 혹은 케이스 등록 페이지 제작 필요.

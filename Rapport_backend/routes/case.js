@@ -9,6 +9,10 @@ const express = require('express');
 
 const router = express.Router();
 
+router.get('/', (req, res, next) => {
+  return res.json({ message: 'case router 진입 성공이요'});
+});
+
 /* GET '/case' : 모든 케이스 조회(관리자용) */
 
 /* POST */

@@ -8,18 +8,17 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 /* POST '/login/user' : 로그인 */
-// layout.pug의 로그인 form으로부터 정보 전달 받음.
 router.post('/', (req, res, next) => {
   passport.authenticate('local', {session: false}, (authError, user, info) => {  // {session:false} : jwt 설정
     if (authError) {
-      return res.status(500).json({ serverError: true });
+      return next(authError);
     }
     if (!user) {
       return res.status(401).json({ info });
     }
     return req.login(user, {session: false}, (loginError) => {  // passport 내장함수 login() / req.user 추가? / {session:false} : jwt 설정
       if (loginError) {  // 혹시 모를 에러 방지
-        return res.status(500).json({ serverError: true });
+        return next(loginError);
       }
 
       /* generate a signed son web token with the contents of
@@ -28,11 +27,12 @@ router.post('/', (req, res, next) => {
          long as it will help you identify your user.
        * The idea is, to store the minimum info that you can use
          without having to retrieve the user from the database in
-         all the authenticated requests.
+         all the authenticated requests. => id, userType으로 설정
        */
-      // the payload you are signing needs to be an Object!!!
-      const token = jwt.sign(user.dataValues, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRATION});  // 토큰 만료기간 명시
-      return res.status(200).json({ message: 'JWT Login Success', token });  // user정보는 뺐다.
+      // the payload(jwt.sign의 첫번째 인자) you are signing needs to be an Object!
+      // expiresIn: 300 안되고 60*5 혹은 '1h'. 닷env로 하면 안됌(왠지는 잘 모르겠다)
+      const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: 60 * 5 });  // 토큰 만료기간 명시
+      return res.status(200).json({ message: 'JWT Login Success', token });
     });
   })(req, res, next);
 });

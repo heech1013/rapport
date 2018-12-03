@@ -91,14 +91,36 @@ app.use('/counselor', counselorRouter);
 app.use('/search', searchRouter);
 app.use(
   '/case',
-  passport.authenticate('jwt', {session: false}),  // jwt 토큰을 확인하는 라우터
+  function (req, res, next) {  // authenticate 내부에서 req, res, next를 사용하기 위함
+    passport.authenticate('jwt', { session: false }, function (err, user, info) {
+      if (err) { return res.status(500).json({ serverError: true, message: 'JWT Authenticate Error'}); }
+      if (user.userType !== 'counselor' || !user.emailAuthentication || !user.qualification) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      next();  // caseRouter로 넘어간다.
+    })(req, res, next);  // Passport.js - Authenticate - Custom Callback / 외부 function으로부터 express의 인자들을 전달받아야 한다.
+  },
   caseRouter
 );
 app.use(
   '/reservation',
-  passport.authenticate('jwt', {session: false}),  // jwt 토큰을 확인하는 라우터
+  function (req, res, next) {
+    passport.authenticate('jwt', {session: false}, function (err, user, info) {
+      if (err) { return res.status(500).json({ serverError: true, message: 'JWT Authenticate Error'}); }
+      if (user.userType !== 'client' || !user.emailAuthentication) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      next();  // reservationRouter로 넘어간다.
+    })(req, res, next);  // Passport.js - Authenticate - Custom Callback
+  },
   reservationRouter
 );
+/*
+  By default, if authentication fails, Passport will respond with a 401 Unauthorized status,
+  and any additional route handlers will not be invoked.
+  If authentication succeeds, the next handler will be invoked
+  and the req.user property will be set to the authenticated user.
+*/
 
 /* 오류처리 미들웨어 */
 app.use((req, res, next) => {
@@ -107,12 +129,8 @@ app.use((req, res, next) => {
   next(err);
 });
 app.use((err, req, res, next) => {
-  // res.locals.message = err.message;
-  // res.locals.error = req.app.get('env') === 'development' ? err : {};
-  // res.status(err.status || 500);
-  // res.render('error');
   console.error(err);
-  res.status(500).json({ serverError: true });
+  res.status(err.status || 500).json({ serverError: true });
 });
 
 /* 서버 구동 */
