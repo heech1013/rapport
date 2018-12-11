@@ -17,46 +17,30 @@ router.get('/counselor', async (req, res, next) => {
   try{
     // 필터: 분야, 날짜, 지역
     // 케이스가 하나도 없으면 띄워주지 않아야 한다.
-    // query문 예시 : '.../search/counselor?date=2018-11-23&field=["family", "relationship"]&location=["GS", "YC"]'
-    // 값을 안주는 경우: '...?date=&field=&location='
-    {
-      /* Top Eagerly where load */
-      // let whereClause = {
-      //   userType : 'counselor',
-      // };
-      // let caseReservationCondition = '$OpenCases.fkClientId$';
-      //   whereClause[caseReservationCondition] = null;  // 무조건 전제: 예약되지 않은 case를 가진 상담사(User)만 필터링. / 예약되지 않으면 confirmation도 없다.
-      // if (date.length) {  // date 필터 조건을 넣었을 경우 해당 date를 가졌으면서 예약되지 않은 case를 가진 상담사를 필터링
-      //   let caseDateCondition = '$OpenCases.date$';
-      //   whereClause[caseDateCondition] = date;
-      // }
-      // if (field.length) {
-      //   let fieldCondition = "'$counselorField." + field + "$'";
-      //   whereClause[fieldCondition.replace(/^'(.*)'$/, '$1')] = true;  // 작은 따옴표를 제거하는 동시에 whereClause에 삽입해야 한다.
-      // }
-      // if (location.length) {
-      //   let locationCondition = "'$counselorLocation." + location + "$'";
-      //   whereClause[locationCondition.replace(/^'(.*)'$/, '$1')] = true;
-      // }
-      /* whereClause문 완성 예시
-        where: {
-          '$OpenCases.date$' : '2018-11-23',
-          '$counselorField.family$' : true,
-          '$counselorLocation.GS$' : true,
-        }
-      */
-    }
-    let { date, field, location } = req.query;
-    // 예시 field = ["family", "relationship"];
-    
-    let caseClause = { fkClientId : null};
-    if (date.length) {
-      caseClause[date] = date;
-    }
 
+    let { date } = req.query;
+    // req.query 배열 생성
+    let field = req.query.field.split(',');
+    let location = req.query.location.split(',');
+    let condition = { "date": date, "field": field, "location": location };
+    // location = ['GS', 'YC']
+    // /search/counselor?date=2018. 11. 28.&field=family,relationship&location=GS,YC
+    // /search/counselor?date=2018. 11. 28.&field=&location=
+    
+    // date 정규표현식 검사
+    const dateRegExp = /([12]\d{3}\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01]))/;
+    if (!dateRegExp.test(date)) {
+      return res.status(400).json({ validationError: true, body: "date" });
+    }
+    // case where 조건문 생성
+    let caseClause = { fkClientId : null };
+    if (date.length) {
+      caseClause = { fkClientId: null, date: date };
+    } else { return res.status(400).json({ validationError: true, body: "date" }); }
+    // field where 조건문 생성
     let fieldClause = {};
     if (field.length) {
-      field = JSON.parse(field);
+      // field = JSON.parse(field);
       let reformattedFieldArray = field.map((x) => {
         let rx = {};
         rx[x] = true;
@@ -64,10 +48,10 @@ router.get('/counselor', async (req, res, next) => {
       });
       fieldClause = { [Op.or] : reformattedFieldArray};
     }
-    
+    // location where 조건문 생성
     let locationClause = {};
     if (location.length) {
-      location = JSON.parse(location);
+      // location = JSON.parse(location);
       let reformattedLocationArray = location.map((x) => {
         let rx = {};
         rx[x] = true;
@@ -106,7 +90,7 @@ router.get('/counselor', async (req, res, next) => {
         }
       ],
     })
-    return res.status(200).json(searchResults);
+    return res.status(200).json({searchResults: searchResults, condition: condition });
   } catch (error) {
     next(error);
   }

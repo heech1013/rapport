@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: false,
     },
-    GA: {  // 관약
+    GA: {  // 관악
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false,
@@ -130,6 +130,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: false,
     },
+    JG: {  // 중구
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false,
+    }
 
     // updatedAt : 자동 생성
 

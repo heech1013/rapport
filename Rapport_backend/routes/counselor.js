@@ -51,7 +51,7 @@ router.post('/', [
     // nick은 null로 입력된다.
     // counselorField 항목의 경우 true, false로만 입력 받는다(null이나 "", '' 안됨.)
 
-    // 이메일, 비밀번호 형식 체크
+    // 형식 체크(위 check 오류 시)
     const validationError = validationResult(req);
     if (!validationError.isEmpty()) {
       return res.status(400).json({ validationError: true, body: validationError.array() });

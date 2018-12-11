@@ -35,6 +35,7 @@ const loginRouter = require('./routes/login');
 const clientRouter = require('./routes/client');
 const counselorRouter = require('./routes/counselor');
 const searchRouter = require('./routes/search');
+const profileRouter = require('./routes/profile');
 const caseRouter = require('./routes/case');
 const reservationRouter = require('./routes/reservation');
 
@@ -89,6 +90,19 @@ app.use('/login', loginRouter);
 app.use('/client', clientRouter);
 app.use('/counselor', counselorRouter);
 app.use('/search', searchRouter);
+app.use(
+  '/profile',
+  function (req, res, next) {  // authenticate 내부에서 req, res, next를 사용하기 위함
+    passport.authenticate('jwt', { session: false }, function (err, user, info) {
+      if (err) { return res.status(500).json({ serverError: true, message: 'JWT Authenticate Error'}); }
+      if (user.userType !== 'counselor' || !user.emailAuthentication || !user.qualification) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+      next();  // profileRouter로 넘어간다.
+    })(req, res, next);  // Passport.js - Authenticate - Custom Callback / 외부 function으로부터 express의 인자들을 전달받아야 한다.
+  },
+  profileRouter
+);
 app.use(
   '/case',
   function (req, res, next) {  // authenticate 내부에서 req, res, next를 사용하기 위함

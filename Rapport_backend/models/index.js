@@ -41,9 +41,9 @@ db.CounselorField.belongsTo(db.User, {foreignKey: 'fkCounselorId'});
 db.User.hasOne(db.CounselorLocation, { as: 'CounselorLocation', foreignKey: 'fkCounselorId'});
 db.CounselorLocation.belongsTo(db.User, {foreignKey: 'fkCounselorId'});
 
-/* user(고객):application(상담신청서) = 1:1 */
-db.User.hasOne(db.Application, { as: 'ClientApplication', foreignKey: 'fkClientId'});
-db.Application.belongsTo(db.User, {foreignKey: 'fkClientId'});
+/* case(상담케이스):application(상담신청서) = 1:1 */
+db.Case.hasOne(db.Application, { as: 'CaseApplication', foreignKey: 'fkCaseId'});  // Case의 prototype은 getCaseApplication과 setCaseApplication을 사용할 수 있게 된다.
+db.Application.belongsTo(db.Case, {foreignKey: 'fkCaseId'});
 
 /* 상담사의 지역(location)과 분야(field)는 User 스키마와만 1:1 association이 되어있고,
   프로필(profile)과는 association이 되어있지 않다. */
