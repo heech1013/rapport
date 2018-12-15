@@ -34,7 +34,7 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.put('/:id', [
+router.put('/:id', [  // :id를 현우가 보내야 함. url 상에서 수정할 수 없게. id가 7인 사용자가 id가 9인 사용자의 프로필 수정 요청을 보낼 수 없게.
   check('price').isNumeric(),
   check('family', 'relationship', 'personality', 'emotion', 'sexual', 'addiction', 'lifestyle', 'development', 'study').isBoolean()
 ], async (req, res, next) => {

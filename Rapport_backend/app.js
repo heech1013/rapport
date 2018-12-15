@@ -38,6 +38,7 @@ const searchRouter = require('./routes/search');
 const profileRouter = require('./routes/profile');
 const caseRouter = require('./routes/case');
 const reservationRouter = require('./routes/reservation');
+const manageRouter = require('./routes/manage');
 
 const app = express();
 sequelize.sync();
@@ -45,8 +46,8 @@ passportConfig(passport);
 /* ㄴ> passport/index의 local(passport) -> passport/localstrategy로 passport를 전달하는 역할.
   필요없지만 추후 확장성을 고려하여 남겨둔다(순수 local-strategy를 사용하게 될 가능성) */
 
-app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'pug');
+// app.set('views', path.join(__dirname, 'views'));
 app.set('port', process.env.PORT || 5959);  // 배포시 .env에서 따로 PORT 지정 필요.
 
 if (process.env.NODE_ENV === 'production') {
@@ -129,6 +130,7 @@ app.use(
   },
   reservationRouter
 );
+app.use('/manage', manageRouter);
 /*
   By default, if authentication fails, Passport will respond with a 401 Unauthorized status,
   and any additional route handlers will not be invoked.
