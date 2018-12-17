@@ -15,13 +15,13 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
-const path = require('path');
+// const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
 //const mysql = require('mysql2');
 const MySQLStore = require('express-mysql-session');  // mysql에 세션을 저장. redis로 갈아타면 삭제하기
 //const RedisStore = require('connect-redis')(session);  // redis 서버에 세션 저장
-const flash = require('connect-flash');  // 경고창(?) 띄우기
+// const flash = require('connect-flash');  // 경고창(?) 띄우기
 const helmet = require('helmet');  // 보안 설정
 const hpp = require('hpp');  // 보안 설정
 require('dotenv').config();  // .env를 환경변수로 설정
@@ -54,7 +54,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('combined'));  // 서버에 요청 로그 기록. combined, short, common, tiny 중에 고려 필요
   app.use(helmet());  // 보안 설정
   app.use(hpp());  // 보안 설정
-} else {
+} else {  // process.env.NODE_ENV === 'development' 혹은 null
   app.use(morgan('dev'));
 }
 app.use(express.json());  // body-parser 설정
