@@ -1,13 +1,9 @@
-const express = require('express');
-const { check, validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator/check');
 const format = require('date-fns/format');
 const addDays = require('date-fns/add_days');
-const { sequelize, User, Case, CounselorProfile, Application } = require('../models');
+const { sequelize, User, Case, CounselorProfile, Application } = require('../../models');
 
-const router = express.Router();
-
-/* GET '/reservation/:id' : 예약 자세히 보기(사용자용 상담예약관리 페이지) */
-router.get('/:id', async (req, res, next) => {
+const show = async (req, res, next) => {
   try{
     const { id } = req.params;  // case의 id
     const reservationDetail = await Case.findOne({
@@ -32,10 +28,9 @@ router.get('/:id', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-/* GET '/reservation' : 전체 예약 조회(사용자용 상담예약관리 페이지) */
-router.get('/', async (req, res, next) => {
+const index = async (req, res, next) => {
   try{
     const { clientId } = req.query;  // user(client)의 id
     // 구획: 예약 신청 / 확정
@@ -66,31 +61,27 @@ router.get('/', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-/* POST '/reservation' : 상담 예약 */
-router.post('/', [
-  check('date', 'name', 'problem').isLength({ min: 1 }),
-  check('time', 'sex', 'age').isNumeric()
-], async (req, res, next) => {
+const create = async (req, res, next) => {
   try{
-    let {
-      clientId, counselorId,
-      date, time,
-      name, sex, age, problem } = req.body;
+    const {
+      clientId, counselorId,  // reservation info
+      date, time,  // Case
+      name, sex, age, problem  // Application
+    } = req.body;
     
-    // post req.body 형식체크 결과
+    // req check 결과
     const validationError = validationResult(req);
     if (!validationError.isEmpty()) {
       return res.status(400).json({ validationError: true, body: validationError.array() });
     }
     // date 형식 체크(YYYY.MM.DD)
-    //const dateRegExp = /([12]\d{3}\.\s(0[1-9]|1[0-2])\.\s(0[1-9]|[12]\d|3[01])\.)/;
     const dateRegExp = /([12]\d{3}\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01]))/;
     if (!dateRegExp.test(date)) {
       return res.status(400).json({ validationError: true, body: "date" });
     }
-
+    // 5회기분 날짜 배열 생성
     let dateArray = [date];
     for(let x = 1; x <= 4; x++) {
       dateArray[x] = format( addDays(date, x * 7), 'YYYY-MM-DD' );
@@ -137,9 +128,9 @@ router.post('/', [
   } catch (error) {
     next(error);
   }
-});
+};
 
-router.delete('/:id', async (req, res, next) => {
+const destroy = async (req, res, next) => {
   try{
     // 케이스가 예약 확정되지 않은 상태인지 확인하는 것: 현우가 1차, 내가 2차로
     const { id } = req.params;  // case의 id
@@ -155,6 +146,6 @@ router.delete('/:id', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-module.exports = router;
+module.exports = { show, index, create, destroy };

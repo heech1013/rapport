@@ -1,8 +1,3 @@
-/** 이슈
- * 
- */
-
-/* 상담사용 상담 가능 지역 정보 */
 module.exports = (sequelize, DataTypes) => {
   const CounselorLocation = sequelize.define('counselorLocation', {
 

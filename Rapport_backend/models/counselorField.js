@@ -1,8 +1,3 @@
-/** 이슈
- * 
- */
-
-/* 상담사용 상담 분야 정보 */
 module.exports = (sequelize, DataTypes) => {
   const CounselorField = sequelize.define('counselorField', {
 

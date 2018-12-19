@@ -1,12 +1,9 @@
-const express = require('express');
-const { check, validationResult } = require('express-validator/check');
-const { sequelize, User, CounselorProfile, CounselorLocation, Case } = require('../models');
-const router = express.Router();
+const { validationResult } = require('express-validator/check');
+const { sequelize, User, CounselorProfile, CounselorLocation, Case } = require('../../models');
 
-/* PATCH '/manage/case/:id' : 상담케이스 confirmation 수정 */
-router.patch('/case/:id', async (req, res, next) => {  // case의 id
+const caseUpdate = async (req, res, next) => {
   try{
-    const { id } = req.params;
+    const { id } = req.params;  // case의 id
     await Case.update(
       { confirmation : true },
       { where: { id }}
@@ -15,12 +12,12 @@ router.patch('/case/:id', async (req, res, next) => {  // case의 id
   } catch (error) {
     next(error);
   }
-});
+};
 
-/* GET '/manage/case' : 모든 상담케이스 조회 */
-router.get('/case', async (req, res, next) => {  // GET '/manage/case?date=2018-12-14'
+
+const caseIndex = async (req, res, next) => {
   try{
-    const { date } = req.query;
+    const { date } = req.query;  // GET '/manage/case?date=2018-12-14'
     const caseList = await Case.findAll({
       attributes: ['id', 'date', 'time', 'confirmation'],
       where: { date },
@@ -48,15 +45,9 @@ router.get('/case', async (req, res, next) => {  // GET '/manage/case?date=2018-
   } catch (error) {
     next(error);
   }
-});
+};
 
-/* PATCH '/manage/counselor/:id : 상담사 자격 및 지역 수정 */
-router.patch('/counselor/:id', [
-  check('qualification',
-    'GS', 'YC', 'GR', 'YDP', 'DJ', 'GC', 'GA', 'SC', 'GN', 'SP', 'GD', 'MP', 'EP',
-    'SDM', 'JN', 'YS', 'SB', 'GB', 'DB', 'NW', 'JNg', 'DDM', 'SD', 'GJ', 'JG'
-  ).isBoolean()
-], async (req, res, next) => {
+const counselorUpdate = async (req, res, next) => {
   try{
     const { id } = req.params;  // User id
     const {
@@ -64,6 +55,11 @@ router.patch('/counselor/:id', [
       GS, YC, GR, YDP, DJ, GC, GA, SC, GN, SP, GD, MP, EP,
       SDM, JN, YS, SB, GB, DB, NW, JNg, DDM, SD, GJ, JG
     } = req.body;
+
+    const validationError = validationResult(req);
+    if (!validationError.isEmpty()) {
+      return res.status(400).json({ validationError: true, body: validationError.array() });
+    }
     const transaction = await sequelize.transaction();
     try {
       await User.update(
@@ -90,11 +86,9 @@ router.patch('/counselor/:id', [
   } catch (error) {
     next(error);
   }
-});
-  
+};
 
-/* GET '/manage/counselor' : 모든 상담사 회원 조회 */
-router.get('/counselor', async (req, res, next) => {
+const counselorIndex = async (req, res, next) => {
   try{
     const counselorList = await User.findAll({
       attributes: ['id', 'qualification', 'email', 'phoneNumber'],
@@ -115,7 +109,6 @@ router.get('/counselor', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-
-module.exports = router;
+module.exports = { caseIndex, caseUpdate, counselorIndex, counselorUpdate };

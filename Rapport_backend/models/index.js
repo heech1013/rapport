@@ -1,7 +1,3 @@
-/** 이슈
- * MySQL - 서버를 재시작할 때마다 다시 생성되는 건지, 똑같은게 있으면 냅두는건지.. 약간 달라지면 지우고 바꾸는건지 새로 다시 만드는건지 등 확인 필요(rds에서)
- * 외부 접근 보안 설정 점검 필요(mysql admin 계정, password, port, RDS 등..)
- */
 const Sequelize = require('sequelize');
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config')[env];
@@ -10,7 +6,7 @@ const sequelize = new Sequelize(
   config.database, config.user, config.password, config
 );
 
-const db = {};
+let db = {};
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
@@ -44,10 +40,5 @@ db.CounselorLocation.belongsTo(db.User, {foreignKey: 'fkCounselorId'});
 /* case(상담케이스):application(상담신청서) = 1:1 */
 db.Case.hasOne(db.Application, { as: 'CaseApplication', foreignKey: 'fkCaseId'});  // Case의 prototype은 getCaseApplication과 setCaseApplication을 사용할 수 있게 된다.
 db.Application.belongsTo(db.Case, {foreignKey: 'fkCaseId'});
-
-/* 상담사의 지역(location)과 분야(field)는 User 스키마와만 1:1 association이 되어있고,
-  프로필(profile)과는 association이 되어있지 않다. */
-/* belongsTo 만 사용해서는 association이 이루어지지 않는다(-> +hasOne)
-  1대다 관계에서 source model에 fk키가 추가되지 않더라도 include 옵션을 통해 연합된 모델들을 find할 수 있다. */
 
 module.exports = db;

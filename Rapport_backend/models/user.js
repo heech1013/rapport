@@ -1,6 +1,3 @@
-/** 이슈
- * 닉네임 중복 검사
- */
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('user', {
 
@@ -27,8 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     nick: {  // 필요성 재고(상담사는 사용 x)
       type: DataTypes.STRING(10),
-      allowNull: true,  // unique이면서 allowNull 가능?
-      unique: true,  // 닉네임 중복 여부 검사 필요 / 중복되면 지절로 SequelizeUniqueConstraintError: Validation error 뜸.
+      allowNull: true,
+      unique: true,  // 중복시 equelizeUniqueConstraintError: Validation error
     },
     phoneNumber: {
       type: DataTypes.STRING(40),  // 사이즈 점검 필요.

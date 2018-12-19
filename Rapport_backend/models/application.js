@@ -1,9 +1,3 @@
-/** 이슈
- */
-
-// 이름(실명) / 성별 / 나이 / 주 호소 문제
-
-/* 고객의 상담신청서 저장용 스키마 */
 module.exports = (sequelize, DataTypes) => {
   const Application = sequelize.define('application', {
 

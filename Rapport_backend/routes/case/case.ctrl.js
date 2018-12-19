@@ -1,10 +1,6 @@
-const express = require('express');
-const { sequelize, User, Case, CounselorProfile, Application } = require('../models')
+const { sequelize, User, Case, CounselorProfile, Application } = require('../../models')
 
-const router = express.Router();
-
-/* GET '/case/:id' : 상담사 전용 상담케이스 관리 페이지 -> 상담 케이스 자세히 보기 */
-router.get('/:id', async (req, res, next) => {
+const show = async (req, res, next) => {
   try{
     const { id } = req.params;  // case의 id
     const caseDetail = await Case.findOne({
@@ -27,10 +23,9 @@ router.get('/:id', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-})
+};
 
-/* GET '/case' : 상담 케이스 전체 조회(상담사 전용 상담케이스 관리 페이지) */
-router.get('/', async (req, res, next) => {  // GET '/case?counselorId=3&date=2018-12-12'
+const index = async (req, res, next) => {  // GET '/case?counselorId=3&date=2018-12-12'
   try{
     const { counselorId, date } = req.query;
     // 구획 종류: 오픈한 케이스 / 예약신청된 / 예약확정된 / 시간지난?(달력선택 말고 다른 버튼을 둬야 함)
@@ -56,13 +51,12 @@ router.get('/', async (req, res, next) => {  // GET '/case?counselorId=3&date=20
   } catch (error) {
     next(error);
   }
-});
+};
 
-/* POST '/case' : 상담 케이스 생성 */
-router.post('/', async (req, res, next) => {  // POST '/case?counselorId=3'
+const create = async (req, res, next) => {  // POST '/case?counselorId=3'
   try{
     const { counselorId } = req.query;
-    let counselorProfile = await CounselorProfile.findOne({
+    const counselorProfile = await CounselorProfile.findOne({
       attributes: ['price', 'address'],
       where: { fkCounselorId: counselorId }
     });
@@ -96,15 +90,14 @@ router.post('/', async (req, res, next) => {  // POST '/case?counselorId=3'
         .catch(function (error) {
           t.rollback();
           return next(error);
-        })
-        
+        });
     })
   } catch (error) {
     next(error);
   }
-});
+};
 
-router.delete('/:id', async (req, res, next) => {
+const destroy = async (req, res, next) => {
   try{
     // 케이스가 예약되지 않은 상태인지 확인하는 것: 현우가 1차로, 내가 2차로
     const { id } = req.params;  // case의 id
@@ -120,6 +113,6 @@ router.delete('/:id', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-module.exports = router;
+module.exports = { show, index, create, destroy };

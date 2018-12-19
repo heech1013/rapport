@@ -1,11 +1,6 @@
-/** 이슈
- * isLoggedIn, isNotLoggedIn 구현
- */
-const express = require('express');
+const router = require('express').Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-
-const router = express.Router();
 
 /* POST '/login/user' : 로그인 */
 router.post('/', (req, res, next) => {
@@ -16,11 +11,10 @@ router.post('/', (req, res, next) => {
     if (!user) {
       return res.status(401).json({ info });
     }
-    return req.login(user, {session: false}, (loginError) => {  // passport 내장함수 login() / req.user 추가? / {session:false} : jwt 설정
-      if (loginError) {  // 혹시 모를 에러 방지
+    return req.login(user, {session: false}, (loginError) => {  // passport 내장함수 login() / {session:false} : jwt 설정
+      if (loginError) {
         return next(loginError);
       }
-
       /* generate a signed son web token with the contents of
          user object and return it in the response.
        * You can choose any object to create a token with, as
@@ -36,6 +30,5 @@ router.post('/', (req, res, next) => {
     });
   })(req, res, next);
 });
-
 
 module.exports = router;

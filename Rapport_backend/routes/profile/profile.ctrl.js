@@ -1,10 +1,7 @@
-const express = require('express');
-const { check, validationResult } = require('express-validator/check');
-const { sequelize, User, CounselorProfile, CounselorField, CounselorLocation } = require('../models');
+const { validationResult } = require('express-validator/check');
+const { sequelize, User, CounselorProfile, CounselorField, CounselorLocation } = require('../../models');
 
-const router = express.Router();
-
-router.get('/:id', async (req, res, next) => {
+const show = async (req, res, next) => {
   try{
     const { id } = req.params;
     const profile = await User.findOne({
@@ -32,14 +29,11 @@ router.get('/:id', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+};
 
-router.put('/:id', [  // :id를 현우가 보내야 함. url 상에서 수정할 수 없게. id가 7인 사용자가 id가 9인 사용자의 프로필 수정 요청을 보낼 수 없게.
-  check('price').isNumeric(),
-  check('family', 'relationship', 'personality', 'emotion', 'sexual', 'addiction', 'lifestyle', 'development', 'study').isBoolean()
-], async (req, res, next) => {
+const update = async (req, res, next) => {
   try{
-    let { id } = req.params;
+    let { id } = req.params;  // :id를 현우가 보내야 함. url 상에서 수정할 수 없게. id가 7인 사용자가 id가 9인 사용자의 프로필 수정 요청을 보낼 수 없게.
     let {
       phoneNumber,  // User
       name, address, price, career, simpleIntroduction, detailIntroduction,  // CounselorProfile
@@ -89,6 +83,6 @@ router.put('/:id', [  // :id를 현우가 보내야 함. url 상에서 수정할
   } catch (error) {
     next(error);
   }
-});
+};
 
-module.exports = router;
+module.exports = { show, update };
