@@ -1,0 +1,37 @@
+{
+  "UnhandledError" : {
+    "name" : "UnhandledError",
+    "code" : "500",
+    "message" : "Unhandled server error."
+  },
+  "InternalServerError" : {
+    "name" : "InternalServerError",
+    "code" : "500",
+    "message" : "Internal server error."
+  },
+  "NotFound" : {
+    "name" : "NotFound",
+    "code" : "404",
+    "message" : "Unhandled route."
+  },
+  "AlreadyReserved" : {
+    "name" : "AlreadyReserved",
+    "code" : "400",
+    "message" : "Case is already reserved."
+  },
+  "TokenError" : {
+    "name" : "TokenError",
+    "code" : "401",
+    "message" : "Token is inconsistent."
+  },
+  "ValidationError" : {
+    "name" : "ValidationError",
+    "code" : "400",
+    "message" : "Validation error."
+  },
+  "Unauthorized" : {
+    "name" : "Unauthorized",
+    "code" : "401",
+    "message" : "Unauthorized."
+  }
+}

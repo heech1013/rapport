@@ -1,9 +1,12 @@
-const LocalStrategy = require('passport-local').Strategy;
+const dotenv = require('dotenv');
 const bcrypt = require('bcrypt-nodejs');
+const LocalStrategy = require('passport-local').Strategy;
 const JWTStrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 
 const { User } = require('../models');
+
+dotenv.config();
 
 module.exports = (passport) => {
   passport.use(new LocalStrategy({
@@ -44,16 +47,14 @@ module.exports = (passport) => {
     function (jwtPayload, done) {
       /* find the user in db if(*) needed. This functionality may be omitted
         if you store everything you'll need in JWT payload. */
-      done(null, jwtPayload);  // app.js의 jwt authenticate 미들웨어로 전달
-      {
-      // User.findOne({ where: { id: jwtPayload.id } })
-      //   .then(user => {
-      //     return done(null, user);
-      //   })
-      //   .catch(error => {
-      //     return done(error);
-      //   });
-      }
+      User.findOne({ where: { id: jwtPayload.id } })
+        .then(() => {
+          return done(null, jwtPayload);  // jwt authenticate 미들웨어로 전달
+        })
+        .catch(error => {
+          return done(error);
+        });
+      
     }
   ));
 };

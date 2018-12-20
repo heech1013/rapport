@@ -18,7 +18,7 @@ router.patch('/counselor/:id', [
       'SDM', 'JN', 'YS', 'SB', 'GB', 'DB', 'NW', 'JNg', 'DDM', 'SD', 'GJ', 'JG'
     ).isBoolean()
   ],
-  counselorUpdate
+  ctrl.counselorUpdate
 );
 
 module.exports = router;

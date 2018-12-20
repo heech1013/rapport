@@ -7,9 +7,9 @@ const Op = Sequelize.Op;
 router.get('/counselor', async (req, res, next) => {
   try{  // 해당 date의 case를 오픈하지 않은 상담사는 뜨지 않는다.
     const { date } = req.query;
-    let field = req.query.field.split(',');  // req.query 배열 생성
-    let location = req.query.location.split(',');
-    const condition = { "date": date, "field": field, "location": location };
+    const field = req.query.field.split(',');  // req.query 배열 생성
+    const location = req.query.location.split(',');
+    const condition = { date, field, location };
     // /search/counselor?date=2018. 11. 28.&field=family,relationship&location=GS,YC
     // /search/counselor?date=2018. 11. 28.&field=&location=
     
