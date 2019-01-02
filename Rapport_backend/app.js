@@ -3,22 +3,25 @@ const morgan = require('morgan');
 const passport = require('passport');
 const helmet = require('helmet');
 
-const apiController = require('./routes');
+const apiController = require('./routes/controller');
 const { sequelize } = require('./models');
-const CustomError = require('./errorHandler/customError');
-const errorHandler = require('./errorHandler/errorHandler');
+const CustomError = require('./middlewares/errorHandler/customError');
+const errorHandler = require('./middlewares/errorHandler/errorHandler');
 
 const app = express();
 
 sequelize.sync();
-require('./passport/strategy')(passport);
+require('./middlewares/passport/local')(passport);
+require('./middlewares/passport/jwt')(passport);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(morgan('combined'));  // 서버에 요청 로그 기록 (combined, short, common, tiny)
   app.use(helmet());  // express 권장 보안 모듈
-} else { app.use(morgan('dev')); }
+} else {
+  app.use(morgan('dev'));
+}
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());  // initialize passport authentication module
 
 app.use('/', apiController);

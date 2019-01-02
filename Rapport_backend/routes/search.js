@@ -1,10 +1,11 @@
-const router = require('express').Router();
-const { Sequelize, User, CounselorProfile, CounselorLocation, CounselorField, Case } = require('../models');
+const dateValidator = require('../middlewares/validator/dateValidator');
+const caseClauseMaker = require('../middlewares/clauseMaker/case');
+const fieldOrLocationClauseMaker = require('../middlewares/clauseMaker/fieldOrLocation');
 
-const Op = Sequelize.Op;
+const { User, CounselorProfile, CounselorLocation, CounselorField, Case } = require('../models');
 
-/* GET '/search/counselor' : 초기 메인 화면의 검색 필터 */
-router.get('/counselor', async (req, res, next) => {
+/* GET '/search' : 초기 메인 화면의 검색 필터 */
+const search = async (req, res, next) => {
   try{  // 해당 date의 case를 오픈하지 않은 상담사는 뜨지 않는다.
     const { date } = req.query;
     const field = req.query.field.split(',');  // req.query 배열 생성
@@ -13,40 +14,13 @@ router.get('/counselor', async (req, res, next) => {
     // /search/counselor?date=2018. 11. 28.&field=family,relationship&location=GS,YC
     // /search/counselor?date=2018. 11. 28.&field=&location=
     
-    const dateRegExp = /([12]\d{3}\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01]))/;
-    if (!dateRegExp.test(date)) {
-      return res.status(400).json({ validationError: true, body: "date" });
-    }
+    await dateValidator(date);
 
-    /* where clause 생성 */
-    let caseClause = { fkClientId : null };
-    if (date.length) {
-      caseClause = { fkClientId: null, date: date };
-    } else { return res.status(400).json({ validationError: true, body: "date" }); }
+    const caseClause = await caseClauseMaker(date);
+    const fieldClause = await fieldOrLocationClauseMaker(field);
+    const locationClause = await fieldOrLocationClauseMaker(location);
 
-    let fieldClause = {};
-    if (field.length) {
-      // field = JSON.parse(field);
-      let reformattedFieldArray = field.map((x) => {
-        let rx = {};
-        rx[x] = true;
-        return rx;
-      });
-      fieldClause = { [Op.or] : reformattedFieldArray};
-    }
-
-    let locationClause = {};
-    if (location.length) {
-      let reformattedLocationArray = location.map((x) => {
-        let rx = {};
-        rx[x] = true;
-        return rx;
-      });
-      locationClause = { [Op.or] : reformattedLocationArray };
-    }
-    // 예시 fieldClause = {  [Op.or] : [ {family:true}, {relationship:true} ]  }
-
-    const searchResults = await User.findAll({
+    const searchResult = await User.findAll({
       attributes: ['id'],
       where: { userType: 'counselor' },
       include: [
@@ -75,13 +49,13 @@ router.get('/counselor', async (req, res, next) => {
         }
       ],
     })
-    return res.status(200).json({searchResults: searchResults, condition: condition });
+    return res.status(200).json({ success:true, searchResult, condition });
   } catch (error) {
     next(error);
   }
-});
+}
 
-module.exports = router;
+module.exports = search;
 
 /** err / 참고
    * 정보를 가져오거나 where문에 조건으로써 model이 들어가기 위해서는 include에 모델이 명시가 되어야 한다(err: Unknown column ~ in 'where clause')

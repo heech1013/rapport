@@ -1,14 +1,14 @@
 const customError = require('../errorHandler/customError');
 
 const nickValidator = (nick) => {
-  return (req, res, next) => {
+  return new Promise((resolve, reject) => {
     const nickRegExp = /^[\w가-힣]{2,12}$/;  // 영대소문자/한글/숫자 2~12자리
     if (!nickRegExp.test(nick)) {
-      return next(
-        customError('ValidationError', 'Nick validation error.')
-      );
-    }
-  }
+      reject(
+        customError('ValidationError', 'Nick is not valid.')
+      )
+    } else resolve();
+  })  
 }
 
 module.exports = nickValidator;

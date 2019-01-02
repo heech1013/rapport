@@ -17,7 +17,7 @@ const index = async (req, res, next) => {  // GET '/case?counselorId=3&date=2018
         }
       ]
     });
-    return res.status(200).json({ caseList });
+    return res.status(200).json({ success: true, caseList });
     /* 오픈한 케이스 : 검색 결과의 모든 케이스
       오픈은 했지만 예약은 안된 케이스: "user"가 null
       예약 신청만 된 케이스: "user"가 있고 confirmation은 false

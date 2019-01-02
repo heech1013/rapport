@@ -3,12 +3,14 @@ const errorJSON = require('./error.json');
 const errorHandler = (err, req, res, next) => {
   console.error(err);
 
-  const customError = errorJSON[err.name] || errorJSON.UnhandledError;
-  const name = err.name === 'Error' || err.name === undefined ? 'UnhandeledError' : err.name;
-  const message = err.message === '' ? customError.message : err.message;
-  const { code } = customError;
+  const CustomError = errorJSON[err.name] || errorJSON.InternalServerError;
+  if (err.message) {
+    CustomError.message = err.message;
+  }
+  const { code, name, message } = CustomError;
   
   res.status(code).json({
+    success: false,
     name,
     message
   });

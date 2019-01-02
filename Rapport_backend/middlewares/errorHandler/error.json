@@ -1,37 +1,37 @@
 {
-  "UnhandledError" : {
-    "name" : "UnhandledError",
-    "code" : "500",
-    "message" : "Unhandled server error."
-  },
-  "InternalServerError" : {
-    "name" : "InternalServerError",
-    "code" : "500",
-    "message" : "Internal server error."
-  },
-  "NotFound" : {
-    "name" : "NotFound",
-    "code" : "404",
-    "message" : "Unhandled route."
-  },
-  "AlreadyReserved" : {
-    "name" : "AlreadyReserved",
+  "BadRequest" : {
+    "name" : "BadRequest",
     "code" : "400",
-    "message" : "Case is already reserved."
-  },
-  "TokenError" : {
-    "name" : "TokenError",
-    "code" : "401",
-    "message" : "Token is inconsistent."
+    "message" : "Bad request."
   },
   "ValidationError" : {
     "name" : "ValidationError",
     "code" : "400",
     "message" : "Validation error."
   },
+  "OverlapError" : {
+    "name" : "OverlapError",
+    "code" : "400",
+    "message" : "Overlap error."
+  },
+  "TokenError" : {
+    "name" : "TokenError",
+    "code" : "400",
+    "message" : "Token is inconsistent."
+  },
   "Unauthorized" : {
     "name" : "Unauthorized",
     "code" : "401",
     "message" : "Unauthorized."
+  },
+  "NotFound" : {
+    "name" : "NotFound",
+    "code" : "404",
+    "message" : "Unhandled route."
+  },
+  "InternalServerError" : {
+    "name" : "InternalServerError",
+    "code" : "500",
+    "message" : "Internal server error."
   }
 }

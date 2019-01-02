@@ -1,4 +1,4 @@
-const CustomError = require('../../errorHandler/customError');
+const CustomError = require('../../middlewares/errorHandler/customError');
 const { Case } = require('../../models');
 
 const destroy = async (req, res, next) => {
@@ -8,11 +8,14 @@ const destroy = async (req, res, next) => {
     const CasePrototype = await Case.findOne({
       where: { id }
     });
-    if (CasePrototype.fkClientId) {
-      return next(CustomError('AlreadyReserved'));
+
+    if (!CasePrototype) {
+      return next(CustomError('BadRequest', 'Case do not exist.'));
+    } else if (CasePrototype.fkClientId) {
+      return next(CustomError('BadRequest', 'Case is already reserved.'));
     } else {
       await CasePrototype.destroy();
-      return res.status(204).json({ deleteCase: true });
+      return res.status(204).json({ success: true });
     }
   } catch (error) {
     next(error);

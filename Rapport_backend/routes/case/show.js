@@ -3,6 +3,7 @@ const { User, Case, Application } = require('../../models');
 const show = async (req, res, next) => {
   try{
     const { id } = req.params;  // case의 id
+
     const caseDetail = await Case.findOne({
       attributes: [ 'date', 'time', 'confirmation', 'price', 'address' ],
       where: { id },
@@ -19,7 +20,8 @@ const show = async (req, res, next) => {
         }
       ]
     });
-    return res.status(200).json({ caseDetail });
+
+    return res.status(200).json({ success: true, caseDetail });
   } catch (error) {
     next(error);
   }

@@ -1,14 +1,14 @@
-const customError = require('../errorHandler/customError');
+const CustomError = require('../errorHandler/customError');
 
 const phoneNumberValidator = (phoneNumber) => {
-  return (req, res, next) => {
+  return new Promise((resolve, reject) => {
     const phoneNumberRegExp = /^\d{3}-\d{3,4}-\d{4}$/;
     if (!phoneNumberRegExp.test(phoneNumber)) {
-      return next(
-        customError('ValidationError', 'PhoneNumber validation error.')
+      reject(
+        CustomError('ValidationError', 'PhoneNumber is not valid.')
       );
-    }
-  }
+    } else resolve();
+  })
 }
 
 module.exports = phoneNumberValidator;

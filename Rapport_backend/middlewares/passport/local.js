@@ -1,10 +1,8 @@
 const dotenv = require('dotenv');
 const bcrypt = require('bcrypt-nodejs');
 const LocalStrategy = require('passport-local').Strategy;
-const JWTStrategy = require('passport-jwt').Strategy;
-const ExtractJWT = require('passport-jwt').ExtractJwt;
 
-const { User } = require('../models');
+const { User } = require('../../models');
 
 dotenv.config();
 
@@ -26,35 +24,13 @@ module.exports = (passport) => {
           const reUserObj = { id: exUser.id, userType: exUser.userType, emailAuthentication: exUser.emailAuthentication, qualification: exUser.qualification };  // 보안을 위해, 토큰 권한 확인에 필요없는 정보인 비밀번호를 제거한 객체를 재생성한다.
           done(null, reUserObj);  // done()은 login.js의 authenticate 함수로 이동
         } else {  // 비밀번호 불일치(false)
-          done(null, false, { authFail: true });
+          done(null, false, 'Wrong email or password.');
         }
       } else {  // 없는 이메일 계정
-        done(null, false, { authFail: true });
+        done(null, false, 'Wrong email or password.');
       }
     } catch (error) {
       done(error);
     }
   }));
-
-  /* it assume that the client will send the JWT token in
-    Authorization Header as a Bearer Token. */
-  passport.use(new JWTStrategy(
-    {
-    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.JWT_SECRET
-    },
-    // By default, if authenticate fails, passport will respond with a 401 Unauthorized status
-    function (jwtPayload, done) {
-      /* find the user in db if(*) needed. This functionality may be omitted
-        if you store everything you'll need in JWT payload. */
-      User.findOne({ where: { id: jwtPayload.id } })
-        .then(() => {
-          return done(null, jwtPayload);  // jwt authenticate 미들웨어로 전달
-        })
-        .catch(error => {
-          return done(error);
-        });
-      
-    }
-  ));
 };
