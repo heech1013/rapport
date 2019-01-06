@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon www",
-    "start": "cross-env NODE_ENV=production pm2 start www.js -i 0"
+    "start": "NODE_ENV=production pm2 start www.js -i 0"
   },
   "author": "Rapport_Development_Team",
   "license": "ISC",

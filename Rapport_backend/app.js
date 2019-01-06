@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const passport = require('passport');
 const helmet = require('helmet');
+require('dotenv').config();
 
 const apiController = require('./routes/controller');
 const { sequelize } = require('./models');
