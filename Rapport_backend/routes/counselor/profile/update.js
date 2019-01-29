@@ -16,7 +16,7 @@ const update = async (req, res, next) => {
     await phoneNumberValidator(phoneNumber);
 
     const transaction = await sequelize.transaction();
-    try{
+    try {
 
       await User.update(
         { phoneNumber },

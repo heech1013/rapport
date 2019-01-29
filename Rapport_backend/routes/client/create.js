@@ -11,7 +11,6 @@ const { User } = require('../../models');
 const create = async (req, res, next) => {
   try{
     const { email, nick, phoneNumber, password } = req.body;
-    const userType = 'client';
     
     await validationResult(req);
     await nickValidator(nick);
@@ -23,7 +22,8 @@ const create = async (req, res, next) => {
     const hash = await bcrypt.hashSync(password);
 
     await User.create({
-      userType, email, nick, phoneNumber,
+      email, nick, phoneNumber,
+      userType: 'client',
       password: hash
     });
   
