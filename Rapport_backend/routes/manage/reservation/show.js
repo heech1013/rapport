@@ -1,4 +1,4 @@
-const { User, Case, CounselorProfile } = require('../../models');
+const { User, Case, CounselorProfile } = require('../../../models');
 
 const show = async (req, res, next) => {
   try{

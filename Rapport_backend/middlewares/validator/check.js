@@ -1,5 +1,9 @@
 const { check } = require('express-validator/check');
 
+const checkForId = [
+  check('id', 'clientId', 'counselorId').isNumeric(),
+];
+
 const checkForClient = [
   check('email').isEmail(),
   check('password').isLength({ min:8, max:16 })
@@ -13,8 +17,12 @@ const checkForCounselor = [
 ];
 
 const checkForReservation = [
-  check('date', 'name', 'problem').isLength({ min: 1 }),
-  check('time', 'sex', 'age').isNumeric()
+  check('date', 'address', 'name', 'problem').isLength({ min: 1 }),
+  check('clientId', 'counselorId', 'time', 'price', 'sex', 'age').isNumeric()
+];
+
+const checkForDeleteRsv = [
+  check('id', 'clientId', 'counselorId', 'time').isNumeric()
 ];
 
 const checkForCounselorProfile = [
@@ -29,4 +37,4 @@ const checkForCounselorManage = [
   ).isBoolean()
 ];
 
-module.exports = { checkForClient, checkForCounselor, checkForReservation, checkForCounselorProfile, checkForCounselorManage };
+module.exports = { checkForId, checkForClient, checkForCounselor, checkForReservation, checkForDeleteRsv, checkForCounselorProfile, checkForCounselorManage };

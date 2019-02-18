@@ -18,16 +18,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    career: {  // 경력 & 연혁 (데이터 형식에 대해 프론트에게 의견을 물어봐야)
-      type: DataTypes.JSON,
+    career: {  // 경력 & 연혁
+      type: DataTypes.TEXT,  // MVP 단계에서는 상담사가 알아서 짝대기 엔터를 이용하여 경력을 보기 좋게 작성하는 걸로 합의.
       allowNull: true,
     },
     simpleIntroduction: {  // 한 줄 인사
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    detailIntroduction: {  // 소개 & 특이사항 (데이터 형식에 대해 프론트에게 의견을 물어봐야)
-      type: DataTypes.JSON,
+    detailIntroduction: {  // 소개 & 특이사항
+      type: DataTypes.TEXT,
       allowNull: true,
     },
 

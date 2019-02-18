@@ -1,4 +1,4 @@
-const { Sequelize, sequelize, Close } = require('../../models');
+const { Sequelize, sequelize, Close } = require('../../../models');
 
 const { Op } = Sequelize;
 

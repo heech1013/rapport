@@ -1,8 +1,8 @@
-const { User, CounselorProfile } = require('../../models');
+const { User, CounselorProfile } = require('../../../models');
 
 const index = async (req, res, next) => {
-  try{
-    const { clientId } = req.query;  // user(client)의 id
+  try {
+    const { clientId } = req.query;
     // 구획: 예약 신청 / 확정
     // 정보: 상담사 이름 /  날짜 및 시간 /  예약 상태(신청/확정)
     // 기능 : 자세히 보기 / 예약 신청 취소 (예약 확정 시 취소하려면 고객센터. 환불필요)

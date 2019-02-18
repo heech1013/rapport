@@ -1,6 +1,6 @@
-const CustomError = require('../../middlewares/errorHandler/customError');
+const CustomError = require('../../../middlewares/errorHandler/customError');
 
-const { Case } = require('../../models');
+const { Case } = require('../../../models');
 
 const destroy = async (req, res, next) => {
   try{

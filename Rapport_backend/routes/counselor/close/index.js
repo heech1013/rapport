@@ -3,7 +3,7 @@
   - 기존 휴무일 정보
   - 예약 상태
 */
-const { Sequelize, Open, Close, Reservation } = require('../../models');
+const { Sequelize, Open, Close, Reservation } = require('../../../models');
 
 const { Op } = Sequelize;
 
@@ -21,7 +21,7 @@ const index = async (req, res, next) => {
       where: {
         fkCounselorId: counselorId,
         date: {
-          [Op.gt]: new Date()
+          [Op.gte]: new Date()
         }
       }
     });
@@ -30,7 +30,7 @@ const index = async (req, res, next) => {
       where: {
         fkCounselorId: counselorId,
         date: {
-          [Op.gt]: new Date()
+          [Op.gte]: new Date()
         }
       }
     });

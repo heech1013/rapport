@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    session: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     confirmation: {  // 예약 확정(결제 완료)
       type: DataTypes.BOOLEAN,
       allowNull: true,

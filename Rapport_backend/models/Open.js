@@ -2,7 +2,8 @@ module.exports = (sequelize, DataTypes) => {
   const Open = sequelize.define('open', {
     startDate: {  // 자동 오픈 시작일
       type: DataTypes.DATEONLY,
-      allowNull: false
+      allowNull: true,
+      defaultValue: null
     },
     endDate: {  // 자동 오픈 기한 날짜
       type: DataTypes.DATEONLY,
@@ -24,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: false
     },
-    MO12: {
+    MON12: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false

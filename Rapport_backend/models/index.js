@@ -37,13 +37,13 @@ db.Open.belongsTo(db.User, { as: 'fkCounselor', foreignKey: 'fkCounselorId' })
 db.User.hasMany(db.Close, { as: 'Close', foreignKey: 'fkCounselorId' });
 db.Close.belongsTo(db.User, { as: 'fkCounselor', foreignKey: 'fkCounselorId' })
 /* User(상담사):Reservation(예약) = 1:M */
-db.User.hasMany(db.Reservation, { as: 'ReservedCases', foreignKey: 'fkCounselorId' });  // Reservation 스키마에 User 스키마의 id를 'fkCounselorId'라는 이름으로 추가
+db.User.hasMany(db.Reservation, { as: 'Reserved', foreignKey: 'fkCounselorId' });  // Reservation 스키마에 User 스키마의 id를 'fkCounselorId'라는 이름으로 추가
 db.Reservation.belongsTo(db.User, { as: 'fkCounselor', foreignKey: 'fkCounselorId' });
 /* User(고객):Reservation(예약) = 1:M */
-db.User.hasMany(db.Reservation, { as: 'ReservingCases', foreignKey: 'fkClientId' });  // Reservation 스키마에 User 스키마의 id를 'fkClientId'라는 이름으로 추가
+db.User.hasMany(db.Reservation, { as: 'Reserving', foreignKey: 'fkClientId' });  // Reservation 스키마에 User 스키마의 id를 'fkClientId'라는 이름으로 추가
 db.Reservation.belongsTo(db.User, { as: 'fkClient', foreignKey: 'fkClientId' });
 /* Reservation(예약):application(상담신청서) = 1:1 */
-db.Reservation.hasOne(db.Application, { as: 'ReservedApplication', foreignKey: 'fkReservationId'});  // Reservation의 prototype은 getReservedApplication과 setReservedApplication을 사용할 수 있게 된다.
+db.Reservation.hasOne(db.Application, { as: 'Application', foreignKey: 'fkReservationId'});  // Reservation의 prototype은 getApplication과 setApplication을 사용할 수 있게 된다.
 db.Application.belongsTo(db.Reservation, { foreignKey: 'fkReservationId' });
 
 module.exports = db;

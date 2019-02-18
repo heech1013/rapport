@@ -1,8 +1,17 @@
-const { User, CounselorProfile, CounselorField, CounselorLocation, Case } = require('../../models')
+const { Sequelize, User, CounselorProfile, CounselorField, CounselorLocation, Open, Close, Reservation } = require('../../models');
+const dateValidator = require('../../middlewares/validator/dateValidator');
+const fiveSessionArrayMaker = require('../../middlewares/dateMaker/fiveSessionArray');
+const reservableTimeFunc = require('../../middlewares/etcFunc/reservableTimeFunc');
+
+const { Op } = Sequelize;
 
 const show = async (req, res, next) => {
-  try{
+  try {
     const { id } = req.params;
+    const { date } = req.query;
+
+    // 유효성 검사
+    await dateValidator(date);
     
     const counselorDetail = await User.findOne({
       attributes: ['id'],
@@ -27,17 +36,49 @@ const show = async (req, res, next) => {
             'GS', 'YC', 'GR', 'YDP', 'DJ', 'GC', 'GA', 'SC', 'GN', 'SP', 'GD', 'MP',
             'EP', 'SDM', 'JN', 'YS', 'SB', 'GB', 'DB', 'NW', 'JNg', 'DDM', 'SD', 'GJ'
           ]
-        },
-        {
-          model: Case,
-          as: 'OpenCases',
-          attributes: ['date', 'time'],
-          where: { fkClientId: null }
         }
       ]
     });
 
-    return res.status(200).json({ success: true, counselorDetail });
+    /* 해당 날짜의 요일 */
+    const week = new Array('SUN', 'MON', 'TUE', 'WEN', 'THU', 'FRI', 'SAT');
+    const numOfDay = new Date(date).getDay();
+    const day = week[numOfDay];
+    /* 5회기 날짜 배열 */
+    const fiveSessionArray = fiveSessionArrayMaker(date);
+    /* Open 데이터 추출 간 필요한 attributes 배열 */
+    const openAttributeArray = ['startDate', 'endDate'];
+    for (let i = 9; i <= 18; i++) {
+      openAttributeArray.push(day + i);
+    }  // ['startDate, 'endDate', 'MON9', ..., 'MON18']
+    
+    /* reservableTimeFunc 필요 데이터 조회 */
+    const openInfo = await Open.findOne({
+      attributes: openAttributeArray,
+      where: { fkCounselorId: id }
+    });
+    const closeInfo = await Close.findAll({
+      attributes: ['date', 'time'],
+      where: {
+        fkCounselorId: id,
+        date: {
+          [Op.in]: fiveSessionArray
+        }
+      }
+    });
+    const reservationInfo = await Reservation.findAll({
+      attributes: ['date', 'time'],
+      where: {
+        fkCounselorId: id,
+        date: {
+          [Op.in]: fiveSessionArray
+        }
+      }
+    });
+
+    const reservableTime = await reservableTimeFunc(day, fiveSessionArray, openInfo, closeInfo, reservationInfo);
+
+    return res.status(200).json({ success: true, counselorDetail, reservableTime });
 
   } catch (error) {
     next(error);

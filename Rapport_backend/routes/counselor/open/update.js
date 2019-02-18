@@ -1,20 +1,31 @@
-const { Open } = require('../../models');
+const { Open } = require('../../../models');
 
-const index = async (req, res, next) => {
+const update = async (req, res, next) => {
   try {
-    const { counselorId } = req.query;
+    /*
+      req.body.counselorId = '45',
+      req.body.open = {
+        startDate: '2019-01-28',
+        endDate: '2019-05-01',
+        MON9: true,
+        MON10: true,
+        ...
+        SUN18: false
+      }
+    */
+    const { counselorId, open } = req.body;
+    Open.update(
+      { ...open },
+      { where: { fkCounselorId: counselorId }}
+    );
 
-    const openInfo = await Open.findOne({
-      where: { fkCounselorId: counselorId }
-    });
-
-    return res.status(200).json({ success: true, openInfo });
+    return res.status(201).json({ success: true });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = index
+module.exports = update;
 
 /*
   새로 오픈하는 것은 문제가 되지 않지만, 기존에
