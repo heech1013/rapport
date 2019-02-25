@@ -41,7 +41,7 @@ const show = async (req, res, next) => {
     });
 
     /* 해당 날짜의 요일 */
-    const week = new Array('SUN', 'MON', 'TUE', 'WEN', 'THU', 'FRI', 'SAT');
+    const week = new Array('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT');
     const numOfDay = new Date(date).getDay();
     const day = week[numOfDay];
     /* 5회기 날짜 배열 */

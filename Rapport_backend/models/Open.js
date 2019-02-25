@@ -110,52 +110,52 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: false
     },
-    WEN9: {
+    WED9: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false
     },
-    WEN10: {
+    WED10: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false
     },
-    WEN11: {
+    WED11: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false
     },
-    WEN12: {
+    WED12: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false
     },
-    WEN13: {
+    WED13: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false
     },
-    WEN14: {
+    WED14: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false
     },
-    WEN15: {
+    WED15: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false
     },
-    WEN16: {
+    WED16: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false
     },
-    WEN17: {
+    WED17: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false
     },
-    WEN18: {
+    WED18: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false

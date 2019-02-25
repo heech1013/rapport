@@ -13,7 +13,11 @@ const index = async (req, res, next) => {
         },
         {
           model: CounselorLocation,
-          as: 'CounselorLocation'
+          as: 'CounselorLocation',
+          attributes: [
+            'GS', 'YC', 'GR', 'YDP', 'DJ', 'GC', 'GA', 'SC', 'GN', 'SP', 'GD', 'MP', 'EP',
+            'SDM', 'JN', 'YS', 'SB', 'GB', 'DB', 'NW', 'JNg', 'DDM', 'SD', 'GJ', 'JG'
+          ]
         }
       ]
     });

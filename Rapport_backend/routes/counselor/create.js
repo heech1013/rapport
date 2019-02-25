@@ -42,7 +42,7 @@ const create = async (req, res, next) => {
           "startDate": null, "endDate": null,
           "MON9": false, "MON10": false, "MON11": false, "MON12": false, "MON13": false, "MON14": false,"MON15": false,"MON16": false, "MON17": false, "MON18": false,
           "TUE9": false, "TUE10": false, "TUE11": false, "TUE12": false, "TUE13": false, "TUE14": false,"TUE15": false,"TUE16": false, "TUE17": false, "TUE18": false,
-          "WEN9": false, "WEN10": false, "WEN11": false, "WEN12": false, "WEN13": false, "WEN14": false,"WEN15": false,"WEN16": false, "WEN17": false, "WEN18": false,
+          "WED9": false, "WED10": false, "WED11": false, "WED12": false, "WED13": false, "WED14": false,"WED15": false,"WED16": false, "WED17": false, "WED18": false,
           "THU9": false, "THU10": false, "THU11": false, "THU12": false, "THU13": false, "THU14": false,"THU15": false,"THU16": false, "THU17": false, "THU18": false,
           "FRI9": false, "FRI10": false, "FRI11": false, "FRI12": false, "FRI13": false, "FRI14": false,"FRI15": false,"FRI16": false, "FRI17": false, "FRI18": false,
           "SAT9": false, "SAT10": false, "SAT11": false, "SAT12": false, "SAT13": false, "SAT14": false,"SAT15": false,"SAT16": false, "SAT17": false, "SAT18": false,

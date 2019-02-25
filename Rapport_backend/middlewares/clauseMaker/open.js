@@ -5,7 +5,7 @@ const CustomError = require('../errorHandler/customError');
 const openClauseMaker = (date) => {
   return new Promise((resolve, reject) => {
     if (date.length) {
-      const week = new Array('SUN', 'MON', 'TUE', 'WEN', 'THU', 'FRI', 'SAT');
+      const week = new Array('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT');
       const numOfDay = new Date(date).getDay();
       const day = week[numOfDay];
       const dayConditionArray = [];

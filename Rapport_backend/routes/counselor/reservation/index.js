@@ -23,7 +23,7 @@ const index = async (req, res, next) => {
     const dayNum = new Date(date).getDay();
     
     const rsvList = await Reservation.findAll({
-      attributes: ['id', 'date', 'time', 'confirmation'],
+      attributes: ['id', 'date', 'time', 'session', 'confirmation'],
       where: {
         fkCounselorId: counselorId,
         date: {
