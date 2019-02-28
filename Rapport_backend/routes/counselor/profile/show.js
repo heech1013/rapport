@@ -1,8 +1,11 @@
 const { User, CounselorProfile, CounselorField, CounselorLocation } = require('../../../models');
+const validationResult = require('../../../middlewares/validator/validationResult');
 
 const show = async (req, res, next) => {
-  try{
+  try {
     const { id } = req.params;
+
+    await validationResult(req);
 
     const profile = await User.findOne({
       attributes: ['id', 'email', 'phoneNumber', 'emailAuthentication', 'qualification'],

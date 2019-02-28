@@ -1,4 +1,7 @@
-const { Sequelize, sequelize, Close } = require('../../../models');
+const { Sequelize, sequelize, Close, Reservation } = require('../../../models');
+const CustomError = require('../../../middlewares/errorHandler/customError');
+const validationResult = require('../../../middlewares/validator/validationResult');
+const closeValidator = require('../../../middlewares/validator/closeValidator');
 
 const { Op } = Sequelize;
 
@@ -6,25 +9,56 @@ const update = async (req, res, next) => {
   try {    
     const { counselorId, newClose, deadClose } = req.body;
 
-    // 유효성 검사
+    await validationResult(req);
 
     let createClause, destroyClause = null;
+    
+    /* newClose가 들어왔을 경우 */
     if (newClose.length) {
-      // newClose와 deadClose 배열요소(객체) 각각의 마지막 key/value 값으로 fkCounselorId를 추가
+      // 유효성 검사(date, time)
+      await closeValidator(newClose);
+
+      /* overlapClose를 조회 / newClose를 생성하는 데에 필요한 clause 생성 */
+      // newClose의 배열요소(객체) 각각의 마지막 key/value 값으로 fkCounselorId를 추가
       createClause = newClose.map((obj) => {
         obj["fkCounselorId"] = counselorId;
         return obj
       });
-    } else {
-      createClause = null;
+
+      /* 일치하는 기존 휴무일 데이터 조회 */
+      const overlapClose = await Close.findAll({
+        where: {
+          [Op.or]: createClause
+        }
+      });
+      /* 기존 데이터가 있을 경우 */
+      if (overlapClose.length) {
+        return next(CustomError('BadRequest', 'Already exist close day.'))
+      }
+
+      /* 일치하는 예약 데이터 조회 */
+      const overlapRsv = await Reservation.findAll({
+        where: {
+          [Op.or]: createClause
+        }
+      });
+      
+      if (overlapRsv.length) {
+        return next(CustomError('BadRequest', 'Already reserved day.'))
+      };
     }
+
+    /* deadClose를 제출했을 경우 */
     if (deadClose.length) {
+      /* 유효성 검사: date, time */
+      await closeValidator(deadClose);
+
+      /* deadClose를 제거하는 데에 필요한 clause 생성 */
+      // deadClose의 배열요소(객체) 각각의 마지막 key/value 값으로 fkCounselorId를 추가
       destroyClause = deadClose.map((obj) => {
         obj["fkCounselorId"] = counselorId;
         return obj
       });
-    } else {
-      destroyClause = null;
     }
 
     const transaction = await sequelize.transaction();

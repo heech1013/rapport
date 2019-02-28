@@ -1,5 +1,6 @@
 const validationResult = require('../../../middlewares/validator/validationResult');
 const dateValidator = require('../../../middlewares/validator/dateValidator');
+const dateRangeValidator = require('../../../middlewares/validator/dateRange');
 const fiveSessionArrayMaker = require('../../../middlewares/dateMaker/fiveSessionArray');
 const CustomError = require('../../../middlewares/errorHandler/customError');
 
@@ -15,6 +16,7 @@ const destroy = async (req, res, next) => {
 
     await validationResult(req);
     await dateValidator(date);
+    await dateRangeValidator('future', date);
 
     const fiveSessionArray = fiveSessionArrayMaker(date);
 

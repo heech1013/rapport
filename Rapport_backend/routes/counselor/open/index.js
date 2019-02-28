@@ -1,8 +1,11 @@
 const { Open } = require('../../../models');
+const validationResult = require('../../../middlewares/validator/validationResult');
 
 const index = async (req, res, next) => {
   try {
     const { counselorId } = req.query;
+
+    await validationResult(req);
 
     const openInfo = await Open.findOne({
       attributes: ['startDate', 'endDate',

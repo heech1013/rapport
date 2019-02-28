@@ -9,7 +9,7 @@ const mailer = require('../../middlewares/mailer/mailer');
 const { User } = require('../../models');
 
 const create = async (req, res, next) => {
-  try{
+  try {
     const { email, nick, phoneNumber, password } = req.body;
     
     await validationResult(req);

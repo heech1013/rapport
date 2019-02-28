@@ -1,19 +1,28 @@
 const { Open } = require('../../../models');
+const dateValidator = require('../../../middlewares/validator/dateValidator');
+const dateRangeValidator = require('../../../middlewares/validator/dateRange');
+const openValidator = require('../../../middlewares/validator/openValidator');
 
 const update = async (req, res, next) => {
   try {
-    /*
-      req.body.counselorId = '45',
-      req.body.open = {
-        startDate: '2019-01-28',
-        endDate: '2019-05-01',
-        MON9: true,
-        MON10: true,
-        ...
-        SUN18: false
-      }
-    */
     const { counselorId, open } = req.body;
+
+    // 유효성 검사
+    const { startDate, endDate } = open;
+    /* startDate가 null일 때 - endDate도 null로 설정한다 */
+    if (!startDate) endDate = null;
+    /* startDate가 null이 아닐 때 */
+    else {
+      await dateValidator(startDate);
+      await dateRangeValidator('future', startDate);  // startDate는 오늘(포함) 이후여야 한다.
+      /* endDate가 null이 아닐 때 */
+      if (endDate) {
+        await dateValidator(endDate);
+        await dateRangeValidator('minEnd', startDate, endDate);  // endDate는 startDate로부터 최소 4주 이후여야 한다.
+      }
+    }
+    await openValidator(open);
+
     Open.update(
       { ...open },
       { where: { fkCounselorId: counselorId }}
@@ -26,6 +35,18 @@ const update = async (req, res, next) => {
 };
 
 module.exports = update;
+
+/*
+  req.body.counselorId = '45',
+  req.body.open = {
+    startDate: '2019-01-28',
+    endDate: '2019-05-01',
+    MON9: true,
+    MON10: true,
+    ...
+    SUN18: false
+  }
+*/
 
 /*
   새로 오픈하는 것은 문제가 되지 않지만, 기존에

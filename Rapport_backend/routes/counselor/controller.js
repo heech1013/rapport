@@ -1,7 +1,8 @@
 const router = require('express').Router();
 
-const { checkForCounselor } = require('../../middlewares/validator/check');
+const { checkForParamId, checkForCreateCounselor } = require('../../middlewares/validator/check');
 const tokenVerify = require('../../middlewares/tokenVerify/tokenVerify');
+
 const create = require('./create');
 const show = require('./show');
 
@@ -15,8 +16,8 @@ router.use('/close', require('./close/controller'));
 router.use('/reservation', require('./reservation/controller'));
 
 /* GET '/counselor/:id' :상담사 자세히 보기 */
-router.get('/:id', show);
+router.get('/:id', checkForParamId, show);
 /* POST '/counselor': 상담사 생성(회원가입) */
-router.post('/', checkForCounselor, create);
+router.post('/', checkForCreateCounselor, create);
 
 module.exports = router;

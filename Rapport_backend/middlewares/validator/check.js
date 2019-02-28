@@ -1,40 +1,75 @@
 const { check } = require('express-validator/check');
 
-const checkForId = [
-  check('id', 'clientId', 'counselorId').isNumeric(),
+const checkForParamId = [
+  check('id').isLength({ min: 1 }).isNumeric()
 ];
 
-const checkForClient = [
-  check('email').isEmail(),
-  check('password').isLength({ min:8, max:16 })
+const checkForClientId = [
+  check('clientId').isLength({ min: 1 }).isNumeric()
 ];
 
-const checkForCounselor = [
-  check('email').isEmail(),
-  check('password').isLength({ min: 8, max: 16 }),
-  check('price').isNumeric(),
-  check('family', 'relationship', 'personality', 'emotion', 'sexual', 'addiction', 'lifestyle', 'development', 'study').isBoolean()
+const checkForCounselorId = [
+  check('counselorId').isLength({ min: 1 }).isNumeric()
 ];
 
-const checkForReservation = [
+const checkForCreateClient = [
+  check('email').isLength({ min: 1 }).isEmail(),
+  check('password').isLength({ min: 8, max: 16 })  // 8 <= password.length <= 16
+];
+
+const checkForCreateClientRsv = [
   check('date', 'address', 'name', 'problem').isLength({ min: 1 }),
-  check('clientId', 'counselorId', 'time', 'price', 'sex', 'age').isNumeric()
+  check('clientId', 'counselorId', 'time', 'price', 'sex', 'age').isLength({ min: 1 }).isNumeric()
 ];
 
-const checkForDeleteRsv = [
-  check('id', 'clientId', 'counselorId', 'time').isNumeric()
+const checkForDestroyClientRsv = [
+  check('id', 'clientId', 'counselorId', 'time').isLength({ min: 1 }).isNumeric()
 ];
 
-const checkForCounselorProfile = [
-  check('price').isNumeric(),
-  check('family', 'relationship', 'personality', 'emotion', 'sexual', 'addiction', 'lifestyle', 'development', 'study').isBoolean()
+const checkForCreateCounselor = [
+  check('email').isLength({ min: 1 }).isEmail(),
+  check('password').isLength({ min: 8, max: 16 }),
+  check('price').isLength({ min: 1 }).isNumeric(),
+  check(
+    'family', 'relationship', 'personality', 'emotion', 'sexual', 'addiction', 'lifestyle', 'development', 'study'
+  ).isLength({ min: 1 }).isBoolean()
 ];
 
-const checkForCounselorManage = [
+const checkForUpdateCounselorProfile = [
+  check('id', 'price').isLength({ min: 1 }).isNumeric(),
+  check(
+    'family', 'relationship', 'personality', 'emotion', 'sexual', 'addiction', 'lifestyle', 'development', 'study'
+  ).isLength({ min: 1 }).isBoolean()
+];
+
+const checkForManageCounselor = [
+  check('id').isLength({ min: 1 }).isNumeric(),
   check('qualification',
     'GS', 'YC', 'GR', 'YDP', 'DJ', 'GC', 'GA', 'SC', 'GN', 'SP', 'GD', 'MP', 'EP',
     'SDM', 'JN', 'YS', 'SB', 'GB', 'DB', 'NW', 'JNg', 'DDM', 'SD', 'GJ', 'JG'
-  ).isBoolean()
+  ).isLength({ min: 1 }).isBoolean()
 ];
 
-module.exports = { checkForId, checkForClient, checkForCounselor, checkForReservation, checkForDeleteRsv, checkForCounselorProfile, checkForCounselorManage };
+const checkForEmailAuth = [
+  // check('token')
+  check('email').isEmail()
+];
+
+const checkForLogin = [
+  check('email').isLength({ min: 1 }).isEmail(),
+  check('password').isLength({ min: 1 })
+];
+
+module.exports = {
+  checkForParamId,
+  checkForClientId,
+  checkForCounselorId,
+  checkForCreateClient,
+  checkForCreateClientRsv,
+  checkForDestroyClientRsv,
+  checkForCreateCounselor,
+  checkForUpdateCounselorProfile,
+  checkForManageCounselor,
+  checkForEmailAuth,
+  checkForLogin
+};

@@ -7,6 +7,9 @@ const addDays = require('date-fns/add_days');
 const subDays = require('date-fns/sub_days');
 
 const { Sequelize, Open, Close, Reservation } = require('../../../models');
+const validationResult = require('../../../middlewares/validator/validationResult');
+const dateValidator = require('../../../middlewares/validator/dateValidator');
+const dateRangeValidator = require('../../../middlewares/validator/dateRange');
 const calendarInfoFunc = require('../../../middlewares/etcFunc/calendarInfoFunc');
 
 const { Op } = Sequelize;
@@ -16,7 +19,10 @@ const index = async (req, res, next) => {
     const { counselorId, date } = req.query;
 
     // 유효성 검사
-    // date가 오늘로부터 4개월 후는 아닌지 확인
+    await validationResult(req);
+    await dateValidator(date);
+    await dateRangeValidator('future', date);
+    
 
     const dayNum = new Date(date).getDay();
     const dateOfSUN = format(subDays(date, dayNum), 'YYYY-MM-DD');

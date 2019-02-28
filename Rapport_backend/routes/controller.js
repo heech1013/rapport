@@ -1,6 +1,8 @@
 const router = require('express').Router();
 
+const { checkForEmailAuth, checkForLogin } = require('../middlewares/validator/check');
 const tokenVerify = require('../middlewares/tokenVerify/tokenVerify');
+
 const emailAuth = require('./emailAuth');
 const login = require('./login');
 const search = require('./search');
@@ -11,8 +13,8 @@ router.use('/counselor', require('./counselor/controller'));  // tokenVerify('co
 router.use('/manage', require('./manage/controller'));  // tokenVerify('manager') 추가
 
 /* etc routes */
-router.get('/emailAuth', emailAuth);
-router.post('/login', login);
+router.get('/emailAuth', checkForEmailAuth, emailAuth);
+router.post('/login', checkForLogin, login);
 router.get('/search', search);
 
 /* 

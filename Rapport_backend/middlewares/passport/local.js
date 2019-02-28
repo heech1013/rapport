@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 const bcrypt = require('bcrypt-nodejs');
 const LocalStrategy = require('passport-local').Strategy;
+const validationResult = require('../validator/validationResult');
 
 const { User } = require('../../models');
 
@@ -9,9 +10,11 @@ dotenv.config();
 module.exports = (passport) => {
   passport.use(new LocalStrategy({
     usernameField: 'email',  // req.body."email"과 일치시키기
-    passwordField: 'password'  // req.body."password"와 일치시키기
-  }, async (email, password, done) => {
+    passwordField: 'password',  // req.body."password"와 일치시키기
+    passReqToCallback: true
+  }, async (req, email, password, done) => {
     try {
+      await validationResult(req);
       /* this one is typically a DB call. Assume that the returned
       user object is pre-formatted and ready fo storing in JWT */
       const exUser = await User.findOne({

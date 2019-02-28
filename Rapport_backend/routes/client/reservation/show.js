@@ -1,4 +1,5 @@
 const { User, CounselorProfile, Reservation, Application } = require('../../../models');
+const validationResult = require('../../../middlewares/validator/validationResult');
 const CustomError = require('../../../middlewares/errorHandler/customError');
 
 /* 자세히 보기 정보: 상담사 이름(프로필로 링크) / 날짜 / 시간 / 회기 / 가격 / 장소 / 상담신청서 */
@@ -6,6 +7,8 @@ const CustomError = require('../../../middlewares/errorHandler/customError');
 const show = async (req, res, next) => {
   try {
     const { id } = req.params;  // reservation의 id
+
+    await validationResult(req);
 
     const rsvDetail = await Reservation.findOne({
       attributes: ['date', 'time', 'session', 'price', 'address'],
@@ -32,7 +35,7 @@ const show = async (req, res, next) => {
     });
 
     /* 조회된 데이터가 없을 때 */
-    if (!rsvDetail.date) {
+    if (!rsvDetail) {
       return next(
         CustomError('BadRequest', 'Reservation is not exist.')
       )

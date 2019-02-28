@@ -1,14 +1,22 @@
-const customError = require('../errorHandler/customError');
+const CustomError = require('../errorHandler/customError');
 
-const nickValidator = (date) => {
+const dateValidator = (date) => {
   return new Promise((resolve, reject) => {
-    const dateRegExp = /([12]\d{3}\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01]))/;
-    if (!dateRegExp.test(date)) {
+    const regEx = /^\d{4}-\d{2}-\d{2}$/;
+    const d = new Date(date);
+    if (!date.match(regEx)) {  // Invalid format
+      console.log('========dont match==', date);
       reject(
-        customError('ValidationError', 'Date is not valid.')
+        CustomError('ValidationError', 'Date is not valid.')
       );
-    } else resolve();
+    }
+    else if (Number.isNaN(d.getTime())) {  // Invalid date
+      reject(
+        CustomError('ValidationError', 'Date is not valid.')
+      );
+    }
+    else resolve();
   })
 }
 
-module.exports = nickValidator;
+module.exports = dateValidator;

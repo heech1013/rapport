@@ -1,5 +1,7 @@
 const { Sequelize, User, CounselorProfile, CounselorField, CounselorLocation, Open, Close, Reservation } = require('../../models');
+const validationResult = require('../../middlewares/validator/validationResult');
 const dateValidator = require('../../middlewares/validator/dateValidator');
+const dateRangeValidator = require('../../middlewares/validator/dateRange');
 const fiveSessionArrayMaker = require('../../middlewares/dateMaker/fiveSessionArray');
 const reservableTimeFunc = require('../../middlewares/etcFunc/reservableTimeFunc');
 
@@ -11,7 +13,9 @@ const show = async (req, res, next) => {
     const { date } = req.query;
 
     // 유효성 검사
+    await validationResult(req);
     await dateValidator(date);
+    await dateRangeValidator('reservation', date);
     
     const counselorDetail = await User.findOne({
       attributes: ['id'],
