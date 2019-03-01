@@ -18,17 +18,17 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
     },
     email: {
-      type: DataTypes.STRING(40),
+      type: DataTypes.STRING(30),
       allowNull: false,
       unique: true,
     },
-    nick: {  // 필요성 재고(상담사는 사용 x)
+    nick: {  // 일반 사용자용
       type: DataTypes.STRING(10),
       allowNull: true,
-      unique: true,  // 중복시 equelizeUniqueConstraintError: Validation error
+      unique: true,
     },
     phoneNumber: {
-      type: DataTypes.STRING(40),  // 사이즈 점검 필요.
+      type: DataTypes.STRING(15),
       allowNull: false
     },
     password: {

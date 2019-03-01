@@ -1,4 +1,5 @@
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcrypt');
+require('dotenv').config()
 
 const validationResult = require('../../middlewares/validator/validationResult');
 const phoneNumberValidator = require('../../middlewares/validator/phoneNumberValidator');
@@ -21,7 +22,7 @@ const create = async (req, res, next) => {
       await phoneNumberValidator(phoneNumber);
       await overlapTester('email', email);
   
-      const hash = bcrypt.hashSync(password);
+      const hash = await bcrypt.hash(password, 10);
 
       await User.create({  // create in association
         userType, email, phoneNumber,

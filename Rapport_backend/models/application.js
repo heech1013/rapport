@@ -9,12 +9,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(30),
       allowNull: false,
     },
-    sex: {  // 성별: 남(1), 여(2), 기타..?(3)
-      type: DataTypes.INTEGER,
+    sex: {  // 성별: 남(1), 여(2), 기타(3)
+      type: DataTypes.TINYINT,
       allowNull: false,
     },
     age: {  // 나이
-      type: DataTypes.INTEGER,
+      type: DataTypes.TINYINT,
       allowNull: false,
     },
     problem: {  // 주 호소 문제

@@ -9,11 +9,11 @@ const show = require('./show');
 /* '/counselor/profile' */
 router.use('/profile', tokenVerify('counselor'), require('./profile/controller'));
 /* '/counselor/open' */
-router.use('/open', require('./open/controller'));
+router.use('/open', tokenVerify('counselor'), require('./open/controller'));
 /* '/counselor/close' */
-router.use('/close', require('./close/controller'));
+router.use('/close', tokenVerify('counselor'), require('./close/controller'));
 /* '/counselor/reservation' */
-router.use('/reservation', require('./reservation/controller'));
+router.use('/reservation', tokenVerify('counselor'), require('./reservation/controller'));
 
 /* GET '/counselor/:id' :상담사 자세히 보기 */
 router.get('/:id', checkForParamId, show);

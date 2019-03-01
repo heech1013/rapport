@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     time: {  // 휴무일 시간 ex) 12시 -> 12 / 15시 -> 15
-      type: DataTypes.INTEGER,
+      type: DataTypes.TINYINT,
       allowNull: false,
     }
     /* foreign key 및 자동 생성 컬럼

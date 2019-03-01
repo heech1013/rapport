@@ -5,11 +5,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     time: {  // ex) 12시 -> 12 / 15시 -> 15
-      type: DataTypes.INTEGER,
+      type: DataTypes.TINYINT,
       allowNull: false,
     },
     session: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.TINYINT,
       allowNull: false,
     },
     confirmation: {  // 예약 확정(결제 완료)
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     address: {  // (MVP) 해당 케이스를 오픈할 당시 상담사 프로필 주소(개인 상담 공간) 정보/ 추후 확장 가능성(사용자가 여러 상담 공간 중 선택할 수 있는 기능)
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     /* foreign key 및 자동 생성 컬럼

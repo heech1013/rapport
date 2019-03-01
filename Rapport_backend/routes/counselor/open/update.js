@@ -23,7 +23,7 @@ const update = async (req, res, next) => {
     }
     await openValidator(open);
 
-    Open.update(
+    await Open.update(
       { ...open },
       { where: { fkCounselorId: counselorId }}
     );

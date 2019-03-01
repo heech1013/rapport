@@ -8,9 +8,9 @@ const login = require('./login');
 const search = require('./search');
 
 /* REST API */
-router.use('/client', require('./client/controller'));  // tokenVerify('client') 추가
-router.use('/counselor', require('./counselor/controller'));  // tokenVerify('counselor') 추가
-router.use('/manage', require('./manage/controller'));  // tokenVerify('manager') 추가
+router.use('/client', require('./client/controller'));
+router.use('/counselor', require('./counselor/controller'));
+router.use('/manage', tokenVerify('manager'), require('./manage/controller'));
 
 /* etc routes */
 router.get('/emailAuth', checkForEmailAuth, emailAuth);

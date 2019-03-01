@@ -6,16 +6,16 @@ module.exports = (sequelize, DataTypes) => {
     // fkCounselorId: User 스키마의 상담사 id를 foreign key로 가짐.
 
     name: {  // 상담사 이름
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(30),
       allowNull: false,
       unique: false,
     },
     address: {  // 개인 상담사의 개인공간 주소
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING(50),
       allowNull: true,
     },
     price: {  // 상담 비용
-      type: DataTypes.INTEGER,
+      type: DataTypes.TINYINT,
       allowNull: true,
     },
     career: {  // 경력 & 연혁

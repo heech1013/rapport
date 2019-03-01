@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 
 const app = require('./app');
 
-dotenv.config();  // .env를 환경변수로 설정
+dotenv.config();
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
   if (isNaN(port)) {

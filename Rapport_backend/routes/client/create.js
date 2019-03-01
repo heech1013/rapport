@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcrypt');
 
 const validationResult = require('../../middlewares/validator/validationResult');
 const nickValidator = require('../../middlewares/validator/nickValidator');
@@ -19,7 +19,7 @@ const create = async (req, res, next) => {
     await overlapTester('email', email);
     await overlapTester('nick', nick);
 
-    const hash = await bcrypt.hashSync(password);
+    const hash = await bcrypt.hash(password, 10);
 
     await User.create({
       email, nick, phoneNumber,
