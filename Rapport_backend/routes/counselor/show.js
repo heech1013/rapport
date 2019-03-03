@@ -1,4 +1,4 @@
-const { Sequelize, User, CounselorProfile, CounselorField, CounselorLocation, Open, Close, Reservation } = require('../../models');
+const { Sequelize, User, CounselorProfile, CounselorField, Open, Close, Reservation } = require('../../models');
 const validationResult = require('../../middlewares/validator/validationResult');
 const dateValidator = require('../../middlewares/validator/dateValidator');
 const dateRangeValidator = require('../../middlewares/validator/dateRange');
@@ -31,14 +31,6 @@ const show = async (req, res, next) => {
           as: 'CounselorField',
           attributes: [
             'family', 'relationship', 'personality', 'emotion', 'sexual', 'addiction', 'lifestyle', 'development', 'study'
-          ]
-        },
-        {
-          model: CounselorLocation,
-          as: 'CounselorLocation',
-          attributes: [
-            'GS', 'YC', 'GR', 'YDP', 'DJ', 'GC', 'GA', 'SC', 'GN', 'SP', 'GD', 'MP',
-            'EP', 'SDM', 'JN', 'YS', 'SB', 'GB', 'DB', 'NW', 'JNg', 'DDM', 'SD', 'GJ'
           ]
         }
       ]

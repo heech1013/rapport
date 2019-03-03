@@ -17,8 +17,11 @@ const openClauseMaker = (date) => {
 
       const openClause = {
         [Op.or]: dayConditionArray,
-        startDate: { [Op.lte]: date },
-        endDate: { [Op.gte]: date }
+        startDate: { [Op.lte]: date },  // startDate가 null인 경우: 해당 x
+        [Op.or]: [
+          { endDate: { [Op.gte]: date } },
+          { endDate : null }
+        ]
       }
 
       resolve(openClause);

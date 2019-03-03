@@ -7,7 +7,7 @@ const create = require('./create');
 const destroy = require('./destroy');
 
 /* GET '/reservation/:id' : 예약 자세히 보기(사용자용 상담예약관리 페이지) */
-router.get('/:id', checkForParamId, show);
+router.get('/:id', checkForParamId, checkForClientId, show);
 /* GET '/reservation' : 전체 예약 조회(사용자용 상담예약관리 페이지) */
 router.get('/', checkForClientId, index);
 /* POST '/reservation' : 상담 예약 */

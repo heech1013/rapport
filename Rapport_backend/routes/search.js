@@ -3,10 +3,11 @@ const dateRangeValidator = require('../middlewares/validator/dateRange');
 const fieldValidator = require('../middlewares/validator/fieldValidator');
 const locationValidator = require('../middlewares/validator/locationValidator');
 const openClauseMaker = require('../middlewares/clauseMaker/open');
-const closeClauseMaker = require('../middlewares/clauseMaker/close');
+const closeOrRsvClauseMaker = require('../middlewares/clauseMaker/closeOrRsv');
 const fieldOrLocationClauseMaker = require('../middlewares/clauseMaker/fieldOrLocation');
+const searchResultVerifier = require('../middlewares/etcFunc/searchResultVerifier');
 
-const { User, CounselorProfile, CounselorLocation, CounselorField, Open, Close } = require('../models');
+const { User, CounselorProfile, CounselorLocation, CounselorField, Open, Close, Reservation } = require('../models');
 
 /* GET '/search' : 초기 메인 화면의 검색 필터 */
 const search = async (req, res, next) => {
@@ -27,31 +28,24 @@ const search = async (req, res, next) => {
     
 
     const openClause = await openClauseMaker(date);
-    const closeClause = await closeClauseMaker(date);
+    const closeOrRsvClause = await closeOrRsvClauseMaker(date);
     const fieldClause = await fieldOrLocationClauseMaker(field);
     const locationClause = await fieldOrLocationClauseMaker(location);
 
-    /* 상담사가 그 날을 열어놓았으며 휴무일이 아니어도, 예약이 다 차있는 경우는 걸러내지 못했다. */
     const searchResult = await User.findAll({
       attributes: ['id'],
-      where: { userType: 'counselor' },
+      where: { userType: 'counselor', emailAuthentication: true, qualification: true },
       include: [
         {
           model: CounselorProfile,
           as: 'CounselorProfile',
           attributes: ['name', 'address', 'price', 'simpleIntroduction']
         },
-        {  // 해당 날짜가 startDate와 endDate 사이에 있으며, 해당 요일에 적어도 하나 이상의 시간대를 오픈했는지 확인
+        {  /* 해당 날짜가 startDate와 endDate 사이에 있으며, 해당 요일에 적어도 하나 이상의 시간대를 오픈했는지 확인 */
           model: Open,
           as: 'Open',
           attributes: ['id'],
           where: { ...openClause }
-        },
-        {  // 해당 날짜를 휴무일로 지정하지 않았는지 확인
-          model: Close,
-          as: 'Close',
-          attributes: ['id'],
-          where: { ...closeClause }
         },
         {  // 해당 분야 중 적어도 하나 이상을 가능 분야로 설정하였는지 확인
           model: CounselorField,
@@ -64,9 +58,26 @@ const search = async (req, res, next) => {
           as: 'CounselorLocation',
           attributes: ['id'],
           where: { ...locationClause }
+        },
+        {  // 해당 날짜를 휴무일로 지정하지 않았는지 확인하기 위한 추출
+          model: Close,
+          as: 'Close',
+          attributes: ['time']
+          // where: { ...closeOrRsvClause }
+        },
+        {  // 해당 날짜에 예약이 다 차있지는 않은지 확인하기 위한 추출
+          model: Reservation,
+          as: 'Reserved',
+          attributes: ['time']
+          // where: { ...closeOrRsvClause }
         }
-      ],
-    })
+      ]
+    });
+
+    // if (searchResult.length) {  // 휴무일 / 예약 검증 함수
+    //   searchResult = await searchResultVerifier(searchResult);
+    // }
+
     return res.status(200).json({ success:true, searchResult, condition });
   } catch (error) {
     next(error);

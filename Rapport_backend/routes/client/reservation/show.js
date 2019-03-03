@@ -1,5 +1,6 @@
 const { User, CounselorProfile, Reservation, Application } = require('../../../models');
 const validationResult = require('../../../middlewares/validator/validationResult');
+const viewAuthorityVerifier = require('../../../middlewares/viewAuthority/id');
 const CustomError = require('../../../middlewares/errorHandler/customError');
 
 /* 자세히 보기 정보: 상담사 이름(프로필로 링크) / 날짜 / 시간 / 회기 / 가격 / 장소 / 상담신청서 */
@@ -7,6 +8,7 @@ const CustomError = require('../../../middlewares/errorHandler/customError');
 const show = async (req, res, next) => {
   try {
     const { id } = req.params;  // reservation의 id
+    const { clientId } = req.query;
 
     await validationResult(req);
 
@@ -14,6 +16,11 @@ const show = async (req, res, next) => {
       attributes: ['date', 'time', 'session', 'price', 'address'],
       where: { id },
       include: [
+        {
+          model: User,
+          as: 'fkClient',
+          attributes: ['id']
+        },
         {
           model: User,
           as: 'fkCounselor',
@@ -39,6 +46,9 @@ const show = async (req, res, next) => {
       return next(
         CustomError('BadRequest', 'Reservation is not exist.')
       )
+    } else {
+      const resultId = rsvDetail["fkClient"]["id"];
+      await viewAuthorityVerifier(clientId, resultId);
     }
 
     
