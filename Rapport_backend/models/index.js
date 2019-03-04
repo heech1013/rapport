@@ -30,8 +30,8 @@ db.CounselorField.belongsTo(db.User, { foreignKey: 'fkCounselorId' });
 /* User(상담사):CounselorLocation(상담가능지역) = 1:1 */
 db.User.hasOne(db.CounselorLocation, { as: 'CounselorLocation', foreignKey: 'fkCounselorId'});
 db.CounselorLocation.belongsTo(db.User, { foreignKey: 'fkCounselorId' });
-/* User(상담사):Open(자동오픈) = 1:M */
-db.User.hasMany(db.Open, { as: 'Open', foreignKey: 'fkCounselorId' });
+/* User(상담사):Open(자동오픈) = 1:1 */
+db.User.hasOne(db.Open, { as: 'Open', foreignKey: 'fkCounselorId' });
 db.Open.belongsTo(db.User, { as: 'fkCounselor', foreignKey: 'fkCounselorId' })
 /* User(상담사):Close(휴무일) = 1:M */
 db.User.hasMany(db.Close, { as: 'Close', foreignKey: 'fkCounselorId' });

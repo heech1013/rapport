@@ -1,3 +1,5 @@
+const addDays = require('date-fns/add_days');
+const format = require('date-fns/format');
 const { Op } = require('../../models').Sequelize;
 
 const CustomError = require('../errorHandler/customError');
@@ -19,7 +21,7 @@ const openClauseMaker = (date) => {
         [Op.or]: dayConditionArray,
         startDate: { [Op.lte]: date },  // startDate가 null인 경우: 해당 x
         [Op.or]: [
-          { endDate: { [Op.gte]: date } },
+          { endDate: { [Op.gte]: format(addDays(date, 28), 'YYYY-MM-DD') } },
           { endDate : null }
         ]
       }

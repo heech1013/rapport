@@ -3,9 +3,10 @@ const dateRangeValidator = require('../middlewares/validator/dateRange');
 const fieldValidator = require('../middlewares/validator/fieldValidator');
 const locationValidator = require('../middlewares/validator/locationValidator');
 const openClauseMaker = require('../middlewares/clauseMaker/open');
-const closeOrRsvClauseMaker = require('../middlewares/clauseMaker/closeOrRsv');
+const openAttrArrMaker = require('../middlewares/clauseMaker/openAttrArr');
 const fieldOrLocationClauseMaker = require('../middlewares/clauseMaker/fieldOrLocation');
 const searchResultVerifier = require('../middlewares/etcFunc/searchResultVerifier');
+const searchResultCleaner = require('../middlewares/etcFunc/searchResultCleaner');
 
 const { User, CounselorProfile, CounselorLocation, CounselorField, Open, Close, Reservation } = require('../models');
 
@@ -25,14 +26,13 @@ const search = async (req, res, next) => {
     if (location[0].length) {
       await locationValidator(location)
     }
-    
 
     const openClause = await openClauseMaker(date);
-    const closeOrRsvClause = await closeOrRsvClauseMaker(date);
+    const openAttrArr = await openAttrArrMaker(date);
     const fieldClause = await fieldOrLocationClauseMaker(field);
     const locationClause = await fieldOrLocationClauseMaker(location);
 
-    const searchResult = await User.findAll({
+    let searchResult = await User.findAll({
       attributes: ['id'],
       where: { userType: 'counselor', emailAuthentication: true, qualification: true },
       include: [
@@ -44,7 +44,7 @@ const search = async (req, res, next) => {
         {  /* 해당 날짜가 startDate와 endDate 사이에 있으며, 해당 요일에 적어도 하나 이상의 시간대를 오픈했는지 확인 */
           model: Open,
           as: 'Open',
-          attributes: ['id'],
+          attributes: openAttrArr,
           where: { ...openClause }
         },
         {  // 해당 분야 중 적어도 하나 이상을 가능 분야로 설정하였는지 확인
@@ -63,20 +63,19 @@ const search = async (req, res, next) => {
           model: Close,
           as: 'Close',
           attributes: ['time']
-          // where: { ...closeOrRsvClause }
         },
         {  // 해당 날짜에 예약이 다 차있지는 않은지 확인하기 위한 추출
           model: Reservation,
           as: 'Reserved',
           attributes: ['time']
-          // where: { ...closeOrRsvClause }
         }
       ]
     });
 
-    // if (searchResult.length) {  // 휴무일 / 예약 검증 함수
-    //   searchResult = await searchResultVerifier(searchResult);
-    // }
+    if (searchResult.length) {  // 휴무일, 예약일 검증 함수 / searchResult 정리 함수
+      searchResult = await searchResultVerifier(date, searchResult);
+      searchResult = await searchResultCleaner(searchResult);
+    }
 
     return res.status(200).json({ success:true, searchResult, condition });
   } catch (error) {
