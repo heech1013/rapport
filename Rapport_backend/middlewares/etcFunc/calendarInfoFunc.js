@@ -15,7 +15,7 @@ const calendarInfoFunc = (dateOfSUN, openInfo, closeInfo, rsvInfo) => {
     for (let i = 0; i <= 6; i++) {
       calendarInfo[dateArr[i]] = {};
       for (let j = 9; j <= 18; j++) {
-        calendarInfo[dateArr[i]]["time" + j] = { "open": false, "close": false, "rsv": false, "closeable": false };
+        calendarInfo[dateArr[i]][j] = { "open": false, "close": false, "rsv": false, "closeable": false };
       }
     }
 
@@ -32,18 +32,18 @@ const calendarInfoFunc = (dateOfSUN, openInfo, closeInfo, rsvInfo) => {
         ) {
           for (let j = 9; j<= 18; j++) {
             if (openInfo[dayArr[i] + j] == true) {  // 해당 요일의 해당 시간이 오픈되어 있을 때
-              calendarInfo[dateArr[i]]["time" + j]["open"] = true;
+              calendarInfo[dateArr[i]][j]["open"] = true;
             }
             //  휴무일로 지정된 날짜/시간 조합이 있을 때
             for (key in closeInfo) {
               if (closeInfo[key]["date"] == dateArr[i] && closeInfo[key]["time"] == j) {
-                calendarInfo[dateArr[i]]["time" + j]["close"] = true;
+                calendarInfo[dateArr[i]][j]["close"] = true;
               }
             }
             // 예약된 날짜/시간 조합이 있을 때
             for (key in rsvInfo) {
               if (rsvInfo[key]["date"] == dateArr[i] && rsvInfo[key]["time"] == j) {
-                calendarInfo[dateArr[i]]["time" + j]["rsv"] = true;
+                calendarInfo[dateArr[i]][j]["rsv"] = true;
               }
             }
           }
@@ -52,7 +52,7 @@ const calendarInfoFunc = (dateOfSUN, openInfo, closeInfo, rsvInfo) => {
     } else {  // 상담 시작일이 설정되어 있지 않을 때
       for (let i = 0; i <= 6; i++) {  // 일주일 내 모든 요일의 날짜를 false 처리 한다.
         for (let j = 9; j <= 18; j++) {
-          calendarInfo[dateArr[i]]["time" + j]["open"] = false;
+          calendarInfo[dateArr[i]][j]["open"] = false;
         }
       }
     }
@@ -61,11 +61,11 @@ const calendarInfoFunc = (dateOfSUN, openInfo, closeInfo, rsvInfo) => {
     for (let i = 0; i <= 6; i++) {
       for (let j = 9; j <= 18; j++) {
         if (
-          calendarInfo[dateArr[i]]["time" + j]["open"] === true
-          && calendarInfo[dateArr[i]]["time" + j]["close"] === false
-          && calendarInfo[dateArr[i]]["time" + j]["rsv"] === false
+          calendarInfo[dateArr[i]][j]["open"] === true
+          && calendarInfo[dateArr[i]][j]["close"] === false
+          && calendarInfo[dateArr[i]][j]["rsv"] === false
         ) {
-          calendarInfo[dateArr[i]]["time" + j]["closeable"] = true;
+          calendarInfo[dateArr[i]][j]["closeable"] = true;
         }
       }
     }
