@@ -15,6 +15,13 @@ sequelize.sync();
 require('./middlewares/passport/local')(passport);
 require('./middlewares/passport/jwt')(passport);
 
+/* cors 설정 */
+app.all('/*', function(_, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
+
 if (process.env.NODE_ENV === 'production') {
   app.use(morgan('combined'));  // 서버에 요청 로그 기록 (combined, short, common, tiny)
   app.use(helmet());  // express 권장 보안 모듈
