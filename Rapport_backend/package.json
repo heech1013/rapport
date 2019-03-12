@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^3.0.4",
+    "cors": "^2.8.5",
     "date-fns": "^1.30.1",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
@@ -27,7 +28,7 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "pm2": "^3.2.3",
+    "pm2": "^3.3.1",
     "sequelize": "^4.41.2"
   },
   "devDependencies": {
