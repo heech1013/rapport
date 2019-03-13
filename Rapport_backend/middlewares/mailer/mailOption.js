@@ -15,7 +15,7 @@ const mailOption = (email) => {
       
       if (process.env.NODE_ENV === 'production') {
         mailOption.html = '<p>아래의 링크를 클릭하여 회원가입을 완료해주세요!<p>'
-        + "<a href='" + process.env.EC2_DNS + '/joinStatus/auth/?email=' + email
+        + "<a href='" + process.env.EC2_DNS + ':5959/joinStatus/auth/?email=' + email
         + '&token=' + token + "'>회원가입 인증 완료하기</a>"
       }
       else {
