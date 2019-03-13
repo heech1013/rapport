@@ -1,9 +1,11 @@
 const http = require('http');
-const dotenv = require('dotenv');
+const https = require('https');
+const fs = require('fs');
+
+require('dotenv').config();
 
 const app = require('./app');
 
-dotenv.config();
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
   if (isNaN(port)) {
@@ -15,10 +17,18 @@ const normalizePort = (val) => {
   return 0;
 };
 
-const httpServer = new http.Server(app);
-const port = normalizePort(process.env.PORT || '5959');
-
-httpServer.listen(port, () => {
-  console.log(`Server started on ${port}`);
-});
-// http 모듈로 서버 구축: 디버깅에 유리(예준피셜)
+if (process.env.NODE_ENV === 'production') {
+  const port = normalizePort(process.env.PORT || '443');
+  https.createServer({
+    key: fs.readFileSync('/etc/letsencrypt/live/mildang-blog.xyz/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/mildang-blog.xyz/fullchain.pem')
+  }, app).listen(port, () => {
+    console.log(`Server started on ${port}`);
+  });
+} else {
+  const port = normalizePort(process.env.PORT || '5959');
+  const httpServer = new http.Server(app);
+  httpServer.listen(port, () => {
+    console.log(`Server started on ${port}`);
+  });
+}
