@@ -13,7 +13,7 @@ const show = async (req, res, next) => {
     await validationResult(req);
 
     const rsvDetail = await Reservation.findOne({
-      attributes: ['date', 'time', 'session', 'price', 'address'],
+      attributes: ['date', 'time', 'confirmation', 'session', 'price', 'address'],
       where: { id },
       include: [
         {
