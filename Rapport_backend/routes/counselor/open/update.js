@@ -14,7 +14,7 @@ const update = async (req, res, next) => {
     /* startDate가 null이 아닐 때 */
     else {
       await dateValidator(startDate);
-      await dateRangeValidator('future', startDate);  // startDate는 오늘(포함) 이후여야 한다.
+      // await dateRangeValidator('future', startDate);  // startDate는 범위 제한이 없다.
       /* endDate가 null이 아닐 때 */
       if (endDate) {
         await dateValidator(endDate);
