@@ -1,24 +1,27 @@
+const fiveSessionArrayMaker = require('../dateMaker/fiveSessionArray');
+
 const searchResultVerifier = (date, searchResult) => {
-  return new Promise((resolve) => {
-      const week = new Array('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT');
-      const numOfDay = new Date(date).getDay();
-      const day = week[numOfDay];
-      const verified = searchResult.filter((obj) => {
+  return new Promise(async(resolve) => {
+    const week = new Array('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT');
+    const numOfDay = new Date(date).getDay();
+    const day = week[numOfDay];
+    const fiveSessionArray = await fiveSessionArrayMaker(date);
+
+    const verified = searchResult.filter((obj) => {
       let mainFlag = false;
       for (let i = 9; i <= 18; i++) {
         let flag1 = true, flag2 = true;
         if ( obj["Open"][day + i] ) {
-          obj["Close"].forEach((timeObj) => {
-            if (timeObj["time"] == i) flag1 = false;
+          obj["Close"].forEach((closeObj) => {
+            if ( closeObj["time"] == i && fiveSessionArray.includes(closeObj["date"]) ) flag1 = false;
           });
-          obj["Reserved"].forEach((timeObj) => {
-            if (timeObj["time"] == i) flag2 = false;
+          obj["Reserved"].forEach((rsvObj) => {
+            if ( rsvObj["time"] == i && fiveSessionArray.includes(rsvObj["date"]) ) flag2 = false;
           });
           // 만족하는 시간대로 인해 한 번 mainFlag가 true가 되면, 이후 어떤 시간대를 검증하든 간에 mainFlag는 true.
           if (flag1 && flag2) mainFlag = true;
         }
         if (i == 18) return mainFlag;  // return 뒤의 판별식이 true로 강제되는 배열을 리턴한다.
-        
       }
     });
     resolve(verified);

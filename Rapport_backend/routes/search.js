@@ -62,12 +62,12 @@ const search = async (req, res, next) => {
         {  // 해당 날짜를 휴무일로 지정하지 않았는지 확인하기 위한 추출
           model: Close,
           as: 'Close',
-          attributes: ['time']
+          attributes: ['date', 'time']
         },
         {  // 해당 날짜에 예약이 다 차있지는 않은지 확인하기 위한 추출
           model: Reservation,
           as: 'Reserved',
-          attributes: ['time']
+          attributes: ['date', 'time']
         }
       ]
     });
