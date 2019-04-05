@@ -23,7 +23,7 @@ const checkForCreateClientRsv = [
 ];
 
 const checkForDestroyClientRsv = [
-  check('id', 'clientId', 'counselorId', 'time').isLength({ min: 1 }).isNumeric()
+  check('id', 'clientId').isLength({ min: 1 }).isNumeric()
 ];
 
 const checkForCreateCounselor = [
