@@ -1,6 +1,6 @@
 const validationResult = require('../../../middlewares/validator/validationResult');
 // const dateValidator = require('../../../middlewares/validator/dateValidator');
-// const dateRangeValidator = require('../../../middlewares/validator/dateRange');
+const dateRangeValidator = require('../../../middlewares/validator/dateRange');
 const sessionArrayMaker = require('../../../middlewares/dateMaker/sessionArray');
 const CustomError = require('../../../middlewares/errorHandler/customError');
 
@@ -29,6 +29,8 @@ const destroy = async (req, res, next) => {
       return next(CustomError('BadRequest', 'Reservation is already confirmed.'))
     }
     
+    await dateRangeValidator('future', RsvPrototype.date);
+
     const sessionArr = await sessionArrayMaker(RsvPrototype.date, RsvPrototype.session);
     await Reservation.destroy({
       where: {
