@@ -83,7 +83,7 @@ const create = async (req, res, next) => {
       }, { transaction });
 
       await transaction.commit();
-      return res.status(201).json({ success: true });
+      return res.status(201).json({ success: true, price });
     
     } catch (error) {
       await transaction.rollback();
