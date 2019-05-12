@@ -19,7 +19,7 @@ const index = async (req, res, next) => {
           model: Open,
           as: 'Open',
           attributes: [
-            'startDate, endDate',
+            'startDate', 'endDate',
             'MON9', 'MON10', 'MON11', 'MON12', 'MON13', 'MON14', 'MON15', 'MON16', 'MON17', 'MON18',
             'TUE9', 'TUE10', 'TUE11', 'TUE12', 'TUE13', 'TUE14', 'TUE15', 'TUE16', 'TUE17', 'TUE18',
             'WED9', 'WED10', 'WED11', 'WED12', 'WED13', 'WED14', 'WED15', 'WED16', 'WED17', 'WED18',
