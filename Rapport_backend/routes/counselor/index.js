@@ -1,4 +1,4 @@
-const { User, CounselorProfile } = require('../models');
+const { User, CounselorProfile } = require('../../models');
 
 /* GET '/counselor' : 상담사 모두 보기(검색 필터) */
 const index = async (req, res, next) => {
