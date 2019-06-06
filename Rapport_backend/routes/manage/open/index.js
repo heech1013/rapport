@@ -1,8 +1,9 @@
 const { User, CounselorProfile, Open } = require('../../../models');
+const openListCleaner = require('../../../middlewares/etcFunc/openListCleaner');
 
 const index = async (req, res, next) => {
   try {
-    const openList = await User.findAll({
+    const uncleanedOpenList = await User.findAll({
       attributes: ['id'],
       where: {
         userType: 'counselor',
@@ -31,6 +32,8 @@ const index = async (req, res, next) => {
         }
       ]
     });
+
+    const openList = await openListCleaner(uncleanedOpenList);    
     return res.status(200).json({ success: true, openList });
   } catch (error) {
     next(error);
