@@ -16,11 +16,6 @@ const tokenVerify = ( userType ) => {
           CustomError('Unauthorized', 'Unauthorized user type.')
         )
       }
-      if (!user.emailAuthentication) {
-        return next(
-          CustomError('Unauthorized', 'Unauthorized email.')
-        )
-      }
       if (userType === 'counselor' && !user.qualification) {
         return next(
           CustomError('Unauthorized', 'Unqualificated counselor.')

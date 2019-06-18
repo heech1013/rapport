@@ -8,7 +8,7 @@ const show = async (req, res, next) => {
     await validationResult(req);
 
     const profile = await User.findOne({
-      attributes: ['id', 'email', 'phoneNumber', 'emailAuthentication', 'qualification'],
+      attributes: ['id', 'email', 'phoneNumber', 'qualification'],
       where: { userType: 'counselor', id },
       include: [
         {

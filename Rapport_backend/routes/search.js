@@ -34,7 +34,7 @@ const search = async (req, res, next) => {
 
     let searchResult = await User.findAll({
       attributes: ['id'],
-      where: { userType: 'counselor', emailAuthentication: true, qualification: true },
+      where: { userType: 'counselor', qualification: true },
       include: [
         {
           model: CounselorProfile,

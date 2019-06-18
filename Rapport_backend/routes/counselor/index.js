@@ -7,7 +7,6 @@ const index = async (req, res, next) => {
        attributes: ['id'],
        where: {
          userType: 'counselor',
-         emailAuthentication: true,
          qualification: true
        },
        include: [

@@ -1,9 +1,8 @@
 const router = require('express').Router();
 
-const { checkForEmailAuth, checkForLogin } = require('../middlewares/validator/check');
+const { checkForLogin } = require('../middlewares/validator/check');
 const tokenVerify = require('../middlewares/tokenVerify/tokenVerify');
 
-const emailAuth = require('./emailAuth');
 const login = require('./login');
 const search = require('./search');
 
@@ -13,7 +12,6 @@ router.use('/counselor', require('./counselor/controller'));
 router.use('/manage', tokenVerify('manager'), require('./manage/controller'));
 
 /* etc routes */
-router.get('/emailAuth', checkForEmailAuth, emailAuth);
 router.post('/login', checkForLogin, login);
 router.get('/search', search);
 

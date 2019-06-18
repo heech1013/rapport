@@ -4,7 +4,6 @@ const validationResult = require('../../middlewares/validator/validationResult')
 const nickValidator = require('../../middlewares/validator/nickValidator');
 const phoneNumberValidator = require('../../middlewares/validator/phoneNumberValidator');
 const overlapTester = require('../../middlewares/overlapTester/overlapTester');
-const mailer = require('../../middlewares/mailer/mailer');
 
 const { User } = require('../../models');
 
@@ -26,8 +25,6 @@ const create = async (req, res, next) => {
       userType: 'client',
       password: hash
     });
-  
-    await mailer(email);
     
     // 계정 생성 + 이메일 전송 성공
     return res.status(200).json({ success: true });

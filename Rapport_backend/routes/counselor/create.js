@@ -4,7 +4,6 @@ require('dotenv').config()
 const validationResult = require('../../middlewares/validator/validationResult');
 const phoneNumberValidator = require('../../middlewares/validator/phoneNumberValidator');
 const overlapTester = require('../../middlewares/overlapTester/overlapTester');
-const mailer = require('../../middlewares/mailer/mailer');
 
 const { User, CounselorField, CounselorLocation, CounselorProfile, Open } = require('../../models');
 
@@ -70,9 +69,7 @@ const create = async (req, res, next) => {
         ]
       });
       
-      await mailer(email);
-      
-      // 계정 생성 + 이메일 전송 성공
+      // 계정 생성
       return res.status(200).json({ success: true });
   
     } catch (error) {

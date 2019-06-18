@@ -50,11 +50,6 @@ const checkForManageCounselor = [
   ).isLength({ min: 1 }).isBoolean()
 ];
 
-const checkForEmailAuth = [
-  // check('token')
-  check('email').isEmail()
-];
-
 const checkForLogin = [
   check('email').isLength({ min: 1 }).isEmail(),
   check('password').isLength({ min: 1 })
@@ -70,6 +65,5 @@ module.exports = {
   checkForCreateCounselor,
   checkForUpdateCounselorProfile,
   checkForManageCounselor,
-  checkForEmailAuth,
   checkForLogin
 };
