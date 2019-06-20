@@ -14,7 +14,7 @@ const calendarInfoFunc = (dateOfSUN, openInfo, closeInfo, rsvInfo) => {
     let calendarInfo = {}; // 비동기??
     for (let i = 0; i <= 6; i++) {
       calendarInfo[dateArr[i]] = {};
-      for (let j = 9; j <= 18; j++) {
+      for (let j = 0; j <= 23; j++) {
         calendarInfo[dateArr[i]][j] = { "open": false, "close": false, "rsv": false, "closeable": false };
       }
     }
@@ -30,7 +30,7 @@ const calendarInfoFunc = (dateOfSUN, openInfo, closeInfo, rsvInfo) => {
             || compareAsc(dateArr[i], openInfo.endDate) != 1  // 해당 날짜(일요일의 날짜부터 토요일의 날짜까지)가 상담종료일보다 크지(=1) 않으면
           )
         ) {
-          for (let j = 9; j<= 18; j++) {
+          for (let j = 0; j <= 23; j++) {
             if (openInfo[dayArr[i] + j] == true) {  // 해당 요일의 해당 시간이 오픈되어 있을 때
               calendarInfo[dateArr[i]][j]["open"] = true;
             }
@@ -51,7 +51,7 @@ const calendarInfoFunc = (dateOfSUN, openInfo, closeInfo, rsvInfo) => {
       }
     } else {  // 상담 시작일이 설정되어 있지 않을 때
       for (let i = 0; i <= 6; i++) {  // 일주일 내 모든 요일의 날짜를 false 처리 한다.
-        for (let j = 9; j <= 18; j++) {
+        for (let j = 0; j <= 23; j++) {
           calendarInfo[dateArr[i]][j]["open"] = false;
         }
       }
@@ -59,7 +59,7 @@ const calendarInfoFunc = (dateOfSUN, openInfo, closeInfo, rsvInfo) => {
 
     // 상담이 오픈되어 있으며, 휴무일이 아니고 예약이 안되어 있는 경우에만 휴무일로 지정할 수 있다.
     for (let i = 0; i <= 6; i++) {
-      for (let j = 9; j <= 18; j++) {
+      for (let j = 0; j <= 23; j++) {
         if (
           calendarInfo[dateArr[i]][j]["open"] === true
           && calendarInfo[dateArr[i]][j]["close"] === false

@@ -4,7 +4,7 @@ const CustomError = require('../errorHandler/customError');
 const closeValidator = (closeArr) => {
   return new Promise((resolve, reject) => {
     const dateRegEx = /^\d{4}-\d{2}-\d{2}$/;
-    const timeRegEx = /^(9{1}|1[0-8]{1})$/;
+    const timeRegEx = /^([0-9]{1}|1[0-9]{1}|2[0-3])$/;  // 0 ~ 23
     closeArr.forEach((obj) => {
       const d = new Date(obj["date"]);
       if (!obj["date"].match(dateRegEx)) {  // Invalid format date
