@@ -12,11 +12,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: false,
     },
-    emailAuthentication: {  // 이메일 인증 여부
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false,
-    },
     email: {
       type: DataTypes.STRING(30),
       allowNull: false,
