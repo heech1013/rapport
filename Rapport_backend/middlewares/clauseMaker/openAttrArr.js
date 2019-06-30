@@ -5,7 +5,7 @@ const openAttrArrMaker = (date) => {
     const day = week[numOfDay];
 
     const openAttrArr = [];
-    for (let i = 9; i <= 18; i++) {
+    for (let i = 0; i <= 23; i++) {
       openAttrArr.push(day + i);
     }
     resolve(openAttrArr);

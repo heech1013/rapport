@@ -9,7 +9,7 @@ const searchResultVerifier = (date, searchResult) => {
 
     const verified = searchResult.filter((obj) => {
       let mainFlag = false;
-      for (let i = 9; i <= 18; i++) {
+      for (let i = 0; i <= 23; i++) {
         let flag1 = true, flag2 = true;
         if ( obj["Open"][day + i] ) {
           obj["Close"].forEach((closeObj) => {
@@ -21,7 +21,7 @@ const searchResultVerifier = (date, searchResult) => {
           // 만족하는 시간대로 인해 한 번 mainFlag가 true가 되면, 이후 어떤 시간대를 검증하든 간에 mainFlag는 true.
           if (flag1 && flag2) mainFlag = true;
         }
-        if (i == 18) return mainFlag;  // return 뒤의 판별식이 true로 강제되는 배열을 리턴한다.
+        if (i == 23) return mainFlag;  // return 뒤의 판별식이 true로 강제되는 배열을 리턴한다.
       }
     });
     resolve(verified);

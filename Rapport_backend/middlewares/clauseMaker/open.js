@@ -11,7 +11,7 @@ const openClauseMaker = (date) => {
       const numOfDay = new Date(date).getDay();
       const day = week[numOfDay];
       const dayConditionArray = [];
-      for (let i = 9; i <= 18; i++) {
+      for (let i = 0; i <= 23; i++) {
         let dayCon = {};
         dayCon[day + i] = true;
         dayConditionArray.push(dayCon);

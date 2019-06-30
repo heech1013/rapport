@@ -44,9 +44,9 @@ const show = async (req, res, next) => {
     const fiveSessionArray = fiveSessionArrayMaker(date);
     /* Open 데이터 추출 간 필요한 attributes 배열 */
     const openAttributeArray = ['startDate', 'endDate'];
-    for (let i = 9; i <= 18; i++) {
+    for (let i = 0; i <= 23; i++) {
       openAttributeArray.push(day + i);
-    }  // ['startDate, 'endDate', 'MON9', ..., 'MON18']
+    }  // ['startDate, 'endDate', 'MON0', ..., 'MON23']
     
     /* reservableTimeFunc 필요 데이터 조회 */
     const openInfo = await Open.findOne({

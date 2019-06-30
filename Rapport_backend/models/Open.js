@@ -10,356 +10,180 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: null
     },
-    MON9: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    MON10: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    MON11: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    MON12: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    MON13: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    MON14: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    MON15: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    MON16: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    MON17: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    MON18: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    TUE9: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    TUE10: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    TUE11: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    TUE12: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    TUE13: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    TUE14: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    TUE15: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    TUE16: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    TUE17: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    TUE18: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    WED9: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    WED10: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    WED11: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    WED12: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    WED13: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    WED14: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    WED15: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    WED16: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    WED17: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    WED18: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    THU9: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    THU10: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    THU11: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    THU12: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    THU13: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    THU14: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    THU15: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    THU16: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    THU17: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    THU18: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    FRI9: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    FRI10: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    FRI11: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    FRI12: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    FRI13: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    FRI14: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    FRI15: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    FRI16: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    FRI17: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    FRI18: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SAT9: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SAT10: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SAT11: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SAT12: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SAT13: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SAT14: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SAT15: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SAT16: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SAT17: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SAT18: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SUN9: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SUN10: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SUN11: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SUN12: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SUN13: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SUN14: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SUN15: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SUN16: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SUN17: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
-    SUN18: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false
-    },
+    MON0: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON1: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON2: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON3: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON4: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON5: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON6: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON7: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON8: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON9: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON10: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON11: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON12: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON13: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON14: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON15: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON16: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON17: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON18: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON19: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON20: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON21: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON22: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    MON23: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+
+    TUE0: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE1: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE2: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE3: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE4: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE5: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE6: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE7: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE8: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE9: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE10: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE11: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE12: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE13: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE14: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE15: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE16: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE17: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE18: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE19: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE20: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE21: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE22: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    TUE23: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+
+    WED0: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED1: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED2: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED3: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED4: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED5: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED6: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED7: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED8: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED9: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED10: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED11: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED12: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED13: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED14: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED15: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED16: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED17: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED18: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED19: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED20: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED21: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED22: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    WED23: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+
+    THU0: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU1: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU2: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU3: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU4: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU5: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU6: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU7: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU8: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU9: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU10: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU11: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU12: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU13: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU14: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU15: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU16: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU17: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU18: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU19: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU20: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU21: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU22: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    THU23: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+
+    FRI0: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI1: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI2: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI3: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI4: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI5: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI6: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI7: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI8: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI9: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI10: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI11: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI12: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI13: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI14: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI15: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI16: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI17: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI18: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI19: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI20: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI21: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI22: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    FRI23: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+
+    SAT0: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT1: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT2: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT3: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT4: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT5: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT6: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT7: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT8: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT9: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT10: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT11: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT12: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT13: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT14: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT15: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT16: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT17: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT18: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT19: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT20: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT21: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT22: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SAT23: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+
+    SUN0: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN1: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN2: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN3: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN4: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN5: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN6: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN7: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN8: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN9: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN10: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN11: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN12: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN13: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN14: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN15: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN16: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN17: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN18: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN19: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN20: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN21: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN22: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
+    SUN23: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
     /* (foreign key 및 자동 생성 컬럼)
       id: 자동 생성
       updatedAt : 자동 생성

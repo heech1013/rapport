@@ -14,7 +14,7 @@ const reservableTimeFunc = (day, fiveSessionArray, openInfo, closeInfo, reservat
 
     /* 예약 가능 여부 - default */
     const reservableTime = {};
-    for (let i = 9; i <= 18; i++) {  // default는 모두 true, 한 개의 조건이라도 불만족할 시 false
+    for (let i = 0; i <= 23; i++) {  // default는 모두 true, 한 개의 조건이라도 불만족할 시 false
       reservableTime[i] = true;
     };
 
@@ -39,7 +39,7 @@ const reservableTimeFunc = (day, fiveSessionArray, openInfo, closeInfo, reservat
     /* 5회기가 모두 상담시작일과 상담종료일 사이에 있을 때 */
     if (flag) {
       /* 9시부터 18시까지 순회 */
-      for (let i = 9; i <= 18; i++) {
+      for (let i = 0; i <= 23; i++) {
         /* date에 해당하는 요일/시간이 오픈(true)되어 있을 때 */
         if (openInfo[day + i]) {
           /* 1주차부터 5주차까지 순회 */
@@ -62,7 +62,7 @@ const reservableTimeFunc = (day, fiveSessionArray, openInfo, closeInfo, reservat
         }
       }
     } else {  /* flag가 false일 때(5회기 중 상담 시작일과 종료일을 벗어나는 날이 있을 때) */
-      for (let i = 9; i <= 18; i++) {
+      for (let i = 0; i <= 23; i++) {
         reservableTime[i] = false;
       };
     }
