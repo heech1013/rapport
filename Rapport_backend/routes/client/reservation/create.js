@@ -1,3 +1,7 @@
+require('dotenv').config();
+const aesjs = require('aes-js');
+const pbkdf2 = require('pbkdf2');
+
 const validationResult = require('../../../middlewares/validator/validationResult');
 const dateValidator = require('../../../middlewares/validator/dateValidator');
 const dateRangeValidator = require('../../../middlewares/validator/dateRange');
@@ -20,6 +24,19 @@ const create = async (req, res, next) => {
     await dateRangeValidator('reservation', date);
     
     const fiveSessionArray = await fiveSessionArrayMaker(date);
+    // Create key in 128-bit(16 bytes). AES requires exact key length in 3 possible length.
+    const aesKey = pbkdf2.pbkdf2Sync(process.env.PBKDF2_PASSWORD, process.env.PBKDF2_SALT, 1, 128/8, 'sha512');
+    // Convert text to bytes
+    const nameBytes = aesjs.utils.utf8.toBytes(name);
+    const problemBytes = aesjs.utils.utf8.toBytes(problem);
+    // Encrypt bytes
+    const aesCtr = new aesjs.ModeOfOperation.ctr(aesKey);
+    const encryptedNameBytes = aesCtr.encrypt(nameBytes);
+    const encryptedProblemBytes = aesCtr.encrypt(problemBytes);
+    // To store(or print) the binary data, may convert encrypted bytes to hex.
+    const encryptedNameHex = aesjs.utils.hex.fromBytes(encryptedNameBytes);
+    const encryptedProblemHex = aesjs.utils.hex.fromBytes(encryptedProblemBytes);
+    console.log("@@@@@@@@@@@encrypted name hex: ", encryptedNameHex, "\nencrypted problem hex: ", encryptedProblemHex);
 
     /* bulkCreate clause 생성 */
     const bulkCreateArray = [];
@@ -78,7 +95,9 @@ const create = async (req, res, next) => {
       
       /* 1회기의 상담에 상담 신청서를 종속시킨다. */
       await Application.create({
-        name, sex, age, problem,
+        name: encryptedNameHex,
+        sex, age,
+        problem: encryptedProblemHex,
         fkReservationId: session1.id
       }, { transaction });
 

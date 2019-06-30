@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     // fkClientId: User 스키마의 id를 foreign key로 가짐
 
     name: {  // 고객 실명
-      type: DataTypes.STRING(30),
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     sex: {  // 성별: 남(1), 여(2), 기타(3)

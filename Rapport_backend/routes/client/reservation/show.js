@@ -1,6 +1,7 @@
 const { User, CounselorProfile, Reservation, Application } = require('../../../models');
 const validationResult = require('../../../middlewares/validator/validationResult');
 const viewAuthorityVerifier = require('../../../middlewares/viewAuthority/id');
+const decryptApplication = require('../../../middlewares/etcFunc/decryptApplication');
 const CustomError = require('../../../middlewares/errorHandler/customError');
 
 /* 자세히 보기 정보: 상담사 이름(프로필로 링크) / 날짜 / 시간 / 회기 / 가격 / 장소 / 상담신청서 */
@@ -12,7 +13,7 @@ const show = async (req, res, next) => {
 
     await validationResult(req);
 
-    const rsvDetail = await Reservation.findOne({
+    let rsvDetail = await Reservation.findOne({
       attributes: ['date', 'time', 'confirmation', 'session', 'price', 'address'],
       where: { id },
       include: [
@@ -49,6 +50,7 @@ const show = async (req, res, next) => {
     } else {
       const resultId = rsvDetail["fkClient"]["id"];
       await viewAuthorityVerifier(clientId, resultId);
+      rsvDetail = await decryptApplication(rsvDetail);
     }
 
     
