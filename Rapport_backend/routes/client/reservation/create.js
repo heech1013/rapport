@@ -36,7 +36,6 @@ const create = async (req, res, next) => {
     // To store(or print) the binary data, may convert encrypted bytes to hex.
     const encryptedNameHex = aesjs.utils.hex.fromBytes(encryptedNameBytes);
     const encryptedProblemHex = aesjs.utils.hex.fromBytes(encryptedProblemBytes);
-    console.log("@@@@@@@@@@@encrypted name hex: ", encryptedNameHex, "\nencrypted problem hex: ", encryptedProblemHex);
 
     /* bulkCreate clause 생성 */
     const bulkCreateArray = [];
