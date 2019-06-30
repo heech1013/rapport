@@ -1,5 +1,6 @@
 const { User, Reservation, Application } = require('../../../models');
 const viewAuthorityVerifier = require('../../../middlewares/viewAuthority/id');
+const decryptApplication = require('../../../middlewares/etcFunc/decryptApplication');
 const CustomError = require('../../../middlewares/errorHandler/customError');
 
 const show = async (req, res, next) => {
@@ -7,7 +8,7 @@ const show = async (req, res, next) => {
     const { id } = req.params;  // Reservation의 id
     const { counselorId } = req.query;
     
-    const rsvDetail = await Reservation.findOne({
+    let rsvDetail = await Reservation.findOne({
       attributes: ['date', 'time', 'session', 'price', 'address'],
       where: { id },
       include: [
@@ -31,6 +32,7 @@ const show = async (req, res, next) => {
     } else {
       const resultId = rsvDetail["fkCounselor"]["id"];
       await viewAuthorityVerifier(counselorId, resultId);
+      rsvDetail = await decryptApplication(rsvDetail);
     }
 
     return res.status(200).json({ success:true, rsvDetail });
