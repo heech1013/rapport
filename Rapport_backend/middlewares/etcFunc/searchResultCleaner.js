@@ -4,7 +4,11 @@ const searchResultCleaner = (resultsArr) => {
       resultsArr.map((obj) => {
         const rObj = {
           "id": obj["id"],
-          "CounselorProfile" : obj["CounselorProfile"]
+          "CounselorProfile" : {
+            "name": obj["CounselorProfile"]["name"],
+            "price": obj["CounselorProfile"]["price"]
+          },
+          "Certification": obj["Certification"]
         };
         return rObj;
       })

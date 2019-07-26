@@ -5,7 +5,7 @@ const validationResult = require('../../middlewares/validator/validationResult')
 const phoneNumberValidator = require('../../middlewares/validator/phoneNumberValidator');
 const overlapTester = require('../../middlewares/overlapTester/overlapTester');
 
-const { User, CounselorField, CounselorLocation, CounselorProfile, Open } = require('../../models');
+const { User, CounselorField, CounselorLocation, CounselorProfile, Certification, Open } = require('../../models');
 
 const create = async (req, res, next) => {
     try {
@@ -38,6 +38,9 @@ const create = async (req, res, next) => {
           GS : false, YC : false, GR : false, YDP : false, DJ : false, GC : false, GA : false, SC : false, GN : false, SP : false, GD : false, MP : false,
           EP : false, SDM : false, JN : false, YS : false, SB : false, GB : false, DB : false, NW : false, JNg : false, DDM : false, SD : false, GJ : false, JG : false
         },
+        Certification: {
+          KCounselingPA_1: false, KCounselingPA_2: false, KClinicalPA: false
+        },
         Open: {
           "startDate": null, "endDate": null,
           "MON0": false, "MON1": false, "MON2": false, "MON3": false, "MON4": false, "MON5": false, "MON6": false, "MON7": false, "MON8": false, "MON9": false, "MON10": false, "MON11": false, "MON12": false, "MON13": false, "MON14": false,"MON15": false,"MON16": false, "MON17": false, "MON18": false, "MON19": false, "MON20": false, "MON21": false, "MON22": false, "MON23": false,
@@ -61,6 +64,10 @@ const create = async (req, res, next) => {
           {
             model: CounselorLocation,
             as: 'CounselorLocation'
+          },
+          {
+            model: Certification,
+            as: 'Certification'
           },
           {
             model: Open,

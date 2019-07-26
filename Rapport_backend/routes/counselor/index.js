@@ -1,4 +1,4 @@
-const { User, CounselorProfile } = require('../../models');
+const { User, CounselorProfile, Certification } = require('../../models');
 
 /* GET '/counselor' : 상담사 모두 보기(검색 필터) */
 const index = async (req, res, next) => {
@@ -10,11 +10,16 @@ const index = async (req, res, next) => {
          qualification: true
        },
        include: [
-         {
-           model: CounselorProfile,
-           as: 'CounselorProfile',
-           attributes: ['name', 'address', 'price', 'simpleIntroduction']
-         }
+        {
+          model: CounselorProfile,
+          as: 'CounselorProfile',
+          attributes: ['name', 'price']
+        },
+        {
+          model: Certification,
+          as: 'Certification',
+          attributes: ['KCounselingPA_1', 'KCounselingPA_2', 'KClinicalPA']
+        }
        ]
      });
      return res.status(200).json({ success: true, searchResult });

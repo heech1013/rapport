@@ -8,7 +8,7 @@ const fieldOrLocationClauseMaker = require('../middlewares/clauseMaker/fieldOrLo
 const searchResultVerifier = require('../middlewares/etcFunc/searchResultVerifier');
 const searchResultCleaner = require('../middlewares/etcFunc/searchResultCleaner');
 
-const { User, CounselorProfile, CounselorLocation, CounselorField, Open, Close, Reservation } = require('../models');
+const { User, CounselorProfile, CounselorLocation, CounselorField, Certification, Open, Close, Reservation } = require('../models');
 
 /* GET '/search' : 초기 메인 화면의 검색 필터 */
 const search = async (req, res, next) => {
@@ -41,11 +41,10 @@ const search = async (req, res, next) => {
           as: 'CounselorProfile',
           attributes: ['name', 'address', 'price', 'simpleIntroduction']
         },
-        {  /* 해당 날짜가 startDate와 endDate 사이에 있으며, 해당 요일에 적어도 하나 이상의 시간대를 오픈했는지 확인 */
-          model: Open,
-          as: 'Open',
-          attributes: openAttrArr,
-          where: { ...openClause }
+        {
+          model: Certification,
+          as: 'Certification',
+          attributes: ['KCounselingPA_1', 'KCounselingPA_2', 'KClinicalPA']
         },
         {  // 해당 분야 중 적어도 하나 이상을 가능 분야로 설정하였는지 확인
           model: CounselorField,
@@ -58,6 +57,12 @@ const search = async (req, res, next) => {
           as: 'CounselorLocation',
           attributes: ['id'],
           where: { ...locationClause }
+        },
+        {  /* 해당 날짜가 startDate와 endDate 사이에 있으며, 해당 요일에 적어도 하나 이상의 시간대를 오픈했는지 확인 */
+          model: Open,
+          as: 'Open',
+          attributes: openAttrArr,
+          where: { ...openClause }
         },
         {  // 해당 날짜를 휴무일로 지정하지 않았는지 확인하기 위한 추출
           model: Close,

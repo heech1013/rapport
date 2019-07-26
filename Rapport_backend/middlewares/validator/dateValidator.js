@@ -5,7 +5,6 @@ const dateValidator = (date) => {
     const regEx = /^\d{4}-\d{2}-\d{2}$/;
     const d = new Date(date);
     if (!date.match(regEx)) {  // Invalid format
-      console.log('========dont match==', date);
       reject(
         CustomError('ValidationError', 'Date is not valid.')
       );
