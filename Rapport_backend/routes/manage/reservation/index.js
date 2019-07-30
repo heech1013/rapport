@@ -9,9 +9,6 @@ const index = async (req, res, next) => {
   try {
     const rsvList = await Reservation.findAll({
       attributes: ['id', 'date', 'time', 'confirmation'],
-      where: {
-        session: 1
-      },
       include: [
         {
           model: User,
