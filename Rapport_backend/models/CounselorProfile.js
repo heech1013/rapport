@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    profileImgSrc: {
+      type: DataTypes.STRING(200),
+      allowNull: true
+    }
 
     // updatedAt : 자동 생성
 

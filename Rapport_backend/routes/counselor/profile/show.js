@@ -14,7 +14,7 @@ const show = async (req, res, next) => {
         {
           model: CounselorProfile,
           as: 'CounselorProfile',
-          attributes: ['name', 'address', 'price', 'career', 'simpleIntroduction', 'detailIntroduction' ]
+          attributes: ['name', 'address', 'price', 'career', 'simpleIntroduction', 'detailIntroduction', 'profileImgSrc' ]
         },
         {
           model: CounselorField,
