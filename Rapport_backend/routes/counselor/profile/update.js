@@ -1,3 +1,8 @@
+require('dotenv').config();
+const AWS = require('aws-sdk');
+const formidable = require('formidable');
+const fs = require('fs')
+
 const validationResult = require('../../../middlewares/validator/validationResult');
 const phoneNumberValidator = require('../../../middlewares/validator/phoneNumberValidator');
 
@@ -14,6 +19,15 @@ const update = async (req, res, next) => {
 
     await validationResult(req);
     await phoneNumberValidator(phoneNumber);
+
+    const S3 = new AWS.S3({
+      accessKeyId: process.env.AWS_ACCESS_KEY,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      region: 'ap-northeast-2'
+    });
+
+    const form = new formidable.IncomingForm();
+    // create.js로 files 정보 알아내기, 여기에 size 판별 여부 확인, 이후 여기서 다음 코드 작성
 
     const transaction = await sequelize.transaction();
     try {

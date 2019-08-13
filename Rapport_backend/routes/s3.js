@@ -13,6 +13,7 @@ const s3 = async (req, res, next) => {
   const form = new formidable.IncomingForm();
   /* 업로드한 파일을 formidable을 사용하여 임시 경로에 저장한다. */
   form.parse(req, (err, fields, files) => {  // files: 사용자가 업로드한 파일의 정보
+    console.log('///fields: ', fields, '///files: ', files);
     const params = {
       Bucket: 'rapport-img',  // S3 bucket 설정
       Key: 'testimg-1', // S3에 저장될 파일 이름 설정
