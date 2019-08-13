@@ -73,6 +73,7 @@ const create = async (req, res, next) => {
           ContentType: 'image/jpg'  // 웹에서 이미지를 로드했을 때 자동으로 파일이 다운로드 되는 것을 방지한다.
         }
         /* 임시경로에 저장된 파일을 S3에 업로드한다. */
+        // size가 0이어도(파일을 제출하지 않아도) s3에 저장이 되며 src가 할당된다.
         S3.upload(params, (err, data) => {
           if (err) {
             return next(err);
@@ -88,14 +89,12 @@ const create = async (req, res, next) => {
             next(err);
           } else {
             console.log('Temp Files Delete Success. temparary file path: ', files.profileImg.path);
-            return res.status(200).json({ success: true });
           }
         })
       });
 
       // 계정 생성
       return res.status(200).json({ success: true });
-  
     } catch (error) {
       next(error);
     }
