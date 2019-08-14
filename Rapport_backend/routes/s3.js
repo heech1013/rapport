@@ -13,10 +13,9 @@ const s3 = async (req, res, next) => {
   const form = new formidable.IncomingForm();
   /* 업로드한 파일을 formidable을 사용하여 임시 경로에 저장한다. */
   form.parse(req, (err, fields, files) => {  // files: 사용자가 업로드한 파일의 정보
-    console.log('///fields: ', fields, '///files: ', files);
     const params = {
       Bucket: 'rapport-img',  // S3 bucket 설정
-      Key: 'testimg-1', // S3에 저장될 파일 이름 설정
+      Key: `testImg(${new Date()})`, // S3에 저장될 파일 이름 설정
       ACL: 'public-read',  // 접근 권한. public-read여야 웹에서 이미지로 접근 가능
       Body: fs.createReadStream(files.profileImg.path),  // files(업로드 파일 정보).input_file(<form>의 <input>의 지정한 name 명).path(해당 파일이 저장된 임시 경로)
       ContentType: 'image/jpg'  // 웹에서 이미지를 로드했을 때 자동으로 파일이 다운로드 되는 것을 방지한다.
