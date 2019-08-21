@@ -26,7 +26,7 @@ const create = async (req, res, next) => {
       password: hash
     });
     
-    // 계정 생성 + 이메일 전송 성공
+    // 계정 생성
     return res.status(200).json({ success: true });
 
   } catch (error) {

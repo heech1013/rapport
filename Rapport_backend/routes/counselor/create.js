@@ -8,36 +8,40 @@ const validationResult = require('../../middlewares/validator/validationResult')
 const phoneNumberValidator = require('../../middlewares/validator/phoneNumberValidator');
 const overlapTester = require('../../middlewares/overlapTester/overlapTester');
 
-const { User, CounselorField, CounselorLocation, CounselorProfile, Certification, Open } = require('../../models');
+const { sequelize, User, CounselorField, CounselorLocation, CounselorProfile, Certification, Open } = require('../../models');
 
 const create = async (req, res, next) => {
-    try {
-      const S3 = new AWS.S3({
-        accessKeyId: process.env.AWS_ACCESS_KEY,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-        region: 'ap-northeast-2'
-      });
+  try {
+    const S3 = new AWS.S3({
+      accessKeyId: process.env.AWS_ACCESS_KEY,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      region: 'ap-northeast-2'
+    });
 
-      const form = new formidable.IncomingForm();
+    const form = new formidable.IncomingForm();
+    form.multiples = true;
+    // If this option is enabled, when you call form.parse, the files argument will contain arrays of files for inputs which submit multiple files using the HTML5 multiple attribute.
 
-      form.parse(req, async (err, fields, files) => {  // files: 사용자가 업로드한 파일의 정보
+    form.parse(req, async (err, fields, files) => {  // files: 사용자가 업로드한 파일의 정보
+      try {
+        if (err) next(err);
+        console.log('*************files: ', files);
+        const {
+          email, phoneNumber, password,  // User (counselor의 nick은 null)
+          name, address, price, career, simpleIntroduction, detailIntroduction,  // CounselorProfile
+          family, relationship, personality, emotion, sexual, addiction, lifestyle, development, study  // CounselorField
+        } = fields;
+
+        await validationResult(req);
+        await phoneNumberValidator(phoneNumber);
+        await overlapTester('email', email);
+    
+        const hash = await bcrypt.hash(password, 10);
+
+        const transaction = await sequelize.transaction();
         try {
-          const {
-            email, phoneNumber, password,  // User
-            name, address, price, career, simpleIntroduction, detailIntroduction,  // CounselorProfile
-            family, relationship, personality, emotion, sexual, addiction, lifestyle, development, study  // CounselorField
-          } = fields;
-          const userType = 'counselor';
-          // (counselor의 nick은 null)
-
-          await validationResult(req);
-          await phoneNumberValidator(phoneNumber);
-          await overlapTester('email', email);
-      
-          const hash = await bcrypt.hash(password, 10);
-
           const newUser = await User.create({  // create in association
-            userType, email, phoneNumber, password: hash,
+            userType: 'counselor', email, phoneNumber, password: hash,
             CounselorProfile: { name, address, price, career, simpleIntroduction, detailIntroduction, profileImgSrc: null },
             CounselorField: { family, relationship, personality, emotion, sexual, addiction, lifestyle, development, study },
             CounselorLocation: {
@@ -62,9 +66,10 @@ const create = async (req, res, next) => {
               { model: CounselorLocation, as: 'CounselorLocation' },
               { model: Certification, as: 'Certification' },
               { model: Open, as: 'Open' }
-            ]
+            ],
+            transaction
           });
-
+  
           /* 프로필 사진 업로드 */
           const paramsForProfile = {
             Bucket: 'rapport-img',  // S3 bucket 설정
@@ -77,7 +82,7 @@ const create = async (req, res, next) => {
           // size가 0이어도(파일을 제출하지 않아도) s3에 저장이 되며 src가 할당된다.
           S3.upload(paramsForProfile, (err, data) => {
             if (err) {
-              return next(err);
+              next(err);
             } else {
               console.log('profileImg S3 Upload Success. img_src: ', data.Location);
               /* 업로드한 프로필 사진의 src를 해당 유저의 DB에 업데이트한다. */
@@ -92,7 +97,7 @@ const create = async (req, res, next) => {
               console.log('profileImg Temp Files Delete Success. temparary file path: ', files.profileImg.path);
             }
           });
-
+  
           /* 자격증(상담심리사) 업로드 */
           const paramsForKCounselingPA = {
             Bucket: 'rapport-img',  // S3 bucket 설정
@@ -103,7 +108,7 @@ const create = async (req, res, next) => {
           }
           S3.upload(paramsForKCounselingPA, (err, data) => {
             if (err) {
-              return next(err);
+              next(err);
             } else {
               console.log('KCounselingPA S3 Upload Success. img_src: ', data.Location);
               /* 업로드한 프로필 사진의 src를 해당 유저의 DB에 업데이트한다. */
@@ -118,7 +123,7 @@ const create = async (req, res, next) => {
               console.log('Temp Files Delete Success. temparary file path: ', files.KCounselingPAImg.path);
             }
           });
-
+  
           /* 자격증(임상심리전문가) 업로드 */
           const paramsForKClinicalPA = {
             Bucket: 'rapport-img',  // S3 bucket 설정
@@ -129,7 +134,7 @@ const create = async (req, res, next) => {
           }
           S3.upload(paramsForKClinicalPA, (err, data) => {
             if (err) {
-              return next(err);
+              next(err);
             } else {
               console.log('KClinicalPA S3 Upload Success. img_src: ', data.Location);
               /* 업로드한 프로필 사진의 src를 해당 유저의 DB에 업데이트한다. */
@@ -144,16 +149,21 @@ const create = async (req, res, next) => {
               console.log('Temp Files Delete Success. temparary file path: ', files.KClinicalPAImg.path);
             }
           });
+  
+          // 계정 생성
+          return res.status(200).json({ success: true });
         } catch (error) {
+          await transaction.rollback();
           next(error);
         }
-      });
-
-      // 계정 생성
-      return res.status(200).json({ success: true });
-    } catch (error) {
-      next(error);
-    }
+      } catch (error) {
+        next(error);
+      }
+    });
+  } catch (error) {
+    console.log('********************GET IN CATCH SCOPE');
+    next(error);
   }
+};
 
 module.exports = create;
