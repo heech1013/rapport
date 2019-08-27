@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const AWS = require('aws-sdk');
 const formidable = require('formidable');
 const fs = require('fs');
+const format = require('date-fns/format');
 
 const validationResult = require('../../middlewares/validator/validationResult');
 const phoneNumberValidator = require('../../middlewares/validator/phoneNumberValidator');
@@ -19,7 +20,7 @@ const create = async (req, res, next) => {
     });
 
     const form = new formidable.IncomingForm();
-    form.multiples = true;
+    // form.multiples = true;
     // If this option is enabled, when you call form.parse, the files argument will contain arrays of files for inputs which submit multiple files using the HTML5 multiple attribute.
 
     form.parse(req, async (err, fields, files) => {  // files: 사용자가 업로드한 파일의 정보
@@ -69,88 +70,82 @@ const create = async (req, res, next) => {
             ],
             transaction
           });
-  
-          /* 프로필 사진 업로드 */
-          const paramsForProfile = {
-            Bucket: 'rapport-img',  // S3 bucket 설정
-            Key: `${newUser.id}/프로필`, // S3에 저장될 파일 이름 설정
-            ACL: 'public-read',  // 접근 권한. public-read여야 웹에서 이미지로 접근 가능
-            Body: fs.createReadStream(files.profileImg.path),  // files(업로드 파일 정보).input_file(<form>의 <input>의 지정한 name 명).path(해당 파일이 저장된 임시 경로)
-            ContentType: 'image/jpg'  // 웹에서 이미지를 로드했을 때 자동으로 파일이 다운로드 되는 것을 방지한다.
+
+          const S3Uploader = (type) => new Promise((resolve, reject) => {
+            let tempFilePath, srcUpdateFunc;
+
+            if (type === '프로필') {
+              tempFilePath = files.profileImg.path;
+              srcUpdateFunc = (data) => new Promise(async (resolve, reject) => {
+                try {
+                  await CounselorProfile.update({ profileImgSrc: data.Location }, { where: { fkCounselorId: newUser.id }, transaction });
+                  resolve();
+                } catch (error) {
+                  reject(error);
+                }
+              });
+            } else if (type === '임상심리전문가') {
+              tempFilePath = files.KClinicalPAImg.path;
+              srcUpdateFunc = (data) => new Promise(async (resolve, reject) => {
+                try {
+                  await Certification.update({ KClinicalPAImgSrc: data.Location }, { where: { fkCounselorId: newUser.id }, transaction });
+                  resolve();
+                } catch (error) {
+                  reject(error);
+                }
+              });
+            } else if (type === '상담심리사') {
+              tempFilePath = files.KCounselingPAImg.path;
+              srcUpdateFunc = (data) => new Promise(async (resolve, reject) => {
+                try {
+                  await Certification.update({ KCounselingPAImgSrc: data.Location }, { where: { fkCounselorId: newUser.id }, transaction });
+                  resolve();
+                } catch (error) {
+                  reject(error);
+                }
+              });
+            }
+
+            const params = {
+              Bucket: 'rapport-image',  // S3 bucket 설정
+              Key: `${newUser.id}/${type}(${format(new Date(), 'YYYY-MM-DD HH:mm:ss')})`,  // S3에 저장될 파일 이름 설정
+              ACL: 'public-read',  // 접근 권한. public-read여야 웹에서 이미지로 접근 가능
+              Body: fs.createReadStream(tempFilePath),  // files(업로드 파일 정보).input_file(<form>의 <input>의 지정한 name 명).path(해당 파일이 저장된 임시 경로)
+              ContentType: 'image/jpg'  // 웹에서 이미지를 로드했을 때 자동으로 파일이 다운로드 되는 것을 방지한다.
+            };
+            /* 업로드한 파일이 formidable을 통해 임시 경로에 저장된다. 이 임시파일을 S3에 업로드한다. */
+            S3.upload(params, async (err, data) => {
+              if (err) {
+                reject(err);
+              } else {
+                console.log(`(1) ${type} S3 Upload Success. img_src: `, data.Location);
+                /* 업로드한 사진의 src를 해당 유저의 해당 DB에 업데이트한다. */
+                await srcUpdateFunc(data);
+                /* 임시경로에 저장된 파일을 삭제한다. */
+                fs.unlink(tempFilePath, (err) => {
+                  if (err) {
+                    reject(err);
+                  } else {
+                    console.log(`(2) ${type} Temp Files Delete Success. temparary file path: `, tempFilePath);
+                    resolve();
+                  }
+                });
+              }
+            });
+          });
+
+          if (files.profileImg !== undefined || null) {
+            await S3Uploader('프로필');
           }
-          /* 업로드한 파일이 formidable을 통해 임시 경로에 저장된다. 이 임시파일을 S3에 업로드한다. */
-          // size가 0이어도(파일을 제출하지 않아도) s3에 저장이 되며 src가 할당된다.
-          S3.upload(paramsForProfile, (err, data) => {
-            if (err) {
-              next(err);
-            } else {
-              console.log('profileImg S3 Upload Success. img_src: ', data.Location);
-              /* 업로드한 프로필 사진의 src를 해당 유저의 DB에 업데이트한다. */
-              CounselorProfile.update({ profileImgSrc: data.Location }, { where: { fkCounselorId: newUser.id }});
-            }
-          });
-          /* 임시경로에 저장된 파일을 삭제한다. */
-          fs.unlink(files.profileImg.path, (err) => {
-            if (err) {
-              next(err);
-            } else {
-              console.log('profileImg Temp Files Delete Success. temparary file path: ', files.profileImg.path);
-            }
-          });
-  
-          /* 자격증(상담심리사) 업로드 */
-          const paramsForKCounselingPA = {
-            Bucket: 'rapport-img',  // S3 bucket 설정
-            Key: `${newUser.id}/상담심리사`, // S3에 저장될 파일 이름 설정
-            ACL: 'public-read',  // 접근 권한. public-read여야 웹에서 이미지로 접근 가능
-            Body: fs.createReadStream(files.KCounselingPAImg.path),  // files(업로드 파일 정보).input_file(<form>의 <input>의 지정한 name 명).path(해당 파일이 저장된 임시 경로)
-            ContentType: 'image/jpg'  // 웹에서 이미지를 로드했을 때 자동으로 파일이 다운로드 되는 것을 방지한다.
+          if (files.KClinicalPAImg !== undefined || null) {
+            await S3Uploader('임상심리전문가');
           }
-          S3.upload(paramsForKCounselingPA, (err, data) => {
-            if (err) {
-              next(err);
-            } else {
-              console.log('KCounselingPA S3 Upload Success. img_src: ', data.Location);
-              /* 업로드한 프로필 사진의 src를 해당 유저의 DB에 업데이트한다. */
-              Certification.update({ KCounselingPAImgSrc: data.Location }, { where: { fkCounselorId: newUser.id }});
-            }
-          });
-          /* 임시경로에 저장된 파일을 삭제한다. */
-          fs.unlink(files.KCounselingPAImg.path, (err) => {
-            if (err) {
-              next(err);
-            } else {
-              console.log('Temp Files Delete Success. temparary file path: ', files.KCounselingPAImg.path);
-            }
-          });
-  
-          /* 자격증(임상심리전문가) 업로드 */
-          const paramsForKClinicalPA = {
-            Bucket: 'rapport-img',  // S3 bucket 설정
-            Key: `${newUser.id}/상담심리사`, // S3에 저장될 파일 이름 설정
-            ACL: 'public-read',  // 접근 권한. public-read여야 웹에서 이미지로 접근 가능
-            Body: fs.createReadStream(files.KClinicalPAImg.path),  // files(업로드 파일 정보).input_file(<form>의 <input>의 지정한 name 명).path(해당 파일이 저장된 임시 경로)
-            ContentType: 'image/jpg'  // 웹에서 이미지를 로드했을 때 자동으로 파일이 다운로드 되는 것을 방지한다.
+          if (files.KCounselingPAImg !== undefined || null) {
+            await S3Uploader('상담심리사');
           }
-          S3.upload(paramsForKClinicalPA, (err, data) => {
-            if (err) {
-              next(err);
-            } else {
-              console.log('KClinicalPA S3 Upload Success. img_src: ', data.Location);
-              /* 업로드한 프로필 사진의 src를 해당 유저의 DB에 업데이트한다. */
-              Certification.update({ KClinicalPAImgSrc: data.Location }, { where: { fkCounselorId: newUser.id }});
-            }
-          });
-          /* 임시경로에 저장된 파일을 삭제한다. */
-          fs.unlink(files.KClinicalPAImg.path, (err) => {
-            if (err) {
-              next(err);
-            } else {
-              console.log('Temp Files Delete Success. temparary file path: ', files.KClinicalPAImg.path);
-            }
-          });
-  
-          // 계정 생성
+
+          await transaction.commit();
+          // 계정 생성 완료
           return res.status(200).json({ success: true });
         } catch (error) {
           await transaction.rollback();
@@ -161,7 +156,6 @@ const create = async (req, res, next) => {
       }
     });
   } catch (error) {
-    console.log('********************GET IN CATCH SCOPE');
     next(error);
   }
 };

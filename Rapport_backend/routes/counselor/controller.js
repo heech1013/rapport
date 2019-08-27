@@ -21,6 +21,6 @@ router.get('/:id', checkForParamId, show);
 /* GET '/counselor' : 상담사 전체 보기(검색필터) */
 router.get('/', index);
 /* POST '/counselor': 상담사 생성(회원가입) */
-router.post('/', create);
+router.post('/', /*checkForCreateCounselor,*/ create);
 
 module.exports = router;
