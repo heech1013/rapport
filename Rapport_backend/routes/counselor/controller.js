@@ -8,7 +8,7 @@ const show = require('./show');
 const index = require('./index');
 
 /* '/counselor/profile' */
-router.use('/profile', tokenVerify('counselor'), require('./profile/controller'));
+router.use('/profile', /* tokenVerify('counselor'), */ require('./profile/controller'));
 /* '/counselor/open' */
 router.use('/open', tokenVerify('counselor'), require('./open/controller'));
 /* '/counselor/close' */
