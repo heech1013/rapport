@@ -10,6 +10,16 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: null
     },
+    centerCounseling: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },
+    rentalCounseling: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },
     MON0: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
     MON1: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
     MON2: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },

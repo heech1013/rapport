@@ -92,11 +92,3 @@ module.exports = search;
 
 /*  /search/counselor?date=2018. 11. 28.&field=family,relationship&location=GS,YC
     /search/counselor?date=2018. 11. 28.&field=&location= (날짜는 필수, field와 location은 공백 가능) */
-
-/** err / 참고
-   * 정보를 가져오거나 where문에 조건으로써 model이 들어가기 위해서는 include에 모델이 명시가 되어야 한다(err: Unknown column ~ in 'where clause')
-   * include clause에는 model, as를 둘 다 명시해야 한다(이를 위해 model/index.js에서 as를 명시하여 associate한다. 일대일, 일대다 포함)
-   * top eagerly load(where)는 as를 통해 정의한 모델명을 사용한다.
-   * 일대일의 경우 같은 foreign key를 정의한 hasOne, belongsTo를 모두 사용하여 associate한다.
-   * location, field가 정의되지 않은(해당 상담사의 id를 fk키로 가지고있지 않은) 상담사는 검색되지 않는다.
-   */

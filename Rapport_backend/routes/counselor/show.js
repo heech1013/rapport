@@ -1,4 +1,4 @@
-const { Sequelize, User, CounselorProfile, Certification, CounselorField, CounselorLocation, Open, Close, Reservation } = require('../../models');
+const { Sequelize, User, CounselorProfile, Certification, CounselorField, CounselorLocation, CounselorRentalLocation, Open, Close, Reservation } = require('../../models');
 const validationResult = require('../../middlewares/validator/validationResult');
 const dateValidator = require('../../middlewares/validator/dateValidator');
 const dateRangeValidator = require('../../middlewares/validator/dateRange');
@@ -21,32 +21,24 @@ const show = async (req, res, next) => {
       attributes: ['id'],
       where: { id, userType: 'counselor' },
       include: [
+        { model: CounselorProfile, as: 'CounselorProfile', attributes: ['name', 'address', 'price', 'career', 'simpleIntroduction', 'detailIntroduction']},
+        { model: Certification, as: 'Certification', attributes: ['KCounselingPA_1', 'KCounselingPA_2', 'KClinicalPA']},
         {
-          model: CounselorProfile,
-          as: 'CounselorProfile',
-          attributes: ['name', 'address', 'price', 'career', 'simpleIntroduction', 'detailIntroduction']
+          model: CounselorField, as: 'CounselorField',
+          attributes: [ 'family', 'relationship', 'personality', 'emotion', 'sexual', 'addiction', 'lifestyle', 'development', 'study' ]
         },
         {
-          model: Certification,
-          as: 'Certification',
-          attributes: ['KCounselingPA_1', 'KCounselingPA_2', 'KClinicalPA']
+          model: CounselorLocation, as: 'CounselorLocation',
+          attributes: [ 'GS', 'YC', 'GR', 'YDP', 'DJ', 'GC', 'GA', 'SC', 'GN', 'SP', 'GD', 'MP', 'EP', 'SDM', 'JN', 'YS', 'SB', 'GB', 'DB', 'NW', 'JNg', 'DDM', 'SD', 'GJ', 'JG' ]
         },
         {
-          model: CounselorField,
-          as: 'CounselorField',
-          attributes: [
-            'family', 'relationship', 'personality', 'emotion', 'sexual', 'addiction', 'lifestyle', 'development', 'study'
-          ]
+          model: CounselorRentalLocation, as: 'CounselorRentalLocation',
+          attributes: [ 'GS', 'YC', 'GR', 'YDP', 'DJ', 'GC', 'GA', 'SC', 'GN', 'SP', 'GD', 'MP', 'EP', 'SDM', 'JN', 'YS', 'SB', 'GB', 'DB', 'NW', 'JNg', 'DDM', 'SD', 'GJ', 'JG' ]
         },
-        {
-          model: CounselorLocation,
-          as: 'CounselorLocation',
-          attributes: [
-            'GS', 'YC', 'GR', 'YDP', 'DJ', 'GC', 'GA', 'SC', 'GN', 'SP', 'GD', 'MP', 'EP', 'SDM', 'JN', 'YS', 'SB', 'GB', 'DB', 'NW', 'JNg', 'DDM', 'SD', 'GJ', 'JG'
-          ]
-        }
+        { model: Open, as: 'Open', attributes: ["centerCounseling", "rentalCounseling"]}
       ]
     });
+      
 
     /* 해당 날짜의 요일 */
     const week = new Array('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT');

@@ -16,7 +16,7 @@ const index = async (req, res, next) => {
     await validationResult(req);
 
     const rsvList = await Reservation.findAll({
-      attributes: ['id', 'date', 'time', 'session', 'confirmation'],
+      attributes: ['id', 'date', 'time', 'address', 'serviceType', 'session', 'confirmation'],
       where: {
         fkClientId: clientId,
         date: {

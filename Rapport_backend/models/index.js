@@ -16,6 +16,7 @@ db.User = require('./User')(sequelize, Sequelize);
 db.CounselorProfile = require('./CounselorProfile')(sequelize, Sequelize);
 db.CounselorField = require('./CounselorField')(sequelize, Sequelize);
 db.CounselorLocation = require('./CounselorLocation')(sequelize, Sequelize);
+db.CounselorRentalLocation = require('./CounselorRentalLocation')(sequelize, Sequelize);
 db.Certification = require('./Certification')(sequelize, Sequelize);
 db.Open = require('./Open')(sequelize, Sequelize);
 db.Close = require('./Close')(sequelize, Sequelize);
@@ -31,6 +32,9 @@ db.CounselorField.belongsTo(db.User, { foreignKey: 'fkCounselorId' });
 /* User(상담사):CounselorLocation(상담가능지역) = 1:1 */
 db.User.hasOne(db.CounselorLocation, { as: 'CounselorLocation', foreignKey: 'fkCounselorId'});
 db.CounselorLocation.belongsTo(db.User, { foreignKey: 'fkCounselorId' });
+/* User(상담사):CounselorRentalLocation(공간대여 상담가능지역) = 1:1 */
+db.User.hasOne(db.CounselorRentalLocation, { as: 'CounselorRentalLocation', foreignKey: 'fkCounselorId'});
+db.CounselorRentalLocation.belongsTo(db.User, { foreignKey: 'fkCounselorId' });
 /* User(상담사):Certification(자격증) = 1:1 */
 db.User.hasOne(db.Certification, { as: 'Certification', foreignKey: 'fkCounselorId'});
 db.Certification.belongsTo(db.User, { foreignKey: 'fkCounselorId' });

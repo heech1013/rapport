@@ -15,10 +15,13 @@ const { Op } = Sequelize;
 const create = async (req, res, next) => {
   try {
     const {
-      date, time, price, address, clientId, counselorId,  // Reservation
+      clientId, counselorId,  // 회원 정보
+      date, time, serviceType, rentalLocation, // Reservation(내담자 회원 선택 정보)
+      price, address,  // Reservation(상담사 프로필 정보)
       name, sex, age, problem  // Application
     } = req.body;
     
+    if (serviceType === 'rentalCounseling' && !rentalLocation) throw CustomError('BadRequest', 'There is no rental location');  // serviceType이 rentalCounseling인데 선택한 지역이 없을 경우
     await validationResult(req);
     await dateValidator(date);
     await dateRangeValidator('reservation', date);
@@ -42,10 +45,12 @@ const create = async (req, res, next) => {
     for (let i = 0; i <= 4; i++) {
       let obj = {
         "date": fiveSessionArray[i],
-        "time": time,
+        time,
+        serviceType,
+        rentalLocation,
         "session": i + 1,
-        "price": price,
-        "address": address,
+        price,
+        address,
         "fkClientId": clientId,
         "fkCounselorId": counselorId
       };
@@ -102,7 +107,6 @@ const create = async (req, res, next) => {
 
       await transaction.commit();
       return res.status(201).json({ success: true, price });
-    
     } catch (error) {
       await transaction.rollback();
       next(error);

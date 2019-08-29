@@ -5,7 +5,7 @@ const validationResult = require('../../middlewares/validator/validationResult')
 const phoneNumberValidator = require('../../middlewares/validator/phoneNumberValidator');
 const overlapTester = require('../../middlewares/overlapTester/overlapTester');
 
-const { User, CounselorField, CounselorLocation, CounselorProfile, Certification, Open } = require('../../models');
+const { User, CounselorField, CounselorLocation, CounselorRentalLocation, CounselorProfile, Certification, Open } = require('../../models');
 
 const create = async (req, res, next) => {
     try {
@@ -38,11 +38,16 @@ const create = async (req, res, next) => {
           GS : false, YC : false, GR : false, YDP : false, DJ : false, GC : false, GA : false, SC : false, GN : false, SP : false, GD : false, MP : false,
           EP : false, SDM : false, JN : false, YS : false, SB : false, GB : false, DB : false, NW : false, JNg : false, DDM : false, SD : false, GJ : false, JG : false
         },
+        CounselorRentalLocation: {
+          GS : false, YC : false, GR : false, YDP : false, DJ : false, GC : false, GA : false, SC : false, GN : false, SP : false, GD : false, MP : false,
+          EP : false, SDM : false, JN : false, YS : false, SB : false, GB : false, DB : false, NW : false, JNg : false, DDM : false, SD : false, GJ : false, JG : false
+        },
         Certification: {
           KCounselingPA_1: false, KCounselingPA_2: false, KClinicalPA: false
         },
         Open: {
           "startDate": null, "endDate": null,
+          "centerCounseling": false, "rentalCounseling": false,
           "MON0": false, "MON1": false, "MON2": false, "MON3": false, "MON4": false, "MON5": false, "MON6": false, "MON7": false, "MON8": false, "MON9": false, "MON10": false, "MON11": false, "MON12": false, "MON13": false, "MON14": false,"MON15": false,"MON16": false, "MON17": false, "MON18": false, "MON19": false, "MON20": false, "MON21": false, "MON22": false, "MON23": false,
           "TUE0": false, "TUE1": false, "TUE2": false, "TUE3": false, "TUE4": false, "TUE5": false, "TUE6": false, "TUE7": false, "TUE8": false, "TUE9": false, "TUE10": false, "TUE11": false, "TUE12": false, "TUE13": false, "TUE14": false,"TUE15": false,"TUE16": false, "TUE17": false, "TUE18": false, "TUE19": false, "TUE20": false, "TUE21": false, "TUE22": false, "TUE23": false,
           "WED0": false, "WED1": false, "WED2": false, "WED3": false, "WED4": false, "WED5": false, "WED6": false, "WED7": false, "WED8": false, "WED9": false, "WED10": false, "WED11": false, "WED12": false, "WED13": false, "WED14": false,"WED15": false,"WED16": false, "WED17": false, "WED18": false, "WED19": false, "WED20": false, "WED21": false, "WED22": false, "WED23": false,
@@ -53,26 +58,12 @@ const create = async (req, res, next) => {
         }
       },{
         include: [
-          {
-            model: CounselorProfile,
-            as: 'CounselorProfile'
-          },
-          {
-            model: CounselorField,
-            as: 'CounselorField'
-          },
-          {
-            model: CounselorLocation,
-            as: 'CounselorLocation'
-          },
-          {
-            model: Certification,
-            as: 'Certification'
-          },
-          {
-            model: Open,
-            as: 'Open'
-          }
+          { model: CounselorProfile, as: 'CounselorProfile' },
+          { model: CounselorField, as: 'CounselorField' },
+          { model: CounselorLocation, as: 'CounselorLocation' },
+          { model: CounselorRentalLocation, as: 'CounselorRentalLocation' },
+          { model: Certification, as: 'Certification' },
+          { model: Open, as: 'Open' }
         ]
       });
       
