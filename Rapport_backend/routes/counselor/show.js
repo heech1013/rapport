@@ -21,30 +21,10 @@ const show = async (req, res, next) => {
       attributes: ['id'],
       where: { id, userType: 'counselor' },
       include: [
-        {
-          model: CounselorProfile,
-          as: 'CounselorProfile',
-          attributes: ['name', 'address', 'price', 'career', 'simpleIntroduction', 'detailIntroduction']
-        },
-        {
-          model: Certification,
-          as: 'Certification',
-          attributes: ['KCounselingPA_1', 'KCounselingPA_2', 'KClinicalPA']
-        },
-        {
-          model: CounselorField,
-          as: 'CounselorField',
-          attributes: [
-            'family', 'relationship', 'personality', 'emotion', 'sexual', 'addiction', 'lifestyle', 'development', 'study'
-          ]
-        },
-        {
-          model: CounselorLocation,
-          as: 'CounselorLocation',
-          attributes: [
-            'GS', 'YC', 'GR', 'YDP', 'DJ', 'GC', 'GA', 'SC', 'GN', 'SP', 'GD', 'MP', 'EP', 'SDM', 'JN', 'YS', 'SB', 'GB', 'DB', 'NW', 'JNg', 'DDM', 'SD', 'GJ', 'JG'
-          ]
-        }
+        { model: CounselorProfile, as: 'CounselorProfile', attributes: ['name', 'address', 'price', 'career', 'simpleIntroduction', 'detailIntroduction', 'profileImgSrc']},
+        { model: Certification, as: 'Certification', attributes: ['KCounselingPA_1', 'KCounselingPA_2', 'KClinicalPA']},
+        { model: CounselorField, as: 'CounselorField', attributes: ['family', 'relationship', 'personality', 'emotion', 'sexual', 'addiction', 'lifestyle', 'development', 'study']},
+        { model: CounselorLocation, as: 'CounselorLocation', attributes: ['GS', 'YC', 'GR', 'YDP', 'DJ', 'GC', 'GA', 'SC', 'GN', 'SP', 'GD', 'MP', 'EP', 'SDM', 'JN', 'YS', 'SB', 'GB', 'DB', 'NW', 'JNg', 'DDM', 'SD', 'GJ', 'JG']}
       ]
     });
 
