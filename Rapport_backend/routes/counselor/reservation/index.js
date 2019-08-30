@@ -9,17 +9,9 @@ const index = async (req, res, next) => {
     const { counselorId } = req.query;
     
     const rsvList = await Reservation.findAll({
-      attributes: ['id', 'date', 'time', 'session', 'confirmation'],
-      where: {
-        fkCounselorId: counselorId,
-      },
-      include: [
-        {
-          model: User,
-          as: 'fkClient',
-          attributes: ['nick']
-        }
-      ],
+      attributes: ['id', 'date', 'time', 'serviceType', 'address', 'rentalLocation', 'session', 'confirmation'],
+      where: { fkCounselorId: counselorId },
+      include: [{ model: User, as: 'fkClient', attributes: ['nick']}],
       /* 'date'를 기준으로 내림차순 정렬 */
       order: [['date', 'DESC']]
     });

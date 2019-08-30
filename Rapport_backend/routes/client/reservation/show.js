@@ -14,31 +14,15 @@ const show = async (req, res, next) => {
     await validationResult(req);
 
     let rsvDetail = await Reservation.findOne({
-      attributes: ['date', 'time', 'confirmation', 'session', 'price', 'address'],
+      attributes: ['date', 'time', 'address', 'serviceType', 'rentalLocation', 'confirmation', 'session', 'price' ],
       where: { id },
       include: [
-        {
-          model: User,
-          as: 'fkClient',
-          attributes: ['id']
+        { model: User, as: 'fkClient', attributes: ['id'] },
+        { 
+          model: User, as: 'fkCounselor', attributes: ['id'],
+          include: [{ model: CounselorProfile, as: 'CounselorProfile', attributes: ['name']}]
         },
-        {
-          model: User,
-          as: 'fkCounselor',
-          attributes: ['id'],
-          include: [
-            {
-              model: CounselorProfile,
-              as: 'CounselorProfile',
-              attributes: ['name']
-            }
-          ]
-        },
-        {
-          model: Application,
-          as: 'Application',
-          attributes: ['name', 'sex', 'age', 'problem']
-        }
+        { model: Application, as: 'Application', attributes: ['name', 'sex', 'age', 'problem']}
       ]
     });
 

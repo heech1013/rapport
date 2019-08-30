@@ -9,19 +9,11 @@ const show = async (req, res, next) => {
     const { counselorId } = req.query;
     
     let rsvDetail = await Reservation.findOne({
-      attributes: ['date', 'time', 'session', 'price', 'address'],
+      attributes: ['date', 'time', 'session', 'serviceType', 'address', 'rentalLocation', 'price'],
       where: { id },
       include: [
-        {
-          model: User,
-          as: 'fkCounselor',
-          attributes: ['id']
-        },
-        {
-          model: Application,
-          as: 'Application',
-          attributes: ['name', 'sex', 'age', 'problem']
-        }
+        { model: User, as: 'fkCounselor', attributes: ['id']},
+        { model: Application, as: 'Application', attributes: ['name', 'sex', 'age', 'problem']}
       ]
     });
 

@@ -1,11 +1,11 @@
-const CustomError = require('../../../middlewares/errorHandler/customError');
 const { Reservation } = require('../../../models');
 
 const update = async (req, res, next) => {
   try {
     const { id } = req.params;  // reservation의 id
+    const { address } = req.body;
       
-    await Reservation.update({ confirmation: true }, { where: { id }});
+    await Reservation.update({ address, confirmation: true }, { where: { id }});
 
     return res.status(200).json({ success: true });
   } catch (error) {

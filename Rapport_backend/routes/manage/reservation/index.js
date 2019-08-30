@@ -8,24 +8,12 @@ const { Reservation, User, CounselorProfile } = require('../../../models');
 const index = async (req, res, next) => {
   try {
     const rsvList = await Reservation.findAll({
-      attributes: ['id', 'date', 'time', 'confirmation'],
+      attributes: ['id', 'date', 'time', 'confirmation', 'serviceType', 'address', 'rentalLocation'],
       include: [
-        {
-          model: User,
-          as: 'fkClient',
-          attributes: ['nick', 'phoneNumber']
-        },
-        {
-          model: User,
-          as: 'fkCounselor',
-          attributes: ['phoneNumber'],
-          include: [
-            {
-              model: CounselorProfile,
-              as: 'CounselorProfile',
-              attributes: ['name']
-            }
-          ]
+        { model: User, as: 'fkClient', attributes: ['nick', 'phoneNumber']},
+        { 
+          model: User, as: 'fkCounselor', attributes: ['phoneNumber'],
+          include: [{ model: CounselorProfile, as: 'CounselorProfile', attributes: ['name']}]
         }
       ],
       /* 'date'를 기준으로 내림차순 정렬 */

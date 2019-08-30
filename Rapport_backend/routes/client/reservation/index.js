@@ -16,27 +16,12 @@ const index = async (req, res, next) => {
     await validationResult(req);
 
     const rsvList = await Reservation.findAll({
-      attributes: ['id', 'date', 'time', 'address', 'serviceType', 'session', 'confirmation'],
-      where: {
-        fkClientId: clientId,
-        date: {
-          [Op.gte]: new Date()
-        }
-      },
-      include: [
-        {
-          model: User,
-          as: 'fkCounselor',
-          attributes: ['id'],
-          include: [
-            {
-              model: CounselorProfile,
-              as: 'CounselorProfile',
-              attributes: ['name']
-            }
-          ]
-        },
-      ]
+      attributes: ['id', 'date', 'time', 'address', 'serviceType', 'rentalLocation', 'session', 'confirmation'],
+      where: { fkClientId: clientId, date: { [Op.gte]: new Date() }},
+      include: [{
+        model: User, as: 'fkCounselor', attributes: ['id'],
+        include: [{ model: CounselorProfile, as: 'CounselorProfile', attributes: ['name'] }]
+      }]
     });
 
     return res.status(200).json({ success: true, rsvList });
