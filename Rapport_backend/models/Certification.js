@@ -11,6 +11,14 @@ module.exports = (sequelize, DataTypes) => {
     KClinicalPA: {  // 한국임상심리학회 임상심리전문가
       type: DataTypes.BOOLEAN,
       allowNull: false
+    },
+    KCounselingPAImgSrc: {
+      type: DataTypes.STRING(200),
+      allowNull: true
+    },
+    KClinicalPAImgSrc: {
+      type: DataTypes.STRING(200),
+      allowNull: true
     }
   }, {
     timestamps: true,
