@@ -24,7 +24,9 @@ const show = async (req, res, next) => {
     } else {
       const resultId = rsvDetail["fkCounselor"]["id"];
       await viewAuthorityVerifier(counselorId, resultId);
-      rsvDetail = await decryptApplication(rsvDetail);
+      if (rsvDetail.Application) {
+        rsvDetail = await decryptApplication(rsvDetail);
+      }
     }
 
     return res.status(200).json({ success:true, rsvDetail });
