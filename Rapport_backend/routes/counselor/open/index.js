@@ -1,4 +1,4 @@
-const { Open } = require('../../../models');
+const { Open, CounselorRentalLocation } = require('../../../models');
 const validationResult = require('../../../middlewares/validator/validationResult');
 
 const index = async (req, res, next) => {
@@ -8,7 +8,9 @@ const index = async (req, res, next) => {
     await validationResult(req);
 
     const openInfo = await Open.findOne({
-      attributes: ['startDate', 'endDate',
+      attributes: [
+        'startDate', 'endDate',
+        'centerCounseling', 'rentalCounseling',
         "MON0", "MON1", "MON2", "MON3", "MON4", "MON5", "MON6", "MON7", "MON8", "MON9", "MON10", "MON11", "MON12", "MON13", "MON14","MON15","MON16", "MON17", "MON18", "MON19", "MON20", "MON21", "MON22", "MON23",
         "TUE0", "TUE1", "TUE2", "TUE3", "TUE4", "TUE5", "TUE6", "TUE7", "TUE8", "TUE9", "TUE10", "TUE11", "TUE12", "TUE13", "TUE14","TUE15","TUE16", "TUE17", "TUE18", "TUE19", "TUE20", "TUE21", "TUE22", "TUE23",
         "WED0", "WED1", "WED2", "WED3", "WED4", "WED5", "WED6", "WED7", "WED8", "WED9", "WED10", "WED11", "WED12", "WED13", "WED14","WED15","WED16", "WED17", "WED18", "WED19", "WED20", "WED21", "WED22", "WED23",
@@ -19,6 +21,8 @@ const index = async (req, res, next) => {
       ],
       where: { fkCounselorId: counselorId }
     });
+
+    const counselorRentalLocation = await CounselorRentalLocation.findOne({ where: { fkCounselorId: counselorId }, attributes: ['GS', 'YC', 'GR', 'YDP', 'DJ', 'GC', 'GA', 'SC', 'GN', 'SP', 'GD', 'MP', 'EP', 'SDM', 'JN', 'YS', 'SB', 'GB', 'DB', 'NW', 'JNg', 'DDM', 'SD', 'GJ', 'JG']});
 
     const rsvableFunc = (openInfo) => {
       return new Promise((resolve, reject) => {
@@ -39,10 +43,16 @@ const index = async (req, res, next) => {
       })
     };
 
-    const { startDate, endDate } = openInfo;
+    const { startDate, endDate, centerCounseling, rentalCounseling } = openInfo;
     const rsvable = await rsvableFunc(openInfo);
     
-    return res.status(200).json({ success: true, startDate, endDate, rsvable }); 
+    return res.status(200).json({
+      success: true,
+      startDate, endDate,
+      Open: { centerCounseling, rentalCounseling },
+      counselorRentalLocation,
+      rsvable
+    }); 
   } catch (error) {
     next(error);
   }
