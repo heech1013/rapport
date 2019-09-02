@@ -34,7 +34,9 @@ const show = async (req, res, next) => {
     } else {
       const resultId = rsvDetail["fkClient"]["id"];
       await viewAuthorityVerifier(clientId, resultId);
-      rsvDetail = await decryptApplication(rsvDetail);
+      if (rsvDetail.Application) {
+        rsvDetail = await decryptApplication(rsvDetail);
+      }
     }
 
     
