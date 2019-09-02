@@ -6,7 +6,8 @@ const searchResultCleaner = (resultsArr) => {
           "id": obj["id"],
           "CounselorProfile" : {
             "name": obj["CounselorProfile"]["name"],
-            "price": obj["CounselorProfile"]["price"]
+            "price": obj["CounselorProfile"]["price"],
+            "profileImgSrc": obj["CounselorProfile"]["profileImgSrc"]
           },
           "Certification": obj["Certification"]
         };

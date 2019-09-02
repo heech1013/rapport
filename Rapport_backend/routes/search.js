@@ -39,7 +39,7 @@ const search = async (req, res, next) => {
         {
           model: CounselorProfile,
           as: 'CounselorProfile',
-          attributes: ['name', 'address', 'price', 'simpleIntroduction']
+          attributes: ['name', 'address', 'price', 'simpleIntroduction', 'profileImgSrc']
         },
         {
           model: Certification,
