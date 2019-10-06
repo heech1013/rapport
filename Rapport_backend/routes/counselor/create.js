@@ -8,6 +8,7 @@ const format = require('date-fns/format');
 const validationResult = require('../../middlewares/validator/validationResult');
 const phoneNumberValidator = require('../../middlewares/validator/phoneNumberValidator');
 const overlapTester = require('../../middlewares/overlapTester/overlapTester');
+const mailer = require('../../middlewares/mailer/mailer');
 
 const { sequelize, User, CounselorField, CounselorLocation, CounselorRentalLocation, CounselorProfile, Certification, Open } = require('../../models');
 
@@ -146,8 +147,10 @@ const create = async (req, res, next) => {
             await S3Uploader('상담심리사');
           }
 
+          await mailer('counselorJoin');
           await transaction.commit();
           // 계정 생성 완료
+          
           return res.status(200).json({ success: true });
         } catch (error) {
           await transaction.rollback();

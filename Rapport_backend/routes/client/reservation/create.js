@@ -7,6 +7,7 @@ const dateValidator = require('../../../middlewares/validator/dateValidator');
 const dateRangeValidator = require('../../../middlewares/validator/dateRange');
 const fiveSessionArrayMaker = require('../../../middlewares/dateMaker/fiveSessionArray');
 const CustomError = require('../../../middlewares/errorHandler/customError');
+const mailer = require('../../../middlewares/mailer/mailer');
 
 const { sequelize, Sequelize, Reservation, Application } = require('../../../models');
 
@@ -105,7 +106,9 @@ const create = async (req, res, next) => {
         fkReservationId: session1.id
       }, { transaction });
 
+      await mailer('reservation');
       await transaction.commit();
+
       return res.status(201).json({ success: true, price });
     } catch (error) {
       await transaction.rollback();
