@@ -1,6 +1,16 @@
 # Rapport
 Rapport is psychotherapy matching service. Two team members and I had struggling almost 2 years: Jan. 2018 ~ Nov. 2019.
 
+## Why we build this project? Problems we pointed:
+As student majoring psychology, we paid attention to *psychotherapy*.
+
+- People don't know where to find the information about counselor.
+- It's hard to know what type of psychotherapy is appropriate.
+    - Chaotic psychotherapy certificates, resulting from loose legal regulation.
+    - Psychotherapy is divided again into few types along to client's severity and symptoms.
+- Expensive cost for customer.
+    - Nevertheless, low benefit for counselor.
+
 ## What service the Rapport is?
 ![image](https://user-images.githubusercontent.com/42134046/99870424-22d1a780-2c16-11eb-8312-e354ffe2224a.png)
 - Rapport connect customers with counselors.
