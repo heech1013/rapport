@@ -11,7 +11,7 @@ const calendarInfoFunc = (dateOfSUN, openInfo, closeInfo, rsvInfo) => {
     };
     
     // calendarInfo 기본 틀 생성
-    let calendarInfo = {}; // 비동기??
+    let calendarInfo = {};
     for (let i = 0; i <= 6; i++) {
       calendarInfo[dateArr[i]] = {};
       for (let j = 0; j <= 23; j++) {

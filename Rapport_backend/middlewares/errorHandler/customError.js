@@ -5,7 +5,5 @@ const CustomError = ( name, message = '' ) => {
 
   return CustomError;
 };
-// CustomError.prototype = Error.prototype;
-// CustomError.prototype = new Error();
 
 module.exports = CustomError;

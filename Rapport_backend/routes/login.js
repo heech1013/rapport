@@ -27,7 +27,6 @@ const login = async (req, res, next) => {
           all the authenticated requests. => id, userType으로 설정
         */
         // the payload(jwt.sign의 첫번째 인자) you are signing needs to be an Object!
-        // expiresIn: 300 안되고 60*5 혹은 '1h'. 닷env로 하면 안됌(왠지는 잘 모르겠다)
         const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '12h' });  // 토큰 만료기간 명시
         return res.status(200).json({ success: true, token });
       });
