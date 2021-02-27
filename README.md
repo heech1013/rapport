@@ -1,8 +1,9 @@
-# README.md - Rapport
+# Rapport
+
+_Rapport_ is psychotherapist matching service.  
+3 team member: Iksun Heo(marketing), Hyeonwoo Jeong(front-end), Heechang Shin(back-end, me) had struggling 2 years: Jan. 2018 - Nov.2019.
 
 ## 🔫 Purpose
-
----
 
 Purposes of this project are as follows.
 
@@ -11,13 +12,9 @@ Purposes of this project are as follows.
 
 ## ☕ Skills
 
----
-
 Node.js, MySQL, AWS(EC2, RDS, S3, CloudFront, Route53)
 
 ## 👀 Summary
-
----
 
 This project is back-end part of the service _Rapport_. It contains following features through API.
 
@@ -25,8 +22,6 @@ This project is back-end part of the service _Rapport_. It contains following fe
 - Let the psychotherapists manage their profile & operating hours & available regions & reservations.
 
 ## 🏄🏻‍♂️ Surfing a service
-
----
 
 **Main page**
 
@@ -72,8 +67,6 @@ Psychotherapists can manage counseling reservation. Also, they can check custome
 Customers can check their reserved counseling schedule on their 'my page' either.
 
 ## 💻 Detailed implementation
-
----
 
 I, as a team member who took care of back-end, implemented a server and database, and deployed the service. Another team member who cared front-end, built client side with React(it is located at another repository).
 
@@ -193,8 +186,6 @@ If you look around business logic, especially about handling date & time, you ca
 
 ## 🌈 etc.
 
----
-
 **Documentation**
 
 After having inconvenient points on communicating with team member who cared front-end, I made our own documentation. And I make some rules about using documents and managed to maintain them clean & well-organized.
@@ -232,7 +223,5 @@ And some prizes-
 In the end, we concluded to quit this project because we had trouble getting users and profits.
 
 ## 📜 License
-
----
 
 _Rapport_ is under the MIT license.
