@@ -206,7 +206,7 @@ After having inconvenient points on communicating with team member who cared fro
 
 **Web design**
 
-I designed every pages & components in _Rapport_, including mobile version.
+I designed every pages & components in _Rapport_, including mobile version. I used Adobe XD as design tool.
 
 **Partial success**
 
@@ -220,7 +220,7 @@ And some prizes-
 - Silver award at _2018 Davinci Software Camp_ (organized by _Chung-Ang University)._
 - Final 300 team on _2018 K-STARTUP University Start-up Team 300_ (organized by _Ministry of Science and Technology Information and Communication of Korea)._
 
-**Unsatisfactory parts**
+**Sad parts**
 
 In the end, we concluded to quit this project because we had trouble getting users and profits.
 
