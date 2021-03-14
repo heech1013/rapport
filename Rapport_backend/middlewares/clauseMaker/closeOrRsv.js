@@ -6,7 +6,7 @@ const CustomError = require('../errorHandler/customError');
 const closeClauseMaker = (date) => {
   return new Promise( async(resolve, reject) => {
     if (date.length) {
-      const fiveSessionArr = await fiveSessionArrMaker(date);
+      const fiveSessionArr = fiveSessionArrMaker(date);
       const closeClause = {
         date: {
           [Op.in]: fiveSessionArr

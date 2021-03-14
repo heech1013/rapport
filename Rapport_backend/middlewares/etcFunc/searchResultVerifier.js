@@ -5,7 +5,7 @@ const searchResultVerifier = (date, searchResult) => {
     const week = new Array('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT');
     const numOfDay = new Date(date).getDay();
     const day = week[numOfDay];
-    const fiveSessionArray = await fiveSessionArrayMaker(date);
+    const fiveSessionArray = fiveSessionArrayMaker(date);
 
     const verified = searchResult.filter((obj) => {
       let mainFlag = false;

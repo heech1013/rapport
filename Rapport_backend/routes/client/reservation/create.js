@@ -27,7 +27,7 @@ const create = async (req, res, next) => {
     await dateValidator(date);
     await dateRangeValidator('reservation', date);
     
-    const fiveSessionArray = await fiveSessionArrayMaker(date);
+    const fiveSessionArray = fiveSessionArrayMaker(date);
     // Create key in 128-bit(16 bytes). AES requires exact key length in 3 possible length.
     const aesKey = pbkdf2.pbkdf2Sync(process.env.PBKDF2_PASSWORD, process.env.PBKDF2_SALT, 1, 128/8, 'sha512');
     // Convert text to bytes

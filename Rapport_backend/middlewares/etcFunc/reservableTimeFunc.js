@@ -18,27 +18,33 @@ const reservableTimeFunc = (day, fiveSessionArray, openInfo, closeInfo, reservat
       reservableTime[i] = true;
     };
 
-    
     let flag = true;
 
     /* 상담시작일 및 상담종료일 확인 */
     if (!openInfo["startDate"]) {  /* 상담시작일이 null인 경우 */
       flag = false;
-    } else {  /* 상담시작일이 설정되어 있는 경우 */    
+    }
+    else {  /* 상담시작일이 설정되어 있는 경우 */    
       if (compareAsc(openInfo["startDate"], fiveSessionArray[0]) == 1) {  /* 1회기가 상담 시작일의 범위를 벗어날 때(startDate > date 일 때) */
         flag = false;
-      } else {  /* 예약일이 상담 시작일의 범위 안에 들 때  */
-        if (openInfo["endDate"]) { /* 상담 종료일이 설정되어 있는 경우 */
-          if (compareAsc(fiveSessionArray[4], openInfo["endDate"]) == 1) {  // 5회기가 상담 종료일의 범위를 벗어날 때(date > endDate 일 때)
-            flag = false;
-          }  /* 5회기가 상담 종료일의 범위 안에 들 때 -> flag = true인 채로 넘어감. */
-        }  /* 상담 종료일이 null일 때 -> flag = true 인 채로 넘어감. */
       }
+      /* 예약일이 상담 시작일의 범위 안에 들 때 */
+      else if (
+        /* 상담 종료일이 설정되어 있는 경우 */
+        openInfo["endDate"]
+        /* 5회기가 상담 종료일의 범위를 벗어날 때(date > endDate 일 때) */
+        && compareAsc(fiveSessionArray[4], openInfo["endDate"]) == 1
+      ) {  
+        flag = false;
+      }
+      /* flag가 true인 채로 넘어가는 경우 :
+       * 5회기가 상담 종료일의 범위 안에 들 때
+       * 상담 종료일이 null일 때 */
     }
     
     /* 5회기가 모두 상담시작일과 상담종료일 사이에 있을 때 */
     if (flag) {
-      /* 9시부터 18시까지 순회 */
+      /* 0시부터 23시까지 순회 */
       for (let i = 0; i <= 23; i++) {
         /* date에 해당하는 요일/시간이 오픈(true)되어 있을 때 */
         if (openInfo[day + i]) {
