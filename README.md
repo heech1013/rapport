@@ -2,129 +2,112 @@
 
 ![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%2015.png](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%2015.png)
 
-_Rapport_ is psychotherapist matching service.  
-3 team member: Iksun Heo(marketing), Hyeonwoo Jeong(front-end), Heechang Shin(back-end, me) had struggling 2 years: Jan. 2018 - Nov.2019.
+`라포`는 상담사 매칭 서비스입니다.
 
-## 🔫 Purpose
+## 진행 기간
 
-Purposes of this project are as follows.
+![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%2015.png](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/schedule.png)
 
-- Help people to find certificated psychotherapist - suitable for own's problem.
-- Connect customer and psychotherapist without time & spatial constraints.
+## 구성원
 
-## ☕ Skills
+허익선(기획/마케팅), 정현우(개발), 신희창(개발)
 
-Node.js, MySQL, AWS(EC2, RDS, S3, etc.)
+## 담당 역할
 
-## 👀 Summary
+- 기획 / 디자인
+- 서버 구축
+- 배포
 
-This project is back-end part of the service _Rapport_. It contains following features through API.
+## 기술 스택
 
-- Let the customers search psychotherapists, reserve counseling, manage schedule.
-- Let the psychotherapists manage their profile & operating hours & available regions & reservations.
+- back-end: Node.js, MySQL
+- dev-ops: AWS
 
-## 🏄🏻‍♂️ Surfing a service
+## 배포
 
-**Main page**
+![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%208.png](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%208.png)
+
+## 서비스의 목적
+
+- 자신에게 맞는 상담사를 쉽게 찾을 수 있도록 도와줍니다.
+- 쉽고 간편하게 상담을 예약할 수 있도록 합니다.
+- 공인된 자격증을 가진 상담사를 선별합니다.
+- 상담 비용을 투명하게 공개합니다.
+
+## 서비스 둘러보기
+
+**메인 페이지**
 
 ![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled.png](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled.png)
 
 ![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%214.png](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%2014.png)
 
-In the main page, we appeal to people the advantages of _Rapport_ : professionalism, trust, convenience.
+- 라포의 브랜드 가치를 보여줍니다.
+- 서비스 이용 방법을 안내합니다.
 
-**Psychotherapist search page**
+**상담사 검색 페이지**
 
 ![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/__.jpg](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/__.jpg)
 
-People can search certificated psychotherapists based on the filter : specialties & available regions and date.
+- 라포에 등록된 상담사의 공인 자격증과 상담 비용을 확인할 수 있습니다.
+- 다음과 같은 필터로 상담사를 검색할 수 있습니다.
+  - 상담사의 전문 분야 / 상담 가능 지역 / 상담 가능 날짜
 
-**Psychotherapist profile page**
+**상담사 자세히 보기**
 
 ![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%203.png](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%203.png)
 
-People can check psychotherapists' detailed profile: introduction & specialties & careers & price & available regions & opening hours.
+- 상담사의 자세한 프로필을 확인할 수 있습니다.
+  - 상담사 소개 / 전문 영역 / 상세 경력 / 상담 비용 / 상담 가능 지역 / 상담 가능 날짜
+- 상담을 원하는 날짜와 시간을 선택하는 것만으로도 쉽게 예약할 수 있습니다.
 
-Also, people can reserve counseling in ease, by submitting simple application form.
-
-**My page for psychotherapist**
+**상담사 마이 페이지**
 ![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%204.png](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%204.png)
 
-Psychotherapists can update their profile, including uploading pictures and certification files.
+- 상담사는 마이 페이지에서 서비스 상 보여지는 자신의 프로필을 관리할 수 있습니다.
 
 ![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%205.png](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%205.png)
 
-Psychotherapist can manage their opening hours with fixed, recurring based.
-
-And they can select available regions where they would be matched later.
+- 상담사는 마이 페이지에서 자신의 예약 가능 시간을 관리할 수 있습니다.
+- 상담 가능 지역을 설정할 수 있습니다.
 
 ![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%206.png](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%206.png)
 
-As exception of fixed-recurring schedules, psychotherapists can set day off respectively.
+- 상담사의 예약 가능 시간 내에서 별도의 휴무 상태를 한시간 단위로 설정할 수 있습니다.
 
 ![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%207.png](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%207.png)
 
-Psychotherapists can manage counseling reservation. Also, they can check customer's counseling application.
+- 자신에게 접수된 예약 케이스를 관리할 수 있습니다.
+- 각 예약 케이스의 상세 정보와 상담 신청서를 조회할 수 있습니다.
 
-Customers can check their reserved counseling schedule on their 'my page' either.
+## 문서 활용
 
-## 💻 Implementation
-
-**Role**
-
-- Back-end: server, database
-- Deployment
-
-**Architecture**
-
-![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%208.png](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%208.png)
-
-**Skills**
-
-- JavaScript
-- Node.js
-- MySQL
-
-**Database schema**
-
-![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%209.png](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%209.png)
-
-## 🌈 etc.
-
-**Documentation**
-
-🔀 Product flow chart: helped team members to understand the flow of service.
+**서비스 플로우 차트**
 
 ![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%2011.png](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%2011.png)
 
-📑 HTTP API docs: benefits on fast & convenient catching on requirements despite every day of chages.
+- 팀원들에게 서비스의 로직을 설명하기 위해 작성했습니다.
+
+**API 문서**
 
 ![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%2012.png](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%2012.png)
 
-🤼‍♂️ Development cooperation log: reduction on unneccesary communication, good for organized work flow management.
+- 각 엔드포인트의 사용 목적 / HTTP method / headers / 요청 및 응답 형식 / 에러 목록 / 특이사항 등에 대해 기재되어 있습니다.
+
+**협업 문서**
 
 ![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%2013.png](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%2013.png)
 
-**Web design**
+- 프론트엔드, 백엔드 개발자 간 원활한 커뮤니케이션을 위해 작성했습니다.
+- 각자 영역의 개발 진행 상황, 이슈, 요청 사항 등을 작성할 수 있습니다.
 
-I designed every pages & components in _Rapport_, including mobile version. I used Adobe XD as design tool.
+## 성과
 
-**Partial success**
+- 한국심리학회 소속 공인 상담사 12명 등록/활동
 
-- $35,000 fund supported from _2019_ _Preliminary Start-up Package_ (organized by _Korea Institute of Start-up and Entrepreneurship Development_).
-- 12 psychotherapists(certificated at _Korea Psychological Association_) registered and used our service.
+수상 및 선정
 
-And some prizes-
-
-- Excellence award at _2018 Namyangju Hackathon_ (organized by _Namyangju-si, Korea)._
-- Excellence start-up club at _2018 Start-up Club Selection_ (organized by _Chung-Ang University)._
-- Silver award at _2018 Davinci Software Camp_ (organized by _Chung-Ang University)._
-- Final 300 team on _2018 K-STARTUP University Start-up Team 300_ (organized by _Ministry of Science and Technology Information and Communication of Korea)._
-
-**Sad parts**
-
-In the end, we concluded to quit this project because we had trouble getting users and profits.
-
-## 📜 License
-
-_Rapport_ is under the MIT license.
+- 2019 예비창업패키지(중소벤처기업부, 창업진흥원 주관) **35,000,000원** 지원
+- 2018 K-STARTUP 대학 창업유망팀 300 **최종선발팀 300** 진출
+- 중앙대학교 제1회 다빈치 소프트웨어 창업캠프 **은상**
+- 2018 중앙대학교 산학협력단 **창업 우수 동아리(A등급)** 선정
