@@ -4,6 +4,18 @@
 
 `라포`는 **상담사 매칭 서비스**입니다.
 
+<br>
+
+---
+
+<br>
+
+## UPDATE: 리팩토링
+
+(2021.08 ~ 진행 중)
+
+- eliminate useless promises
+
 ## 진행 기간
 
 ![README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/Untitled%2015.png](README%20md%20-%20Rapport%20817db67b8ea7405d8f8c5c400abd69f9/schedule.png)

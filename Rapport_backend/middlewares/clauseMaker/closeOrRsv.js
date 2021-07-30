@@ -4,21 +4,17 @@ const { Op } = require('../../models').Sequelize;
 const CustomError = require('../errorHandler/customError');
 
 const closeClauseMaker = (date) => {
-  return new Promise( async(resolve, reject) => {
-    if (date.length) {
-      const fiveSessionArr = fiveSessionArrMaker(date);
-      const closeClause = {
-        date: {
-          [Op.in]: fiveSessionArr
-        }
-      };
-      resolve(closeClause);
-    } else {
-      reject(
-        CustomError('BadRequest', 'Date filter is null.')
-      )
-    }
-  });
+  if (!date.length) {
+    throw CustomError('BadRequest', 'Date filter is null.')
+  }
+
+  const fiveSessionArr = fiveSessionArrMaker(date)
+
+  return {
+    date: {
+      [Op.in]: fiveSessionArr,
+    },
+  }
 }
 
 module.exports = closeClauseMaker;
