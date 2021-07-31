@@ -15,6 +15,7 @@
 (2021.08 ~ 진행 중)
 
 - eliminate useless promises
+  - commit `abf24`
 
 ## 진행 기간
 

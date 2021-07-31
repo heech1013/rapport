@@ -1,6 +1,7 @@
 const addDays = require('date-fns/add_days');
 const format = require('date-fns/format');
-const { Sequelize: Op } = require('../../models');
+const { Sequelize } = require('../../models');
+const { Op } = Sequelize
 const CustomError = require('../errorHandler/customError');
 
 const FIRST_HOUR = 0, LAST_HOUR = 23

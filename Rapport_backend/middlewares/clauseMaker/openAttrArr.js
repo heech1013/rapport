@@ -1,15 +1,17 @@
 const openAttrArrMaker = (date) => {
-  return new Promise((resolve, reject) => {
-    const week = new Array('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT');
-    const numOfDay = new Date(date).getDay();
-    const day = week[numOfDay];
+  const FIRST_HOUR = 0, LAST_HOUR = 23
 
-    const openAttrArr = [];
-    for (let i = 0; i <= 23; i++) {
-      openAttrArr.push(day + i);
-    }
-    resolve(openAttrArr);
-  })
+  const weekArr = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+  const dayNum = new Date(date).getDay()
+  const dayStr = weekArr[dayNum]
+
+  const openAttrArr = []
+  
+  for (let hour = FIRST_HOUR; hour <= LAST_HOUR; hour++) {
+    openAttrArr.push(`${dayStr}${hour}`)
+  }
+
+  return openAttrArr
 }
 
-module.exports = openAttrArrMaker;
+module.exports = openAttrArrMaker
