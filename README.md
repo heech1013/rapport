@@ -14,8 +14,10 @@
 
 (2021.08 ~ 진행 중)
 
+- function arguments(2 or fewer ideally)
 - eliminate useless promises
   - commit `abf24`
+  - commit `4da7f`
 
 ## 진행 기간
 

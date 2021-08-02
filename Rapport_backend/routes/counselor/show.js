@@ -67,7 +67,7 @@ const show = async (req, res, next) => {
       }
     });
 
-    const reservableTime = await reservableTimeFunc(day, fiveSessionArray, openInfo, closeInfo, reservationInfo);
+    const reservableTime = await reservableTimeFunc({ day, fiveSessionArray, openInfo, closeInfo, reservationInfo });
 
     return res.status(200).json({ success: true, counselorDetail, reservableTime });
 

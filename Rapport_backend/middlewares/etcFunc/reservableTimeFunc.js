@@ -1,6 +1,6 @@
 const compareAsc = require('date-fns/compare_asc');
 
-const reservableTimeFunc = (day, fiveSessionArray, openInfo, closeInfo, reservationInfo) => {
+const reservableTimeFunc = ({ day, fiveSessionArray, openInfo, closeInfo, reservationInfo }) => {
   return new Promise((resolve, reject) => {
     /* sequelize로부터 추출된 prototype 형태의 데이터를 조작 가능한 배열 형태로 변환. */
     closeInfo.map(obj => ({

@@ -2,7 +2,7 @@ const format = require('date-fns/format');
 const addDays = require('date-fns/add_days');
 const compareAsc = require('date-fns/compare_asc');
 
-const calendarInfoFunc = (dateOfSUN, openInfo, closeInfo, rsvInfo) => {
+const calendarInfoFunc = ({ dateOfSUN, openInfo, closeInfo, rsvInfo }) => {
   return new Promise((resolve) => {
     const dayArr = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
     const dateArr = [dateOfSUN];

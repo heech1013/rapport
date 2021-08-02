@@ -62,7 +62,7 @@ const index = async (req, res, next) => {
       }
     });
 
-    const calendarInfo = await calendarInfoFunc(dateOfSUN, openInfo, closeInfo, rsvInfo);
+    const calendarInfo = await calendarInfoFunc({ dateOfSUN, openInfo, closeInfo, rsvInfo });
 
     return res.status(200).json({ success: true, startDate: openInfo.startDate, endDate: openInfo.endDate, calendarInfo });
   } catch (error) {
