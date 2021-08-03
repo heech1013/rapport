@@ -10,11 +10,11 @@ const reservableTimeFunc = ({ day, fiveSessionArray, openInfo, closeInfo, reserv
     reservationInfo.map(obj => ({
       date: obj.date,
       time: obj.time
-    }));  // 데이터가 없을 시 빈 배열
+    }));
 
     /* 예약 가능 여부 - default */
     const reservableTime = {};
-    for (let i = 0; i <= 23; i++) {  // default는 모두 true, 한 개의 조건이라도 불만족할 시 false
+    for (let i = 0; i <= 23; i++) {
       reservableTime[i] = true;
     };
 

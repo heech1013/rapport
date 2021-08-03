@@ -33,7 +33,7 @@ const index = async (req, res, next) => {
         } else {
           for (let i = 0; i <= 6; i++) {
             for (let j = 0; j <= 23; j++) {
-              if (openInfo[dayArr[i] + j]) {  // '요일+시간'이 true일 경우
+              if (openInfo[dayArr[i] + j]) {
                 rsvable.push(dayArr[i] + j);
               }
               if (i === 6 && j === 23) resolve(rsvable);

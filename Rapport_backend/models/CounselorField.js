@@ -1,10 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
   const CounselorField = sequelize.define('counselorField', {
-
-    // id: 자동생성
-
-    // fkCounselorId: User 스키마의 상담사 id를 foreign key로 가짐.
-    
     family: {  // 가족
       type: DataTypes.BOOLEAN,
       allowNull: true,
@@ -50,14 +45,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: false,
     }
-
-    // updatedAt : 자동 생성
-
-    // createdAt : 자동 생성
-    
   }, {
-    timestamps: true,  // updatedAt, createdAt 자동 생성
-    underscored: false,  // camelCase style(updatedAt, createdAt)
+    timestamps: true,
+    underscored: false,
     charset: 'utf8',
     collate: 'utf8_general_ci',
   });

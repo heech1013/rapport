@@ -1,10 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
   const CounselorProfile = sequelize.define('counselorProfile', {
-
-    // id: 자동생성
-    
-    // fkCounselorId: User 스키마의 상담사 id를 foreign key로 가짐.
-
     name: {  // 상담사 이름
       type: DataTypes.STRING(30),
       allowNull: false,
@@ -19,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     career: {  // 경력 & 연혁
-      type: DataTypes.TEXT,  // MVP 단계에서는 상담사가 알아서 짝대기 엔터를 이용하여 경력을 보기 좋게 작성하는 걸로 합의.
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     simpleIntroduction: {  // 한 줄 인사
@@ -34,14 +29,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(200),
       allowNull: true
     }
-
-    // updatedAt : 자동 생성
-
-    // createdAt : 자동 생성
-
   }, {
-    timestamps: true,  // updatedAt, createdAt 자동 생성
-    underscored: false,  // camelCase style(updatedAt, createdAt)
+    timestamps: true,
+    underscored: false,
     charset: 'utf8',
     collate: 'utf8_general_ci',
   });

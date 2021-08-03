@@ -1,5 +1,4 @@
 const validationResult = require('../../../middlewares/validator/validationResult');
-// const dateValidator = require('../../../middlewares/validator/dateValidator');
 const dateRangeValidator = require('../../../middlewares/validator/dateRange');
 const sessionArrayMaker = require('../../../middlewares/dateMaker/sessionArray');
 const CustomError = require('../../../middlewares/errorHandler/customError');
@@ -11,9 +10,9 @@ const { Op } = Sequelize;
 const destroy = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { clientId } = req.body;  // session 추가
+    const { clientId } = req.body;
 
-    await validationResult(req);  // 수정 필요 (뭐 검사하는지)
+    await validationResult(req);
 
     const RsvPrototype = await Reservation.findOne({
       where: {

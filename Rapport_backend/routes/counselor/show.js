@@ -12,7 +12,6 @@ const show = async (req, res, next) => {
     const { id } = req.params;
     const { date } = req.query;
 
-    // 유효성 검사
     await validationResult(req);
     await dateValidator(date);
     await dateRangeValidator('reservation', date);
@@ -41,7 +40,7 @@ const show = async (req, res, next) => {
     const openAttributeArray = ['startDate', 'endDate'];
     for (let i = 0; i <= 23; i++) {
       openAttributeArray.push(day + i);
-    }  // ['startDate, 'endDate', 'MON0', ..., 'MON23']
+    }
     
     /* reservableTimeFunc 필요 데이터 조회 */
     const openInfo = await Open.findOne({

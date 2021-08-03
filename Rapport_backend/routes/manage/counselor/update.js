@@ -4,7 +4,7 @@ const { sequelize, User, CounselorLocation } = require('../../../models');
 
 const update = async (req, res, next) => {
   try{
-    const { id } = req.params;  // User id
+    const { id } = req.params;
     const {
       qualification,
       GS, YC, GR, YDP, DJ, GC, GA, SC, GN, SP, GD, MP, EP,

@@ -1,7 +1,6 @@
 const { sequelize, Open, CounselorRentalLocation } = require('../../../models');
 const dateValidator = require('../../../middlewares/validator/dateValidator');
 const dateRangeValidator = require('../../../middlewares/validator/dateRange');
-// const openValidator = require('../../../middlewares/validator/openValidator');
 
 const update = async (req, res, next) => {
   try {
@@ -13,17 +12,13 @@ const update = async (req, res, next) => {
     /* startDate가 null이 아닐 때 */
     else {
       await dateValidator(startDate);
-      // await dateRangeValidator('future', startDate); // startDate는 범위 제한이 없다.
       /* endDate가 null이 아닐 때 */
       if (endDate) {
         await dateValidator(endDate);
         await dateRangeValidator('minEnd', startDate, endDate); // endDate는 startDate로부터 최소 4주 이후여야 한다.
       }
     }
-    /*
-    await openValidator(open);
-    req.body.open에서 받는 데이터의 확장으로 잠시 폐기.
-    */
+
     const transaction = await sequelize.transaction();
     try {
       await Open.update(
@@ -44,17 +39,7 @@ const update = async (req, res, next) => {
 };
 
 module.exports = update;
-/*
-req.body.counselorId = '45',
-req.body.open = {
-startDate: '2019-01-28',
-endDate: '2019-05-01',
-MON9: true,
-MON10: true,
-...
-SUN18: false
-}
-*/
+
 /*
 새로 오픈하는 것은 문제가 되지 않지만, 기존에
 오픈되어 있던 요일/시간의 상담종료일("endDate")를 앞당기

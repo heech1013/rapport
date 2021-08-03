@@ -14,7 +14,7 @@ const checkForCounselorId = [
 
 const checkForCreateClient = [
   check('email').isLength({ min: 1 }).isEmail(),
-  check('password').isLength({ min: 8, max: 16 })  // 8 <= password.length <= 16
+  check('password').isLength({ min: 8, max: 16 })
 ];
 
 const checkForCreateClientRsv = [

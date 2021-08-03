@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
-    time: {  // 휴무일 시간 ex) 12시 -> 12 / 15시 -> 15
+    time: {  // 휴무일 시간
       type: DataTypes.TINYINT,
       allowNull: false,
     }
@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
       fkCounselorId : User(userType:counselor) foreign key
     */
   }, {
-    timestamps: true,  // updatedAt, createdAt 자동 생성
-    underscored: false,  // camelCase style
+    timestamps: true,
+    underscored: false,
     charset: 'utf8',
     collate: 'utf8_general_ci',
   });

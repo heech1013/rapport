@@ -5,7 +5,7 @@ const CustomError = require('../../../middlewares/errorHandler/customError');
 
 const show = async (req, res, next) => {
   try {
-    const { id } = req.params;  // Reservation의 id
+    const { id } = req.params;
     const { counselorId } = req.query;
     
     let rsvDetail = await Reservation.findOne({

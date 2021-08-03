@@ -1,13 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('user', {
-
-    // id : 자동생성
-    
     userType: {  // 'client' / 'counselor'
       type: DataTypes.STRING(10),
       allowNull: false
     },
-    qualification: {  // (상담사) 자격 인증 여부. 자격 인증이 완료되어야 상담사로 활동할 수 있다.
+    qualification: {  // (상담사) 자격 인증 여부.
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false,
@@ -35,14 +32,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 'local',
     },
-
-    // updatedAt : 자동 생성
-
-    // createdAt : 자동 생성
-
   }, {
-    timestamps: true,  // updatedAt, createdAt 자동 생성
-    underscored: false,  // camelCase style(updatedAt, createdAt)
+    timestamps: true,
+    underscored: false,
     charset: 'utf8',
     collate: 'utf8_general_ci',
   });

@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
-    time: {  // ex) 12시 -> 12 / 15시 -> 15
+    time: {
       type: DataTypes.TINYINT,
       allowNull: false,
     },
@@ -21,12 +21,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: null
     },
-    address: {  // (MVP) 해당 케이스를 오픈할 당시 상담사 프로필 주소(개인 상담 공간) 정보/ 추후 확장 가능성(사용자가 여러 상담 공간 중 선택할 수 있는 기능)
+    address: {
       type: DataTypes.STRING(50),
       allowNull: true,
       defaultValue: null
     },
-    price: {  // (MVP) 해당 케이스를 오픈할 당시 상담사 프로필 가격 정보/ 추후 확장 가능성(따로 가격을 책정할 수 있는 기능)
+    price: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -35,16 +35,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: false,
     }
-    /* foreign key 및 자동 생성 컬럼
-      id : 자동 생성
-      updatedAt : 자동 생성
-      createdAt : 자동 생성
-      fkCounselorId : user(userType:counselor) foreign key
-      fkClientId : user(userType:client) foreign key
-    */
   }, {
-    timestamps: true,  // updatedAt, createdAt 자동 생성
-    underscored: false,  // camelCase style
+    timestamps: true,
+    underscored: false,
     charset: 'utf8',
     collate: 'utf8_general_ci',
   });

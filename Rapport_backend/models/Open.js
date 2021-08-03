@@ -194,15 +194,9 @@ module.exports = (sequelize, DataTypes) => {
     SUN21: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
     SUN22: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
     SUN23: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
-    /* (foreign key 및 자동 생성 컬럼)
-      id: 자동 생성
-      updatedAt : 자동 생성
-      createdAt : 자동 생성
-      fkCounselorId : User(userType:counselor) foreign key
-    */
   }, {
-    timestamps: true,  // updatedAt, createdAt 자동 생성
-    underscored: false,  // camelCase style
+    timestamps: true,
+    underscored: false,
     charset: 'utf8',
     collate: 'utf8_general_ci',
   });

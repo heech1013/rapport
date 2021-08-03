@@ -1,10 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
   const Application = sequelize.define('application', {
-
-    // id: 자동생성
-
-    // fkClientId: User 스키마의 id를 foreign key로 가짐
-
     name: {  // 고객 실명
       type: DataTypes.TEXT,
       allowNull: false,
@@ -21,13 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-
-    // updatedAt : 자동 생성
-
-    // createdAt : 자동 생성
   }, {
-    timestamps: true,  // updatedAt, createdAt 자동 생성
-    underscored: false,  // camelCase style(updatedAt, createdAt)
+    timestamps: true,
+    underscored: false,
     charset: 'utf8',
     collate: 'utf8_general_ci',
   });

@@ -14,7 +14,9 @@
 
 (2021.08 ~ 진행 중)
 
+- only comment things that have business logic complexity
 - function arguments(2 or fewer ideally)
+  - commit `2adf7`
 - eliminate useless promises
   - commit `abf24`
   - commit `4da7f`

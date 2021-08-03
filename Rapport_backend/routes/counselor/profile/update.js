@@ -11,7 +11,7 @@ const { sequelize, User, CounselorProfile, CounselorField, Certification } = req
 
 const update = async (req, res, next) => {
   try {
-    const { id } = req.params;  // :id를 현우가 보내야 함. url 상에서 수정할 수 없게. id가 7인 사용자가 id가 9인 사용자의 프로필 수정 요청을 보낼 수 없게.
+    const { id } = req.params;
     
     const S3 = new AWS.S3({
       accessKeyId: process.env.AWS_ACCESS_KEY,

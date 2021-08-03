@@ -5,7 +5,7 @@ const CustomError = require('../middlewares/errorHandler/customError');
 
 /* POST '/login/user' : 로그인 */
 const login = async (req, res, next) => {
-    passport.authenticate('local', {session: false}, (authError, user, info) => {  // {session:false} : jwt 설정
+    passport.authenticate('local', {session: false}, (authError, user, info) => {
       if (authError) {
         return next(authError);
       }
@@ -14,7 +14,7 @@ const login = async (req, res, next) => {
           CustomError('Unauthorized', info)
         )
       }
-      return req.login(user, {session: false}, (loginError) => {  // passport 내장함수 login() / {session:false} : jwt 설정
+      return req.login(user, {session: false}, (loginError) => {
         if (loginError) {
           return next(loginError);
         }

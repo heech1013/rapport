@@ -58,7 +58,6 @@ const create = async (req, res, next) => {
       bulkCreateArray.push(obj);
     }
 
-    // Unmanaged transaction(sequelize) + await/async
     const transaction = await sequelize.transaction();
     try {
       /* [예약 가능 시간 조회] ~ [상담 신청] 사이 해당 날짜/시간에 새로운 예약이 이미 등록되어 있지는 않은지 확인 */

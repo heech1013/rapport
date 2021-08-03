@@ -13,13 +13,4 @@ const validationResultMiddleware = (req) => {
   })
 }
 
-// const validationResultMiddleware = () => {
-//   return (req, res, next) => {
-//     const validationError = validationResult(req);
-//     if (!validationError.isEmpty()) {
-//       return next( CustomError( 'ValidationError', validationError.array() ));
-//     }
-//   }
-// }
-
 module.exports = validationResultMiddleware;
