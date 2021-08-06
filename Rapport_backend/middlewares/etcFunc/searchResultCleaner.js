@@ -1,20 +1,13 @@
-const searchResultCleaner = (resultsArr) => {
-  return new Promise((resolve) => {
-    resolve (
-      resultsArr.map((obj) => {
-        const rObj = {
-          "id": obj["id"],
-          "CounselorProfile" : {
-            "name": obj["CounselorProfile"]["name"],
-            "price": obj["CounselorProfile"]["price"],
-            "profileImgSrc": obj["CounselorProfile"]["profileImgSrc"]
-          },
-          "Certification": obj["Certification"]
-        };
-        return rObj;
-      })
-    )
-  });
+const searchResultCleaner = (results) => {
+  return results.map(result => ({
+    id: result.id,
+    CounselorProfile: {
+      name: result.CounselorProfile.name,
+      price: result.CounselorProfile.price,
+      profileImgSrc: result.CounselorProfile.profileImgSrc,
+    },
+    Certification: result.Certification
+  }))
 }
 
 module.exports = searchResultCleaner;

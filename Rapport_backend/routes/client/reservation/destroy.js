@@ -1,6 +1,6 @@
 const validationResult = require('../../../middlewares/validator/validationResult');
 const dateRangeValidator = require('../../../middlewares/validator/dateRange');
-const sessionArrayMaker = require('../../../middlewares/dateMaker/sessionArray');
+const calcLeftSessionDate = require('../../../middlewares/dateMaker/calcLeftSessionDate');
 const CustomError = require('../../../middlewares/errorHandler/customError');
 
 const { Sequelize, Reservation } = require('../../../models');
@@ -30,11 +30,11 @@ const destroy = async (req, res, next) => {
     
     await dateRangeValidator('future', RsvPrototype.date);
 
-    const sessionArr = await sessionArrayMaker(RsvPrototype.date, RsvPrototype.session);
+    const dateArr = calcLeftSessionDate(RsvPrototype.date, RsvPrototype.session);
     await Reservation.destroy({
       where: {
         date: {
-          [Op.in] : sessionArr
+          [Op.in] : dateArr
         },
         fkClientId: clientId
       }
