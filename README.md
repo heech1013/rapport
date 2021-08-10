@@ -14,8 +14,10 @@
 
 (2021.08 ~ 진행 중)
 
+- update directory structure
 - remove duplicate code
   - commit `f613c`
+  - commit `15bb0`
 - only comment things that have business logic complexity
   - commit `74f59`
 - function arguments(2 or fewer ideally)
