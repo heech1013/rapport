@@ -29,7 +29,7 @@ const index = async (req, res, next) => {
       ]
     });
 
-    const openList = await openListCleaner(uncleanedOpenList);    
+    const openList = openListCleaner(uncleanedOpenList);    
     return res.status(200).json({ success: true, openList });
   } catch (error) {
     next(error);

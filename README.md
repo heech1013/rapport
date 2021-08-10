@@ -15,6 +15,7 @@
 (2021.08 ~ 진행 중)
 
 - remove duplicate code
+  - commit `f613c`
 - only comment things that have business logic complexity
   - commit `74f59`
 - function arguments(2 or fewer ideally)
