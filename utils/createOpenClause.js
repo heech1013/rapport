@@ -1,12 +1,12 @@
 const addDays = require('date-fns/add_days');
 const format = require('date-fns/format');
-const { Sequelize } = require('../../models');
+const { Sequelize } = require('../models');
 const { Op } = Sequelize
-const CustomError = require('../errorHandler/customError');
+const CustomError = require('../middlewares/errorHandler/customError');
 
 const FIRST_HOUR = 0, LAST_HOUR = 23
 
-const openClauseMaker = (date) => {
+const createOpenClause = (date) => {
   if (!date.length) {
     throw CustomError('BadRequest', 'Date filter is null.')
   }
@@ -41,4 +41,4 @@ const openClauseMaker = (date) => {
 
 }
 
-module.exports = openClauseMaker
+module.exports = createOpenClause

@@ -1,6 +1,6 @@
 const validationResult = require('../../../middlewares/validator/validationResult');
 const dateRangeValidator = require('../../../middlewares/validator/dateRange');
-const calcLeftSessionDate = require('../../../middlewares/dateMaker/calcLeftSessionDate');
+const calcLeftSessionDate = require('../../../utils/calcLeftSessionDate');
 const CustomError = require('../../../middlewares/errorHandler/customError');
 
 const { Sequelize, Reservation } = require('../../../models');

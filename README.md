@@ -15,6 +15,7 @@
 (2021.08 ~ 진행 중)
 
 - update directory structure
+  - commit `d674a`
 - remove duplicate code
   - commit `f613c`
   - commit `15bb0`

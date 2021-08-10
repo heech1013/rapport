@@ -2,9 +2,9 @@ const dateValidator = require('../middlewares/validator/dateValidator');
 const dateRangeValidator = require('../middlewares/validator/dateRange');
 const fieldValidator = require('../middlewares/validator/fieldValidator');
 const locationValidator = require('../middlewares/validator/locationValidator');
-const openClauseMaker = require('../middlewares/clauseMaker/open');
-const openAttrArrMaker = require('../middlewares/clauseMaker/openAttrArr');
-const fieldOrLocationClauseMaker = require('../middlewares/clauseMaker/fieldOrLocation');
+const createOpenClause = require('../utils/createOpenClause');
+const createOpenAttrArr = require('../utils/createOpenAttrArr');
+const createFieldOrLocationClause = require('../utils/createFieldOrLocationClause');
 const searchResultVerifier = require('../middlewares/etcFunc/searchResultVerifier');
 const searchResultCleaner = require('../middlewares/etcFunc/searchResultCleaner');
 
@@ -27,10 +27,10 @@ const search = async (req, res, next) => {
       await locationValidator(location)
     }
 
-    const openClause = await openClauseMaker(date);
-    const openAttrArr = await openAttrArrMaker(date);
-    const fieldClause = await fieldOrLocationClauseMaker(field);
-    const locationClause = await fieldOrLocationClauseMaker(location);
+    const openClause = createOpenClause(date);
+    const openAttrArr = createOpenAttrArr(date);
+    const fieldClause = createFieldOrLocationClause(field);
+    const locationClause = createFieldOrLocationClause(location);
 
     let searchResult = await User.findAll({
       attributes: ['id'],

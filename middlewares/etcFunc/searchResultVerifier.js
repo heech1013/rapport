@@ -1,11 +1,11 @@
-const fiveSessionArrayMaker = require('../dateMaker/fiveSessionArray');
+const createFiveSessionArr = require('../../utils/createFiveSessionArr');
 
 const searchResultVerifier = (date, searchResult) => {
   return new Promise(async(resolve) => {
     const week = new Array('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT');
     const numOfDay = new Date(date).getDay();
     const day = week[numOfDay];
-    const fiveSessionArray = fiveSessionArrayMaker(date);
+    const fiveSessionArray = createFiveSessionArr(date);
 
     const verified = searchResult.filter((obj) => {
       let mainFlag = false;

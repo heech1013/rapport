@@ -1,4 +1,4 @@
-const openAttrArrMaker = (date) => {
+const createOpenAttrArr = (date) => {
   const FIRST_HOUR = 0, LAST_HOUR = 23
 
   const weekArr = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
@@ -14,4 +14,4 @@ const openAttrArrMaker = (date) => {
   return openAttrArr
 }
 
-module.exports = openAttrArrMaker
+module.exports = createOpenAttrArr

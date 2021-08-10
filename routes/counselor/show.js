@@ -2,7 +2,7 @@ const { Sequelize, User, CounselorProfile, Certification, CounselorField, Counse
 const validationResult = require('../../middlewares/validator/validationResult');
 const dateValidator = require('../../middlewares/validator/dateValidator');
 const dateRangeValidator = require('../../middlewares/validator/dateRange');
-const fiveSessionArrayMaker = require('../../middlewares/dateMaker/fiveSessionArray');
+const createFiveSessionArr = require('../../utils/createFiveSessionArr');
 const reservableTimeFunc = require('../../middlewares/etcFunc/reservableTimeFunc');
 
 const { Op } = Sequelize;
@@ -35,7 +35,7 @@ const show = async (req, res, next) => {
     const numOfDay = new Date(date).getDay();
     const day = week[numOfDay];
     /* 5회기 날짜 배열 */
-    const fiveSessionArray = fiveSessionArrayMaker(date);
+    const fiveSessionArray = createFiveSessionArr(date);
     /* Open 데이터 추출 간 필요한 attributes 배열 */
     const openAttributeArray = ['startDate', 'endDate'];
     for (let i = 0; i <= 23; i++) {
