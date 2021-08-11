@@ -10,7 +10,7 @@ const { Sequelize, Open, Close, Reservation } = require('../../../models');
 const validationResult = require('../../../middlewares/validator/validationResult');
 const dateValidator = require('../../../middlewares/validator/dateValidator');
 const dateRangeValidator = require('../../../middlewares/validator/dateRange');
-const calendarInfoFunc = require('../../../middlewares/etcFunc/calendarInfoFunc');
+const getCalendarInfo = require('../../../middlewares/etcFunc/getCalendarInfo');
 const createDayTimeArr = require('../../../middlewares/etcFunc/createDayTimeArr');
 
 const { Op } = Sequelize;
@@ -58,7 +58,7 @@ const index = async (req, res, next) => {
       }
     });
 
-    const calendarInfo = await calendarInfoFunc({ dateOfSUN, openInfo, closeInfo, rsvInfo });
+    const calendarInfo = await getCalendarInfo({ dateOfSUN, openInfo, closeInfo, rsvInfo });
 
     return res.status(200).json({ success: true, startDate: openInfo.startDate, endDate: openInfo.endDate, calendarInfo });
   } catch (error) {

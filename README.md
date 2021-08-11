@@ -14,8 +14,10 @@
 
 (2021.08 ~ 진행 중)
 
+- function names should say what they do
 - update directory structure
   - commit `d674a`
+  - commit `bdf42`
 - remove duplicate code
   - commit `f613c`
   - commit `15bb0`
