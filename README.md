@@ -14,7 +14,9 @@
 
 (2021.08 ~ 진행 중)
 
+- write test code
 - function names should say what they do
+  - commit `e9b3f`
 - update directory structure
   - commit `d674a`
   - commit `bdf42`
