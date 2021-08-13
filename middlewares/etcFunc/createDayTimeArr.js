@@ -1,12 +1,11 @@
-const HOUR_START = 0, HOUR_END = 23
+const { HOUR_START, HOUR_END, DAYS } = require('../../lib/constant')
 
 const createDayTimeArr = () => {
-    const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
     const dayTimeArr = []
     
-    for (let dayIdx = 0; dayIdx < days.length; dayIdx++) {
+    for (let dayIdx = 0; dayIdx < DAYS.length; dayIdx++) {
         for (let time = HOUR_START; time <= HOUR_END; time++) {
-            dayTimeArr.push(days[dayIdx] + `${time}`)
+            dayTimeArr.push(DAYS[dayIdx] + `${time}`)
         }
     }
 

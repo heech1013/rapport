@@ -3,21 +3,19 @@ const format = require('date-fns/format');
 const { Sequelize } = require('../models');
 const { Op } = Sequelize
 const CustomError = require('../middlewares/errorHandler/customError');
-
-const FIRST_HOUR = 0, LAST_HOUR = 23
+const { HOUR_START, HOUR_END, DAYS }  = require('../lib/constant')
 
 const createOpenClause = (date) => {
   if (!date.length) {
     throw CustomError('BadRequest', 'Date filter is null.')
   }
 
-  const weekArr = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
   const dayNum = new Date(date).getDay()
-  const dayStr = weekArr[dayNum]
+  const dayStr = DAYS[dayNum]
 
   const dayCondArr = []
 
-  for (let hour = FIRST_HOUR; hour <= LAST_HOUR; hour++) {
+  for (let hour = HOUR_START; hour < HOUR_END; hour++) {
     const dayHour = `${dayStr}${hour}`
     dayCondArr.push({ [dayHour]: 1 })
   }

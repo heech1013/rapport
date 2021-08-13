@@ -1,4 +1,4 @@
-const WHOLE_SESSION_COUNT = 5
+const { WHOLE_SESSION_COUNT } = require('../lib/constant')
 
 const addDays = require('date-fns/add_days');
 const format = require('date-fns/format');

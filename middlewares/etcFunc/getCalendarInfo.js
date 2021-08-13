@@ -1,13 +1,10 @@
-const WEEK_DAY_COUNT = 7
-const START_HOUR = 0, END_HOUR = 24
-const COMPARE_RESULT_TRUE = 1
+const { HOUR_START, HOUR_END, WEEK_DAY_COUNT, DAYS, TRUE } = require('../../lib/constant')
 
 const format = require('date-fns/format');
 const addDays = require('date-fns/add_days');
 const compareAsc = require('date-fns/compare_asc');
 
 const getCalendarInfo = ({ dateOfSUN, openInfo, closeInfo, rsvInfo }) => {
-  const dayArr = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
   const dateArr = [];
 
   for (let addedDay = 0; addedDay < WEEK_DAY_COUNT; addedDay++) {
@@ -20,7 +17,7 @@ const getCalendarInfo = ({ dateOfSUN, openInfo, closeInfo, rsvInfo }) => {
     const targetDate = dateArr[dateIdx]
     calendarInfo[targetDate] = {};
 
-    for (let hour = START_HOUR; hour < END_HOUR; hour++) {
+    for (let hour = HOUR_START; hour < HOUR_END; hour++) {
       calendarInfo[targetDate][hour] = {
         "open": false,
         "close": false,
@@ -38,11 +35,11 @@ const getCalendarInfo = ({ dateOfSUN, openInfo, closeInfo, rsvInfo }) => {
       // 상담시작일이 해당 날짜(일요일의 날짜부터 토요일의 날짜까지)보다 크지 않으며,
       // 상담종료일이 설정되어 있지 않거나, 해당 날짜(일요일의 날짜부터 토요일의 날짜까지)가 상담종료일보다 크지 않을 때
       if (
-        compareAsc(openInfo.startDate, targetDate) != COMPARE_RESULT_TRUE
-        && (!openInfo.endDate || compareAsc(targetDate, openInfo.endDate) != COMPARE_RESULT_TRUE)
+        compareAsc(openInfo.startDate, targetDate) != TRUE
+        && (!openInfo.endDate || compareAsc(targetDate, openInfo.endDate) != TRUE)
       ) {
-        for (let hour = START_HOUR; hour < END_HOUR; hour++) {
-          const openInfoKey = dayArr[dateIdx] + hour
+        for (let hour = HOUR_START; hour < HOUR_END; hour++) {
+          const openInfoKey = DAYS[dateIdx] + hour
 
           // 해당 요일의 해당 시간이 오픈되어 있을 때
           if (openInfo[openInfoKey]) {
@@ -77,7 +74,7 @@ const getCalendarInfo = ({ dateOfSUN, openInfo, closeInfo, rsvInfo }) => {
   else {
     for (let dateIdx = 0; dateIdx < WEEK_DAY_COUNT; dateIdx++) {
       const targetDate = dateArr[dateIdx]
-      for (let hour = START_HOUR; hour < END_HOUR; hour++) {
+      for (let hour = HOUR_START; hour < HOUR_END; hour++) {
         calendarInfo[targetDate][hour]["open"] = false;
       }
     }
@@ -87,7 +84,7 @@ const getCalendarInfo = ({ dateOfSUN, openInfo, closeInfo, rsvInfo }) => {
   for (let dateIdx = 0; dateIdx < WEEK_DAY_COUNT; dateIdx++) {
     const targetDate = dateArr[dateIdx]
 
-    for (let hour = START_HOUR; hour < END_HOUR; hour++) {
+    for (let hour = HOUR_START; hour < HOUR_END; hour++) {
       if (
         calendarInfo[targetDate][hour]["open"] === true
         && calendarInfo[targetDate][hour]["close"] === false
