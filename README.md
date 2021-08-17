@@ -15,6 +15,7 @@
 (2021.08 ~ 진행 중)
 
 - write test code
+  - commit `fbf6b`, `17457`, ...
 - function names should say what they do
   - commit `e9b3f`
 - update directory structure
@@ -23,6 +24,7 @@
 - remove duplicate code
   - commit `f613c`
   - commit `15bb0`
+  - commit `befa6`
 - only comment things that have business logic complexity
   - commit `74f59`
 - function arguments(2 or fewer ideally)
