@@ -10,12 +10,18 @@
 
 <br>
 
-## UPDATE: 리팩토링
+## UPDATE
 
-(2021.08 ~ 진행 중)
+### 테스트 코드 작성
 
-- write test code
-  - commit `fbf6b`, `17457`, ...
+(21.08 ~ 진행 중)
+
+- commit `fbf6b`, `17457`, ...
+
+### 리팩토링
+
+(21.08 ~ 진행 중)
+
 - function names should say what they do
   - commit `e9b3f`
 - update directory structure
