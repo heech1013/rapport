@@ -1,31 +1,35 @@
+const { DAYS, HOUR_START, HOUR_END } = require('../../lib/constant');
 const createFiveSessionArr = require('../../utils/createFiveSessionArr');
 
 const searchResultVerifier = (date, searchResult) => {
-  return new Promise(async(resolve) => {
-    const week = new Array('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT');
-    const numOfDay = new Date(date).getDay();
-    const day = week[numOfDay];
-    const fiveSessionArray = createFiveSessionArr(date);
+  const dayNum = new Date(date).getDay();
+  const dayStr = DAYS[dayNum];
+  const fiveSessionArray = createFiveSessionArr(date);
 
-    const verified = searchResult.filter((obj) => {
-      let mainFlag = false;
-      for (let i = 0; i <= 23; i++) {
-        let flag1 = true, flag2 = true;
-        if ( obj["Open"][day + i] ) {
-          obj["Close"].forEach((closeObj) => {
-            if ( closeObj["time"] == i && fiveSessionArray.includes(closeObj["date"]) ) flag1 = false;
-          });
-          obj["Reserved"].forEach((rsvObj) => {
-            if ( rsvObj["time"] == i && fiveSessionArray.includes(rsvObj["date"]) ) flag2 = false;
-          });
-          // 만족하는 시간대로 인해 한 번 mainFlag가 true가 되면, 이후 어떤 시간대를 검증하든 간에 mainFlag는 true.
-          if (flag1 && flag2) mainFlag = true;
-        }
-        if (i == 23) return mainFlag;
+  return searchResult.filter((counselor) => {
+    let isReservable = false;
+    
+    for (let hour = HOUR_START; hour < HOUR_END; hour++) {
+      if (counselor.Open[dayStr + hour] ) {
+        const isOpened = counselor.Close.every(
+          (close) => (
+            close.time !== hour
+            || !fiveSessionArray.includes(close.date)
+          )
+        );
+        const isNotReserved = counselor.Reserved.every(
+          (reservation) => (
+            reservation.time !== hour 
+            || !fiveSessionArray.includes(reservation.date)
+          )
+        );
+
+        if (isOpened && isNotReserved) isReservable = true;
       }
-    });
-    resolve(verified);
-  })
+      
+      return isReservable.valueOf;
+    }
+  });
 };
 
 module.exports = searchResultVerifier;

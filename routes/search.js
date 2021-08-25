@@ -78,8 +78,8 @@ const search = async (req, res, next) => {
     });
 
     if (searchResult.length) {  // 휴무일, 예약일 검증 함수 / searchResult 정리 함수
-      searchResult = await searchResultVerifier(date, searchResult);
-      searchResult = await searchResultCleaner(searchResult);
+      searchResult = searchResultVerifier(date, searchResult);
+      searchResult = searchResultCleaner(searchResult);
     }
 
     return res.status(200).json({ success:true, searchResult, condition });
