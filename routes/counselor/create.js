@@ -140,7 +140,7 @@ const create = async (req, res, next) => {
           await S3Uploader('상담심리사');
         }
 
-        await mailer('counselorJoin');
+        mailer('counselorJoin');
         await transaction.commit();
         // 계정 생성 완료
         

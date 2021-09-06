@@ -105,7 +105,7 @@ const create = async (req, res, next) => {
         fkReservationId: session1.id
       }, { transaction });
 
-      await mailer('reservation');
+      mailer('reservation');
       await transaction.commit();
 
       return res.status(201).json({ success: true, price });
