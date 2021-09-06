@@ -18,13 +18,13 @@ const search = async (req, res, next) => {
     const location = req.query.location.split(',');
     const condition = { date, field, location };
     
-    await dateValidator(date);
-    await dateRangeValidator('reservation', date);
+    dateValidator(date);
+    dateRangeValidator('reservation', date);
     if (field[0].length) {
-      await fieldValidator(field)
+      fieldValidator(field)
     }
     if (location[0].length) {
-      await locationValidator(location)
+      locationValidator(location)
     }
 
     const openClause = createOpenClause(date);

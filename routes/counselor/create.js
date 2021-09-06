@@ -31,8 +31,8 @@ const create = async (req, res, next) => {
         family, relationship, personality, emotion, sexual, addiction, lifestyle, development, study  // CounselorField
       } = fields;
 
-      await validationResult(req);
-      await phoneNumberValidator(phoneNumber);
+      validationResult(req);
+      phoneNumberValidator(phoneNumber);
       overlapTester('email', email);
   
       const hash = await bcrypt.hash(password, 10);

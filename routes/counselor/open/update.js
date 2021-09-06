@@ -11,11 +11,11 @@ const update = async (req, res, next) => {
     if (!startDate) endDate = null;
     /* startDate가 null이 아닐 때 */
     else {
-      await dateValidator(startDate);
+      dateValidator(startDate);
       /* endDate가 null이 아닐 때 */
       if (endDate) {
-        await dateValidator(endDate);
-        await dateRangeValidator('minEnd', startDate, endDate); // endDate는 startDate로부터 최소 4주 이후여야 한다.
+        dateValidator(endDate);
+        dateRangeValidator('minEnd', startDate, endDate); // endDate는 startDate로부터 최소 4주 이후여야 한다.
       }
     }
 

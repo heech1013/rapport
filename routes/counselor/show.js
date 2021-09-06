@@ -13,8 +13,8 @@ const show = async (req, res, next) => {
     const { date } = req.query;
 
     await validationResult(req);
-    await dateValidator(date);
-    await dateRangeValidator('reservation', date);
+    dateValidator(date);
+    dateRangeValidator('reservation', date);
     
     const counselorDetail = await User.findOne({
       attributes: ['id'],

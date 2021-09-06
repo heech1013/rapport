@@ -1,21 +1,17 @@
 const CustomError = require('../errorHandler/customError');
 
 const dateValidator = (date) => {
-  return new Promise((resolve, reject) => {
     const regEx = /^\d{4}-\d{2}-\d{2}$/;
-    const d = new Date(date);
-    if (!date.match(regEx)) {  // Invalid format
-      reject(
-        CustomError('ValidationError', 'Date is not valid.')
-      );
+
+    // Invalid format
+    if (!date.match(regEx)) {
+      throw CustomError('ValidationError', 'Date is not valid.');
     }
-    else if (Number.isNaN(d.getTime())) {  // Invalid date
-      reject(
-        CustomError('ValidationError', 'Date is not valid.')
-      );
+
+    // Invalid date
+    if (Number.isNaN(new Date(date).getTime())) {
+      throw CustomError('ValidationError', 'Date is not valid.');
     }
-    else resolve();
-  })
 }
 
 module.exports = dateValidator;

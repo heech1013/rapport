@@ -21,8 +21,8 @@ const index = async (req, res, next) => {
 
     // 유효성 검사
     await validationResult(req);
-    await dateValidator(date);
-    await dateRangeValidator('future', date);
+    dateValidator(date);
+    dateRangeValidator('future', date);
     
 
     const dayNum = new Date(date).getDay();

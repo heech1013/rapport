@@ -24,8 +24,8 @@ const create = async (req, res, next) => {
     
     if (serviceType === 'rentalCounseling' && !rentalLocation) throw CustomError('BadRequest', 'There is no rental location');  // serviceType이 rentalCounseling인데 선택한 지역이 없을 경우
     await validationResult(req);
-    await dateValidator(date);
-    await dateRangeValidator('reservation', date);
+    dateValidator(date);
+    dateRangeValidator('reservation', date);
     
     const fiveSessionArray = createFiveSessionArr(date);
     // Create key in 128-bit(16 bytes). AES requires exact key length in 3 possible length.

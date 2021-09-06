@@ -31,8 +31,8 @@ const update = async (req, res, next) => {
           family, relationship, personality, emotion, sexual, addiction, lifestyle, development, study  // CounselorField
         } = fields;
         
-        await validationResult(req);
-        await phoneNumberValidator(phoneNumber);
+        validationResult(req);
+        phoneNumberValidator(phoneNumber);
 
         const S3Updater = (type) => new Promise((resolve, reject) => {
           let tempFilePath, srcUpdateFunc;

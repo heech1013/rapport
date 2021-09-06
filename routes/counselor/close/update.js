@@ -16,7 +16,7 @@ const update = async (req, res, next) => {
     /* newClose가 들어왔을 경우 */
     if (newClose.length) {
       // 유효성 검사(date, time)
-      await closeValidator(newClose);
+      closeValidator(newClose);
 
       /* overlapClose를 조회 / newClose를 생성하는 데에 필요한 clause 생성 */
       createClause = newClose.map((obj) => {
@@ -50,7 +50,7 @@ const update = async (req, res, next) => {
     /* deadClose를 제출했을 경우 */
     if (deadClose.length) {
       /* 유효성 검사: date, time */
-      await closeValidator(deadClose);
+      closeValidator(deadClose);
 
       /* deadClose를 제거하는 데에 필요한 clause 생성 */
       destroyClause = deadClose.map((obj) => {

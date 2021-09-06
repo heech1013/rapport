@@ -11,9 +11,9 @@ const create = async (req, res, next) => {
   try {
     const { email, nick, phoneNumber, password } = req.body;
     
-    await validationResult(req);
-    await nickValidator(nick);
-    await phoneNumberValidator(phoneNumber);
+    validationResult(req);
+    nickValidator(nick);
+    phoneNumberValidator(phoneNumber);
 
     overlapTester('email', email);
     overlapTester('nick', nick);

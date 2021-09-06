@@ -1,12 +1,13 @@
 const { Open, CounselorRentalLocation } = require('../../../models');
 const validationResult = require('../../../middlewares/validator/validationResult');
 const createDayTimeArr = require('../../../middlewares/etcFunc/createDayTimeArr')
+const { DAYS, HOUR_START, HOUR_END, WEEK_DAY_COUNT } = require('../../../lib/constant')
 
 const index = async (req, res, next) => {
   try {
     const { counselorId } = req.query;
 
-    await validationResult(req);
+    validationResult(req);
 
     const dayTimeArr = createDayTimeArr()
 
@@ -22,23 +23,23 @@ const index = async (req, res, next) => {
     const counselorRentalLocation = await CounselorRentalLocation.findOne({ where: { fkCounselorId: counselorId }, attributes: ['GS', 'YC', 'GR', 'YDP', 'DJ', 'GC', 'GA', 'SC', 'GN', 'SP', 'GD', 'MP', 'EP', 'SDM', 'JN', 'YS', 'SB', 'GB', 'DB', 'NW', 'JNg', 'DDM', 'SD', 'GJ', 'JG']});
 
     const rsvableFunc = (openInfo) => {
-      return new Promise((resolve, reject) => {
-        let rsvable = [];
-        let dayArr = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-        if (!openInfo.startDate) {  // startDate가 설정되어 있지 않은 경우(상담 오픈을 하지 않은 경우)
-          resolve(rsvable);
-        } else {
-          for (let i = 0; i <= 6; i++) {
-            for (let j = 0; j <= 23; j++) {
-              if (openInfo[dayArr[i] + j]) {
-                rsvable.push(dayArr[i] + j);
-              }
-              if (i === 6 && j === 23) resolve(rsvable);
-            }
+      const rsvable = [];
+      
+      // startDate가 설정되어 있지 않은 경우(상담 오픈을 하지 않은 경우)
+      if (!openInfo.startDate) {  
+        return rsvable;
+      } 
+
+      for (let dayIdx = 0; i < WEEK_DAY_COUNT; i++) {
+        for (let hour = HOUR_START; hour < HOUR_END; hour++) {
+          if (openInfo[DAYS[dayIdx] + hour]) {
+            rsvable.push(DAYS[dayIdx] + hour);
           }
         }
-      })
-    };
+      }
+
+      return rsvable;
+    }
 
     const { startDate, endDate, centerCounseling, rentalCounseling } = openInfo;
     const rsvable = await rsvableFunc(openInfo);

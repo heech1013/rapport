@@ -28,7 +28,7 @@ const destroy = async (req, res, next) => {
       return next(CustomError('BadRequest', 'Reservation is already confirmed.'))
     }
     
-    await dateRangeValidator('future', RsvPrototype.date);
+    dateRangeValidator('future', RsvPrototype.date);
 
     const dateArr = calcLeftSessionDate(RsvPrototype.date, RsvPrototype.session);
     await Reservation.destroy({
