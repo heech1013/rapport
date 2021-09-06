@@ -15,8 +15,8 @@ const create = async (req, res, next) => {
     await nickValidator(nick);
     await phoneNumberValidator(phoneNumber);
 
-    await overlapTester('email', email);
-    await overlapTester('nick', nick);
+    overlapTester('email', email);
+    overlapTester('nick', nick);
 
     const hash = await bcrypt.hash(password, 10);
 

@@ -33,7 +33,7 @@ const create = async (req, res, next) => {
 
       await validationResult(req);
       await phoneNumberValidator(phoneNumber);
-      await overlapTester('email', email);
+      overlapTester('email', email);
   
       const hash = await bcrypt.hash(password, 10);
       const defaultDayTimeObj = createDefaultDayTimeObj()
