@@ -69,39 +69,36 @@ const create = async (req, res, next) => {
           transaction
         });
 
-        const S3Uploader = (type) => new Promise((resolve, reject) => {
+        const S3Uploader = async (type) => {
           let tempFilePath, srcUpdateFunc;
 
           if (type === '프로필') {
             tempFilePath = files.profileImg.path;
-            srcUpdateFunc = (data) => new Promise(async (resolve, reject) => {
+            srcUpdateFunc = async (data) => {
               try {
                 await CounselorProfile.update({ profileImgSrc: data.Location }, { where: { fkCounselorId: newUser.id }, transaction });
-                resolve();
               } catch (error) {
-                reject(error);
+                throw error;
               }
-            });
+            }
           } else if (type === '임상심리전문가') {
             tempFilePath = files.KClinicalPAImg.path;
-            srcUpdateFunc = (data) => new Promise(async (resolve, reject) => {
+            srcUpdateFunc = async (data) => {
               try {
                 await Certification.update({ KClinicalPAImgSrc: data.Location }, { where: { fkCounselorId: newUser.id }, transaction });
-                resolve();
               } catch (error) {
-                reject(error);
+                throw error;
               }
-            });
+            }
           } else if (type === '상담심리사') {
             tempFilePath = files.KCounselingPAImg.path;
-            srcUpdateFunc = (data) => new Promise(async (resolve, reject) => {
+            srcUpdateFunc = (data) => {
               try {
                 await Certification.update({ KCounselingPAImgSrc: data.Location }, { where: { fkCounselorId: newUser.id }, transaction });
-                resolve();
               } catch (error) {
-                reject(error);
+                throw error;
               }
-            });
+            }
           }
 
           const params = {
@@ -111,32 +108,31 @@ const create = async (req, res, next) => {
             Body: fs.createReadStream(tempFilePath),  // files(업로드 파일 정보).input_file(<form>의 <input>의 지정한 name 명).path(해당 파일이 저장된 임시 경로)
             ContentType: 'image/jpg'  // 웹에서 이미지를 로드했을 때 자동으로 파일이 다운로드 되는 것을 방지한다.
           };
+          
           /* 업로드한 파일이 formidable을 통해 임시 경로에 저장된다. 이 임시파일을 S3에 업로드한다. */
           S3.upload(params, async (err, data) => {
             if (err) {
-              reject(err);
-            } else {
-              /* 업로드한 사진의 src를 해당 유저의 해당 DB에 업데이트한다. */
-              await srcUpdateFunc(data);
-              /* 임시경로에 저장된 파일을 삭제한다. */
-              fs.unlink(tempFilePath, (err) => {
-                if (err) {
-                  reject(err);
-                } else {
-                  resolve();
-                }
-              });
+              throw err;
             }
-          });
-        });
 
-        if (files.profileImg !== undefined || null) {
+            /* 업로드한 사진의 src를 해당 유저의 해당 DB에 업데이트한다. */
+            await srcUpdateFunc(data);
+            /* 임시경로에 저장된 파일을 삭제한다. */
+            fs.unlink(tempFilePath, (err) => {
+              if (err) {
+                throw err;
+              }
+            });
+          });
+        }
+
+        if (files.profileImg) {
           await S3Uploader('프로필');
         }
-        if (files.KClinicalPAImg !== undefined || null) {
+        if (files.KClinicalPAImg) {
           await S3Uploader('임상심리전문가');
         }
-        if (files.KCounselingPAImg !== undefined || null) {
+        if (files.KCounselingPAImg) {
           await S3Uploader('상담심리사');
         }
 
