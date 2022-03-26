@@ -14,13 +14,13 @@
 
 ### 테스트 코드 작성
 
-(21.08 ~ 진행 중)
+(21.08 ~ 21.11)
 
 - commit `fbf6b`, `17457`, ...
 
 ### 리팩토링
 
-(21.08 ~ 진행 중)
+(21.08 ~ 21.11)
 
 - function names should say what they do
   - commit `e9b3f`
