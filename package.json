@@ -33,7 +33,7 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pbkdf2": "^3.0.17",
-    "pm2": "^3.3.1",
+    "pm2": "^5.2.2",
     "sequelize": "^4.41.2"
   },
   "devDependencies": {
